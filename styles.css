@@ -1,0 +1,250 @@
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
+        
+        /* --- BLOQUEIO DE ROLAGEM ROBUSTO PARA MOBILE --- */
+        html.no-scroll, body.no-scroll {
+            overflow: hidden !important;
+            height: 100% !important;
+            overscroll-behavior: none;
+            position: relative;
+        }
+
+        /* --- SCROLLBAR CUSTOMIZADA E VISÍVEL PARA DESKTOP --- */
+        .custom-scrollbar {
+            cursor: grab;
+            scrollbar-width: thin; 
+            scrollbar-color: #94a3b8 #f1f1f1; 
+            padding-bottom: 4px; 
+        }
+        .custom-scrollbar:active { cursor: grabbing; }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #94a3b8; 
+            border-radius: 4px;
+            border: 2px solid #f1f1f1; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b; 
+        }
+
+        /* --- ESTILOS DE MARCAS E BOTÕES ATIVOS --- */
+        .card-dorflex { border-left: 5px solid #E20613; background: linear-gradient(to right, #fff, #fef2f2); }
+        .text-dorflex { color: #003B71; }
+        .btn-dorflex-active { background-color: #E20613 !important; color: white !important; }
+
+        .card-entero { border-left: 5px solid #009EE2; background: linear-gradient(to right, #ffffff, #f0f9ff); }
+        .text-entero { color: #009EE2; }
+        .btn-enterogermina-active { background-color: #009EE2 !important; color: white !important; }
+        
+        .card-allegra { border-left: 5px solid #C5007F; background: linear-gradient(to right, #fff, #fdf4ff); }
+        .text-allegra { color: #6a0d91; }
+        .btn-allegra-active { background-color: #C5007F !important; color: white !important; }
+
+        .card-novalgina { border-left: 5px solid #009640; background: linear-gradient(to right, #fff, #f0fdf4); }
+        .text-novalgina { color: #009640; }
+        .btn-novalgina-active { background-color: #009640 !important; color: white !important; }
+
+        .card-anador { border-left: 5px solid #FFBD59; background: linear-gradient(to right, #fff, #fffaf0); }
+        .text-anador { color: #cc7a00; }
+        .btn-anador-active { background-color: #FFBD59 !important; color: white !important; }
+
+        .card-targifor { border-left: 5px solid #F57F20; background: linear-gradient(135deg, #fff 80%, #fef7f2 100%); }
+        .text-targifor { color: #003B71; }
+        .btn-targifor-active { background-color: #F57F20 !important; color: white !important; }
+
+        .card-moura { border-left: 5px solid #0055b8; background: linear-gradient(to right, #fff, #eef6ff); }
+        .btn-moura-active { background-color: #0055b8 !important; color: white !important; }
+
+        .card-oscal { border-left: 5px solid #003366; background: linear-gradient(135deg, #fff 80%, #fff0f7 100%); }
+        .btn-oscal-active { background-color: #003366 !important; color: white !important; }
+
+        .card-dulco { border-left: 5px solid #00aed9; background: linear-gradient(to right, #fff, #f0fbff); }
+        .btn-dulco-active { background-color: #00aed9 !important; color: white !important; }
+
+        .card-bisolvon { border-left: 5px solid #FFD700; background: linear-gradient(135deg, #fff 80%, #f0f4ff 100%); }
+        .btn-bisolvon-active { background-color: #FFD700 !important; color: #003B71 !important; }
+
+        .card-fenergan { border-left: 5px solid #32CD32; background: linear-gradient(135deg, #fff 80%, #f0fff4 100%); }
+        .btn-fenergan-active { background-color: #32CD32 !important; color: white !important; }
+
+        /* Estilo para botão favoritos ativo */
+        .btn-favorites-active { background-color: #ef4444 !important; color: white !important; border-color: #ef4444 !important; }
+        
+        /* Estilo para botão campanha ativo */
+        .btn-campaign-active { background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%) !important; color: white !important; border: none !important; box-shadow: 0 4px 15px rgba(221, 36, 118, 0.4); }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        .tier-box {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e5e7eb; cursor: pointer; user-select: none; background: white;
+        }
+        .tier-active {
+            background-color: #dcfce7 !important;
+            border-color: #16a34a !important;
+            color: #14532d !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 166, 80, 0.2);
+            font-weight: 700;
+        }
+        
+        /* Novo estilo para Tiers de Campanha (Descontos Altos) */
+        .tier-active-campaign {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%) !important;
+            border-color: #f97316 !important;
+            color: #c2410c !important;
+            box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3);
+            font-weight: 800;
+        }
+        .tier-box-campaign {
+            border-color: #fdba74;
+            background-color: #fffaf0;
+        }
+
+        .product-card { transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .cat-btn { background-color: #e5e7eb; color: #4b5563; transition: all 0.3s; border-left-width: 4px; padding: 8px 16px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; margin-right: 8px; white-space: nowrap; position: relative; }
+        .cat-btn-all-active { background-color: #111827 !important; color: white !important; border-color: transparent !important; }
+        
+        .promo-badge {
+            position: absolute;
+            top: -10px; 
+            right: 0;
+            background-color: #ef4444;
+            color: white;
+            font-size: 0.55rem;
+            padding: 1px 4px;
+            border-radius: 9999px;
+            font-weight: 900;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            animation: bounce-slow 2s infinite;
+            z-index: 10;
+        }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
+        
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        
+        /* --- MELHORIAS UX --- */
+        .next-tier-hint {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fcd34d;
+            color: #92400e;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            animation: pulse-soft 2s infinite;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        
+        .campaign-flash {
+            animation: bg-pulse 2s infinite;
+        }
+        @keyframes bg-pulse {
+            0%, 100% { background-color: #fef3c7; } /* Amarelo claro */
+            50% { background-color: #fee2e2; } /* Vermelho claro */
+        }
+        
+        /* Destaque para item buscado/clicado */
+        @keyframes flash-highlight {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
+            50% { box-shadow: 0 0 0 6px rgba(250, 204, 21, 0.7); border-color: #facc15; }
+        }
+        .highlight-product {
+            animation: flash-highlight 1.5s ease-in-out 2;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s, background 0.15s;
+            z-index: 5;
+        }
+        .favorite-btn:active { transform: scale(0.9); }
+        .favorite-btn.active { background: #fef2f2; }
+        .favorite-btn .fa-heart { color: #d1d5db; transition: color 0.15s; }
+        .favorite-btn.active .fa-heart { color: #ef4444; }
+
+        .quick-reorder-bar {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #a7f3d0;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .quick-reorder-bar:active { transform: scale(0.98); }
+        .quick-reorder-bar:hover { box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
+
+        .brand-summary-checkout {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+        }
+        .brand-summary-checkout .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #e2e8f0;
+            margin-bottom: 6px;
+        }
+        .brand-summary-checkout .brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        #category-scroll {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .lazy-img {
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+        .lazy-img.loaded {
+            opacity: 1;
+        }
+        
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 300ms, transform 300ms; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
+    
