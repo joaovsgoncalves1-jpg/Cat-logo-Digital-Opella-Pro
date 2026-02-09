@@ -1,5 +1,5 @@
 ﻿        // ------------------------------------------------------------
-        // SEÃ‡ÃƒO 1: CONSTANTES E CONFIGURAÃ‡Ã•ES GLOBAIS
+        // SEÇÃO 1: CONSTANTES E CONFIGURAÇÕES GLOBAIS
         // ------------------------------------------------------------
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
@@ -8,7 +8,7 @@
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
 
         // ------------------------------------------------------------
-        // SEÃ‡ÃƒO 2: FUNÃ‡Ã•ES AUXILIARES (GLOBALMENTE DISPONÃVEIS)
+        // SEÇÃO 2: FUNÇÕES AUXILIARES (GLOBALMENTE DISPONÍVEIS)
         // ------------------------------------------------------------
         function getCardStyle(cat) {
             const styles = {
@@ -41,7 +41,7 @@
         }
 
         function getPrice(p, qty) {
-            if (!p || !p.tiers) return 0; // ProteÃ§Ã£o contra produto indefinido
+            if (!p || !p.tiers) return 0; // Proteção contra produto indefinido
             const tier = [...p.tiers].reverse().find(t => qty >= t.q);
             return tier ? tier.p : p.tiers[0].p;
         }
@@ -72,7 +72,7 @@
         const rawProducts = productData?.rawProducts || [];
         const products = rawProducts.map((p) => {
             let img = imgMap[p.name] || (p.image || IMG_DEFAULT);
-            // Fallback para novos itens Anador sem imagem especÃ­fica no mapa
+            // Fallback para novos itens Anador sem imagem específica no mapa
             if (p.cat === 'Anador' && img === IMG_DEFAULT) {
                 img = 'https://promofarma.vtexassets.com/arquivos/ids/168106/7896886410834.jpg?v=637952133732100000';
             }
@@ -89,7 +89,7 @@
         });
 
         // ------------------------------------------------------------
-        // SEÃ‡ÃƒO 4: VARIÃVEIS DE ESTADO E FUNÃ‡Ã•ES PRINCIPAIS
+        // SEÇÃO 4: VARIÁVEIS DE ESTADO E FUNÇÕES PRINCIPAIS
         // ------------------------------------------------------------
         
         let cart = {}; 
@@ -114,7 +114,7 @@
             if (currentCategory === 'favorites' || currentCategory === 'campaign') {
                 render();
             } else {
-                render(); // Render normal para atualizar o Ã­cone
+                render(); // Render normal para atualizar o ícone
             }
         }
         
@@ -166,7 +166,7 @@
         }
 
         window.onload = function() {
-            // --- CORREÃ‡ÃƒO DE SEGURANÃ‡A: SANITIZAÃ‡ÃƒO DO CARRINHO ---
+            // --- CORREÇÃO DE SEGURANÇA: SANITIZAÇÃO DO CARRINHO ---
             const savedCart = localStorage.getItem('opella_cart');
             if (savedCart) {
                 try {
@@ -275,7 +275,7 @@
             const searchInput = document.getElementById('search-input');
             const search = searchInput ? searchInput.value.toLowerCase() : "";
             
-            // Se houver busca, ignoramos a categoria atual (comportamento padrÃ£o)
+            // Se houver busca, ignoramos a categoria atual (comportamento padrão)
             // Se não houver busca, usamos a categoria selecionada (incluindo 'favorites' ou 'campaign')
             const effectiveCategory = (search.length > 0) ? 'all' : currentCategory;
             
@@ -299,8 +299,8 @@
                 return matchesSearch && matchesCat;
             });
             
-            // OrdenaÃ§Ã£o: Itens de campanha primeiro APENAS quando em 'campaign'
-            // Quando em 'all', mantÃ©m a ordem original do array products (sequencial por marca)
+            // Ordenação: Itens de campanha primeiro APENAS quando em 'campaign'
+            // Quando em 'all', mantém a ordem original do array products (sequencial por marca)
             if (effectiveCategory === 'campaign') {
                  filtered.sort((a, b) => (b.isCampaign === true ? 1 : 0) - (a.isCampaign === true ? 1 : 0));
             }
@@ -340,10 +340,10 @@
                 card.id = 'product-' + p.id; // Added ID for anchor scrolling
                 card.className = `product-card p-4 rounded-xl shadow-sm border relative mb-3 ${cardClass}`;
                 
-                // BotÃ£o de Favorito
+                // Botão de Favorito
                 const favClass = isFavorite(p.id) ? 'active' : '';
                 
-                // Hint do prÃ³ximo tier
+                // Hint do próximo tier
                 const nextTier = getNextTierHint(p, qty);
                 let nextTierHtml = '';
                 if (nextTier && qty > 0) {
@@ -366,7 +366,7 @@
                     </button>
                     <div class="flex gap-4 items-start">
                         <div class="w-20 h-20 flex-shrink-0 bg-white rounded-lg border border-white/50 p-1 flex items-center justify-center shadow-sm relative text-center">
-                             ${p.isCampaign ? '<span class="absolute -top-1 -left-1 text-[9px] bg-red-600 text-white px-1 rounded font-bold shadow-sm z-10">ðŸ”¥</span>' : ''}
+                             ${p.isCampaign ? '<span class="absolute -top-1 -left-1 text-[9px] bg-red-600 text-white px-1 rounded font-bold shadow-sm z-10"><i class="fas fa-fire"></i></span>' : ''}
                              ${imgHtml}
                         </div>
                         <div class="flex-1 min-w-0">
@@ -392,10 +392,10 @@
                             const isReached = qty >= t.q;
                             const isCurrent = isReached && (p.tiers[p.tiers.indexOf(t)+1] ? qty < p.tiers[p.tiers.indexOf(t)+1].q : true);
                             
-                            // LÃ³gica de destaque para descontos altos (>= 19%)
+                            // Lógica de destaque para descontos altos (>= 19%)
                             const isHighDiscount = t.d >= 19;
                             const tierClass = isHighDiscount ? 'tier-active-campaign' : 'tier-active';
-                            // Se não for o atual, mas for alcanÃ§ado e high discount -> laranja claro. Se normal -> verde claro.
+                            // Se não for o atual, mas for alcançado e high discount -> laranja claro. Se normal -> verde claro.
                             const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
                             
                             return `
@@ -403,7 +403,7 @@
                                 <span class="font-bold uppercase">${t.q} un</span>
                                 <span class="text-xs">R$ ${t.p.toFixed(2).replace('.',',')}</span>
                                 <span class="text-[9px] ${isHighDiscount ? 'text-orange-600 font-black' : (t.d > 0 ? 'text-green-600 font-bold' : 'text-gray-400')}">
-                                    ${t.d > 0 ? `(-${t.d}% OFF)` : ''} ${isHighDiscount ? 'ðŸ”¥' : ''}
+                                    ${t.d > 0 ? `(-${t.d}% OFF)` : ''} ${isHighDiscount ? '<i class="fas fa-fire"></i>' : ''}
                                 </span>
                             </div>`;
                         }).join('')}
@@ -425,7 +425,7 @@
             updateCartBar();
         }
 
-        // FunÃ§Ãµes de Carrinho e PersistÃªncia
+        // Funções de Carrinho e Persistência
         function toggleQty(id, t) { 
             cart[id] = (cart[id] === t) ? 0 : t; 
             saveCart();
@@ -760,8 +760,8 @@
         }
 
         function restoreCart(idx) {
-            // Pequeno modal ou confirm customizado seria ideal, mas aqui um alert simples ajuda no debug rÃ¡pido, 
-            // porÃ©m, seguindo a regra de não usar confirm/alert, vamos apenas carregar direto.
+            // Pequeno modal ou confirm customizado seria ideal, mas aqui um alert simples ajuda no debug rápido, 
+            // porém, seguindo a regra de não usar confirm/alert, vamos apenas carregar direto.
             cart = orderHistory[idx].cartSnapshot;
             saveCart();
             render();
@@ -832,7 +832,7 @@
             doc.setFont("helvetica", "bold");
             doc.text(`TOTAL GERAL: R$ ${total.toFixed(2).replace('.',',')}`, 14, finalY);
             
-            // LÃ³gica de prazo no PDF (Removida a opÃ§Ã£o especial de 3k)
+            // Lógica de prazo no PDF (Removida a opção especial de 3k)
             let prazoTexto = "50 dias direto";
             if(total >= 500) {
                  const elem = document.querySelector('input[name="prazo"]:checked');
@@ -924,8 +924,8 @@
             const savings = Math.max(0, totalBase - total);
             if(savingsModal) savingsModal.innerText = 'R$ ' + savings.toFixed(2).replace('.',',');
 
-            // --- LÃ³gica de Pagamento Simplificada ---
-            // Removemos a opÃ§Ã£o de prazo especial para > 3k.
+            // --- Lógica de Pagamento Simplificada ---
+            // Removemos a opção de prazo especial para > 3k.
             if (total >= 500) {
                 document.getElementById('payment-options').classList.remove('hidden');
                 document.getElementById('payment-single').classList.add('hidden');
@@ -990,9 +990,9 @@
                         totalBase += p.base * qty;
                         itemCount += qty;
                         
-                        // Item formatado: Qtd, Nome, PreÃ§o com '└”', EAN com '>' (CitaÃ§Ã£o)
+                        // Item formatado: Qtd, Nome, Preço com '└”', EAN com '>' (Citação)
                         text += `  *${qty}x* ${p.name}\n`;
-                        text += `   └” R$ ${price.toFixed(2).replace('.',',')} un\n`;
+                        text += `   └ R$ ${price.toFixed(2).replace('.',',')} un\n`;
                         text += `> EAN: ${p.id}\n`;
                     }
                 }
@@ -1000,12 +1000,12 @@
 
             const savings = totalBase - total;
             
-            // RodapÃ© Financeiro Limpo
-            text += `\nâ•â•â•â•â•â•â•â•â•â•â•â•â•â•`;
+            // Rodapé Financeiro Limpo
+            text += `\n--------------------------------`;
             text += `\n*TOTAL:* R$ ${total.toFixed(2).replace('.',',')}`;
             text += `\n*ECONOMIA:* R$ ${savings.toFixed(2).replace('.',',')}`;
 
-            // LÃ³gica de prazo no WhatsApp
+            // Lógica de prazo no WhatsApp
             if (total >= 500) {
                 const prazoElem = document.querySelector('input[name="prazo"]:checked');
                 const prazo = prazoElem ? prazoElem.value : "50 dias direto";
@@ -1013,11 +1013,11 @@
             } else {
                 text += `\n*PRAZO:* 50 dias direto`;
             }
-            text += `\nâ•â•â•â•â•â•â•â•â•â•â•â•â•â•`;
+            text += `\n--------------------------------`;
 
             text += `\n\n> Aguardo faturamento.`;
             
-            // === SALVAR NO HISTÃ“RICO PARA QUICK REORDER ===
+            // === SALVAR NO HISTÓRICO PARA QUICK REORDER ===
             const newOrder = {
                 id: Date.now(),
                 date: new Date().toLocaleString('pt-BR'),
@@ -1032,12 +1032,14 @@
             updateQuickReorderBar();
             // ================================================
             
-            // Salvar no HistÃ³rico (funÃ§Ã£o original)
+            // Salvar no Histórico (função original)
             saveToHistory(total);
             
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
             window.location.href = url;
         }
     
+
+
 
 

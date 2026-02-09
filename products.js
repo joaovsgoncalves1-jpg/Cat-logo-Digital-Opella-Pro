@@ -1,4 +1,4 @@
-window.PRODUCT_DATA = {
+﻿window.PRODUCT_DATA = {
   imgMap: {
             'Dorflex 24 Cpr': "https://www.drogarianovaesperanca.com.br/imagens/600x600/dorflex-com-24-comprimidos-132d4455b6.jpg",
             'Dorflex 300 Cpr': "https://nexodata.vtexassets.com/arquivos/ids/207705/7891058017392_IR.jpg",
@@ -187,3 +187,4 @@ window.PRODUCT_DATA = {
             { id: "7896070600485", cat: 'Fenergan', name: 'Fenergan 50mg – 25 Amp', base: 93.30, tiers: [ {q:1, p:84.90, d:9} ] }
         ]
 };
+
