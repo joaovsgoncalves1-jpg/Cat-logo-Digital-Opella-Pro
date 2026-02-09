@@ -1,12 +1,14 @@
-        // ------------------------------------------------------------
-        // SEÇÃO 1: CONSTANTES E CONFIGURAÇÕES GLOBAIS
+﻿        // ------------------------------------------------------------
+        // SEÃ‡ÃƒO 1: CONSTANTES E CONFIGURAÃ‡Ã•ES GLOBAIS
         // ------------------------------------------------------------
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
+        const FEATURED_PREORDER_ID = "7891058005993";
+        const FEATURED_PREORDER_CATEGORY = "Novalgina";
 
         // ------------------------------------------------------------
-        // SEÇÃO 2: FUNÇÕES AUXILIARES (GLOBALMENTE DISPONÍVEIS)
+        // SEÃ‡ÃƒO 2: FUNÃ‡Ã•ES AUXILIARES (GLOBALMENTE DISPONÃVEIS)
         // ------------------------------------------------------------
         function getCardStyle(cat) {
             const styles = {
@@ -39,7 +41,7 @@
         }
 
         function getPrice(p, qty) {
-            if (!p || !p.tiers) return 0; // Proteção contra produto indefinido
+            if (!p || !p.tiers) return 0; // ProteÃ§Ã£o contra produto indefinido
             const tier = [...p.tiers].reverse().find(t => qty >= t.q);
             return tier ? tier.p : p.tiers[0].p;
         }
@@ -64,13 +66,13 @@
 
         const productData = window.PRODUCT_DATA;
         if (!productData) {
-            console.error('Dados de produtos não carregados. Verifique products.js.');
+            console.error('Dados de produtos nÃ£o carregados. Verifique products.js.');
         }
         const imgMap = productData?.imgMap || {};
         const rawProducts = productData?.rawProducts || [];
         const products = rawProducts.map((p) => {
             let img = imgMap[p.name] || (p.image || IMG_DEFAULT);
-            // Fallback para novos itens Anador sem imagem específica no mapa
+            // Fallback para novos itens Anador sem imagem especÃ­fica no mapa
             if (p.cat === 'Anador' && img === IMG_DEFAULT) {
                 img = 'https://promofarma.vtexassets.com/arquivos/ids/168106/7896886410834.jpg?v=637952133732100000';
             }
@@ -87,7 +89,7 @@
         });
 
         // ------------------------------------------------------------
-        // SEÇÃO 4: VARIÁVEIS DE ESTADO E FUNÇÕES PRINCIPAIS
+        // SEÃ‡ÃƒO 4: VARIÃVEIS DE ESTADO E FUNÃ‡Ã•ES PRINCIPAIS
         // ------------------------------------------------------------
         
         let cart = {}; 
@@ -112,7 +114,7 @@
             if (currentCategory === 'favorites' || currentCategory === 'campaign') {
                 render();
             } else {
-                render(); // Render normal para atualizar o ícone
+                render(); // Render normal para atualizar o Ã­cone
             }
         }
         
@@ -152,8 +154,8 @@
                             <i class="fas fa-redo text-sm"></i>
                         </div>
                         <div class="flex-1">
-                            <p class="text-[11px] font-bold text-green-800">Repetir Último Pedido</p>
-                            <p class="text-[9px] text-green-600">${lastOrder.itemsCount} itens • R$ ${lastOrder.total.toFixed(2).replace('.',',')} • ${lastOrder.date.split(',')[0]}</p>
+                            <p class="text-[11px] font-bold text-green-800">Repetir Ãšltimo Pedido</p>
+                            <p class="text-[9px] text-green-600">${lastOrder.itemsCount} itens â€¢ R$ ${lastOrder.total.toFixed(2).replace('.',',')} â€¢ ${lastOrder.date.split(',')[0]}</p>
                         </div>
                         <i class="fas fa-chevron-right text-green-400 text-sm"></i>
                     </div>
@@ -164,7 +166,7 @@
         }
 
         window.onload = function() {
-            // --- CORREÇÃO DE SEGURANÇA: SANITIZAÇÃO DO CARRINHO ---
+            // --- CORREÃ‡ÃƒO DE SEGURANÃ‡A: SANITIZAÃ‡ÃƒO DO CARRINHO ---
             const savedCart = localStorage.getItem('opella_cart');
             if (savedCart) {
                 try {
@@ -253,13 +255,28 @@
             render();
         }
 
+        function openFeaturedPreOrder() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) searchInput.value = '';
+
+            setCategory(FEATURED_PREORDER_CATEGORY);
+
+            setTimeout(() => {
+                const target = document.getElementById('product-' + FEATURED_PREORDER_ID);
+                if (!target) return;
+
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                target.classList.add('highlight-product');
+                setTimeout(() => target.classList.remove('highlight-product'), 3000);
+            }, 80);
+        }
         function render() {
             const container = document.getElementById('product-list');
             const searchInput = document.getElementById('search-input');
             const search = searchInput ? searchInput.value.toLowerCase() : "";
             
-            // Se houver busca, ignoramos a categoria atual (comportamento padrão)
-            // Se não houver busca, usamos a categoria selecionada (incluindo 'favorites' ou 'campaign')
+            // Se houver busca, ignoramos a categoria atual (comportamento padrÃ£o)
+            // Se nÃ£o houver busca, usamos a categoria selecionada (incluindo 'favorites' ou 'campaign')
             const effectiveCategory = (search.length > 0) ? 'all' : currentCategory;
             
             container.innerHTML = '';
@@ -282,8 +299,8 @@
                 return matchesSearch && matchesCat;
             });
             
-            // Ordenação: Itens de campanha primeiro APENAS quando em 'campaign'
-            // Quando em 'all', mantém a ordem original do array products (sequencial por marca)
+            // OrdenaÃ§Ã£o: Itens de campanha primeiro APENAS quando em 'campaign'
+            // Quando em 'all', mantÃ©m a ordem original do array products (sequencial por marca)
             if (effectiveCategory === 'campaign') {
                  filtered.sort((a, b) => (b.isCampaign === true ? 1 : 0) - (a.isCampaign === true ? 1 : 0));
             }
@@ -291,7 +308,7 @@
             if(filtered.length === 0) {
                 let msg = "Nada encontrado.";
                 if (currentCategory === 'favorites' && search.length === 0) {
-                    msg = "Você ainda não tem favoritos.";
+                    msg = "VocÃª ainda nÃ£o tem favoritos.";
                 } else if (currentCategory === 'campaign' && search.length === 0) {
                     msg = "Nenhum produto da campanha encontrado.";
                 }
@@ -323,17 +340,17 @@
                 card.id = 'product-' + p.id; // Added ID for anchor scrolling
                 card.className = `product-card p-4 rounded-xl shadow-sm border relative mb-3 ${cardClass}`;
                 
-                // Botão de Favorito
+                // BotÃ£o de Favorito
                 const favClass = isFavorite(p.id) ? 'active' : '';
                 
-                // Hint do próximo tier
+                // Hint do prÃ³ximo tier
                 const nextTier = getNextTierHint(p, qty);
                 let nextTierHtml = '';
                 if (nextTier && qty > 0) {
                     nextTierHtml = `
                         <div class="next-tier-hint">
                             <i class="fas fa-arrow-up"></i>
-                            +${nextTier.falta} un → ${nextTier.desconto}% OFF
+                            +${nextTier.falta} un â†’ ${nextTier.desconto}% OFF
                         </div>
                     `;
                 }
@@ -349,7 +366,7 @@
                     </button>
                     <div class="flex gap-4 items-start">
                         <div class="w-20 h-20 flex-shrink-0 bg-white rounded-lg border border-white/50 p-1 flex items-center justify-center shadow-sm relative text-center">
-                             ${p.isCampaign ? '<span class="absolute -top-1 -left-1 text-[9px] bg-red-600 text-white px-1 rounded font-bold shadow-sm z-10">🔥</span>' : ''}
+                             ${p.isCampaign ? '<span class="absolute -top-1 -left-1 text-[9px] bg-red-600 text-white px-1 rounded font-bold shadow-sm z-10">ðŸ”¥</span>' : ''}
                              ${imgHtml}
                         </div>
                         <div class="flex-1 min-w-0">
@@ -375,10 +392,10 @@
                             const isReached = qty >= t.q;
                             const isCurrent = isReached && (p.tiers[p.tiers.indexOf(t)+1] ? qty < p.tiers[p.tiers.indexOf(t)+1].q : true);
                             
-                            // Lógica de destaque para descontos altos (>= 19%)
+                            // LÃ³gica de destaque para descontos altos (>= 19%)
                             const isHighDiscount = t.d >= 19;
                             const tierClass = isHighDiscount ? 'tier-active-campaign' : 'tier-active';
-                            // Se não for o atual, mas for alcançado e high discount -> laranja claro. Se normal -> verde claro.
+                            // Se nÃ£o for o atual, mas for alcanÃ§ado e high discount -> laranja claro. Se normal -> verde claro.
                             const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
                             
                             return `
@@ -386,7 +403,7 @@
                                 <span class="font-bold uppercase">${t.q} un</span>
                                 <span class="text-xs">R$ ${t.p.toFixed(2).replace('.',',')}</span>
                                 <span class="text-[9px] ${isHighDiscount ? 'text-orange-600 font-black' : (t.d > 0 ? 'text-green-600 font-bold' : 'text-gray-400')}">
-                                    ${t.d > 0 ? `(-${t.d}% OFF)` : ''} ${isHighDiscount ? '🔥' : ''}
+                                    ${t.d > 0 ? `(-${t.d}% OFF)` : ''} ${isHighDiscount ? 'ðŸ”¥' : ''}
                                 </span>
                             </div>`;
                         }).join('')}
@@ -408,7 +425,7 @@
             updateCartBar();
         }
 
-        // Funções de Carrinho e Persistência
+        // FunÃ§Ãµes de Carrinho e PersistÃªncia
         function toggleQty(id, t) { 
             cart[id] = (cart[id] === t) ? 0 : t; 
             saveCart();
@@ -497,7 +514,7 @@
             if(total < MIN_ORDER) {
                 if(progressFill) progressFill.className = "h-full bg-red-500 transition-all duration-500";
                 const missing = (MIN_ORDER - total).toFixed(2).replace('.',',');
-                if(label) label.innerHTML = `<span class="text-red-500 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing} para pedido mínimo</span>`;
+                if(label) label.innerHTML = `<span class="text-red-500 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing} para pedido mÃ­nimo</span>`;
                 if(installment) {
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left text-left";
@@ -505,7 +522,7 @@
                 if(btnReview) btnReview.disabled = true;
             } else if (total >= 500) {
                 if(progressFill) progressFill.className = "h-full bg-green-500 transition-all duration-500";
-                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Prazo disponível: 40/60 dias</span>`;
+                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Prazo disponÃ­vel: 40/60 dias</span>`;
                 if(installment) {
                     installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-green-600 leading-none text-left text-left";
@@ -609,7 +626,7 @@
                 currentCalcProduct = products.find(p => p.id === id);
                 
                 if (!currentCalcProduct) {
-                    throw new Error("Produto não encontrado");
+                    throw new Error("Produto nÃ£o encontrado");
                 }
 
                 const toggle = document.getElementById('calc-fraction-toggle');
@@ -743,8 +760,8 @@
         }
 
         function restoreCart(idx) {
-            // Pequeno modal ou confirm customizado seria ideal, mas aqui um alert simples ajuda no debug rápido, 
-            // porém, seguindo a regra de não usar confirm/alert, vamos apenas carregar direto.
+            // Pequeno modal ou confirm customizado seria ideal, mas aqui um alert simples ajuda no debug rÃ¡pido, 
+            // porÃ©m, seguindo a regra de nÃ£o usar confirm/alert, vamos apenas carregar direto.
             cart = orderHistory[idx].cartSnapshot;
             saveCart();
             render();
@@ -780,7 +797,7 @@
             const date = new Date().toLocaleString('pt-BR');
             doc.text(`Data: ${date}`, 14, 26);
             
-            const cnpj = document.getElementById('cnpj-input').value || "Não informado";
+            const cnpj = document.getElementById('cnpj-input').value || "NÃ£o informado";
             doc.text(`CNPJ Cliente: ${cnpj}`, 14, 32);
 
             let tableRows = [];
@@ -815,7 +832,7 @@
             doc.setFont("helvetica", "bold");
             doc.text(`TOTAL GERAL: R$ ${total.toFixed(2).replace('.',',')}`, 14, finalY);
             
-            // Lógica de prazo no PDF (Removida a opção especial de 3k)
+            // LÃ³gica de prazo no PDF (Removida a opÃ§Ã£o especial de 3k)
             let prazoTexto = "50 dias direto";
             if(total >= 500) {
                  const elem = document.querySelector('input[name="prazo"]:checked');
@@ -823,7 +840,7 @@
             }
 
             doc.setFont("helvetica", "normal");
-            doc.text(`Condição de Pagamento: ${prazoTexto}`, 14, finalY + 6);
+            doc.text(`CondiÃ§Ã£o de Pagamento: ${prazoTexto}`, 14, finalY + 6);
 
             doc.save('pedido_opella.pdf');
         }
@@ -886,7 +903,7 @@
                         <img src="${item.product.image}" class="w-8 h-8 object-contain mix-blend-multiply bg-white rounded p-0.5 border">
                         <div class="flex-1 min-w-0">
                             <p class="text-[9px] font-bold text-gray-700 truncate">${item.product.name}</p>
-                            <p class="text-[8px] text-gray-500">${item.qty} un × R$ ${item.price.toFixed(2).replace('.',',')}</p>
+                            <p class="text-[8px] text-gray-500">${item.qty} un Ã— R$ ${item.price.toFixed(2).replace('.',',')}</p>
                         </div>
                         <p class="text-[10px] font-bold text-gray-800">R$ ${(item.price * item.qty).toFixed(2).replace('.',',')}</p>
                     </div>
@@ -907,8 +924,8 @@
             const savings = Math.max(0, totalBase - total);
             if(savingsModal) savingsModal.innerText = 'R$ ' + savings.toFixed(2).replace('.',',');
 
-            // --- Lógica de Pagamento Simplificada ---
-            // Removemos a opção de prazo especial para > 3k.
+            // --- LÃ³gica de Pagamento Simplificada ---
+            // Removemos a opÃ§Ã£o de prazo especial para > 3k.
             if (total >= 500) {
                 document.getElementById('payment-options').classList.remove('hidden');
                 document.getElementById('payment-single').classList.add('hidden');
@@ -973,9 +990,9 @@
                         totalBase += p.base * qty;
                         itemCount += qty;
                         
-                        // Item formatado: Qtd, Nome, Preço com '└', EAN com '>' (Citação)
+                        // Item formatado: Qtd, Nome, PreÃ§o com 'â””', EAN com '>' (CitaÃ§Ã£o)
                         text += `  *${qty}x* ${p.name}\n`;
-                        text += `   └ R$ ${price.toFixed(2).replace('.',',')} un\n`;
+                        text += `   â”” R$ ${price.toFixed(2).replace('.',',')} un\n`;
                         text += `> EAN: ${p.id}\n`;
                     }
                 }
@@ -983,12 +1000,12 @@
 
             const savings = totalBase - total;
             
-            // Rodapé Financeiro Limpo
-            text += `\n══════════════`;
+            // RodapÃ© Financeiro Limpo
+            text += `\nâ•â•â•â•â•â•â•â•â•â•â•â•â•â•`;
             text += `\n*TOTAL:* R$ ${total.toFixed(2).replace('.',',')}`;
             text += `\n*ECONOMIA:* R$ ${savings.toFixed(2).replace('.',',')}`;
 
-            // Lógica de prazo no WhatsApp
+            // LÃ³gica de prazo no WhatsApp
             if (total >= 500) {
                 const prazoElem = document.querySelector('input[name="prazo"]:checked');
                 const prazo = prazoElem ? prazoElem.value : "50 dias direto";
@@ -996,11 +1013,11 @@
             } else {
                 text += `\n*PRAZO:* 50 dias direto`;
             }
-            text += `\n══════════════`;
+            text += `\nâ•â•â•â•â•â•â•â•â•â•â•â•â•â•`;
 
             text += `\n\n> Aguardo faturamento.`;
             
-            // === SALVAR NO HISTÓRICO PARA QUICK REORDER ===
+            // === SALVAR NO HISTÃ“RICO PARA QUICK REORDER ===
             const newOrder = {
                 id: Date.now(),
                 date: new Date().toLocaleString('pt-BR'),
@@ -1015,10 +1032,11 @@
             updateQuickReorderBar();
             // ================================================
             
-            // Salvar no Histórico (função original)
+            // Salvar no HistÃ³rico (funÃ§Ã£o original)
             saveToHistory(total);
             
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
             window.location.href = url;
         }
     
+

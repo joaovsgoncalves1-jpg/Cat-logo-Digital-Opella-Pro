@@ -1,4 +1,4 @@
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
+﻿        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
         
         /* --- BLOQUEIO DE ROLAGEM ROBUSTO PARA MOBILE --- */
         html.no-scroll, body.no-scroll {
@@ -8,7 +8,7 @@
             position: relative;
         }
 
-        /* --- SCROLLBAR CUSTOMIZADA E VISÍVEL PARA DESKTOP --- */
+        /* --- SCROLLBAR CUSTOMIZADA E VISÃVEL PARA DESKTOP --- */
         .custom-scrollbar {
             cursor: grab;
             scrollbar-width: thin; 
@@ -33,7 +33,7 @@
             background: #64748b; 
         }
 
-        /* --- ESTILOS DE MARCAS E BOTÕES ATIVOS --- */
+        /* --- ESTILOS DE MARCAS E BOTÃ•ES ATIVOS --- */
         .card-dorflex { border-left: 5px solid #E20613; background: linear-gradient(to right, #fff, #fef2f2); }
         .text-dorflex { color: #003B71; }
         .btn-dorflex-active { background-color: #E20613 !important; color: white !important; }
@@ -73,10 +73,10 @@
         .card-fenergan { border-left: 5px solid #32CD32; background: linear-gradient(135deg, #fff 80%, #f0fff4 100%); }
         .btn-fenergan-active { background-color: #32CD32 !important; color: white !important; }
 
-        /* Estilo para botão favoritos ativo */
+        /* Estilo para botÃ£o favoritos ativo */
         .btn-favorites-active { background-color: #ef4444 !important; color: white !important; border-color: #ef4444 !important; }
         
-        /* Estilo para botão campanha ativo */
+        /* Estilo para botÃ£o campanha ativo */
         .btn-campaign-active { background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%) !important; color: white !important; border: none !important; box-shadow: 0 4px 15px rgba(221, 36, 118, 0.4); }
 
         input[type=number]::-webkit-inner-spin-button, 
@@ -208,7 +208,83 @@
         }
         .quick-reorder-bar:active { transform: scale(0.98); }
         .quick-reorder-bar:hover { box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
+        .preorder-hero {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid #14532d;
+            background: linear-gradient(120deg, #14532d 0%, #166534 45%, #facc15 100%);
+            color: #ffffff;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 78px 1fr auto;
+            gap: 10px;
+            align-items: center;
+            box-shadow: 0 10px 22px rgba(20, 83, 45, 0.25);
+            transition: transform 0.15s, box-shadow 0.2s;
+            text-align: left;
+        }
+        .preorder-hero:hover { box-shadow: 0 12px 28px rgba(20, 83, 45, 0.35); }
+        .preorder-hero:active { transform: scale(0.99); }
 
+        .preorder-hero-image {
+            width: 78px;
+            height: 78px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .preorder-hero-label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #bbf7d0;
+        }
+        .preorder-hero-title {
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+        .preorder-hero-subtitle {
+            font-size: 11px;
+            margin-top: 2px;
+            color: #dcfce7;
+            font-weight: 600;
+        }
+
+        .preorder-hero-cta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 8px;
+            border-radius: 9999px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 420px) {
+            .preorder-hero {
+                grid-template-columns: 66px 1fr;
+                gap: 8px;
+            }
+            .preorder-hero-image {
+                width: 66px;
+                height: 66px;
+            }
+            .preorder-hero-cta {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+        }
         .brand-summary-checkout {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -248,3 +324,4 @@
         .modal-exit { opacity: 1; transform: scale(1); }
         .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
     
+
