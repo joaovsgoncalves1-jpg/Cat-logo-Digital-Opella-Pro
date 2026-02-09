@@ -66,7 +66,7 @@
 
         const productData = window.PRODUCT_DATA;
         if (!productData) {
-            console.error('Dados de produtos nÃ£o carregados. Verifique products.js.');
+            console.error('Dados de produtos não carregados. Verifique products.js.');
         }
         const imgMap = productData?.imgMap || {};
         const rawProducts = productData?.rawProducts || [];
@@ -154,8 +154,8 @@
                             <i class="fas fa-redo text-sm"></i>
                         </div>
                         <div class="flex-1">
-                            <p class="text-[11px] font-bold text-green-800">Repetir Ãšltimo Pedido</p>
-                            <p class="text-[9px] text-green-600">${lastOrder.itemsCount} itens â€¢ R$ ${lastOrder.total.toFixed(2).replace('.',',')} â€¢ ${lastOrder.date.split(',')[0]}</p>
+                            <p class="text-[11px] font-bold text-green-800">Repetir Último Pedido</p>
+                            <p class="text-[9px] text-green-600">${lastOrder.itemsCount} itens • R$ ${lastOrder.total.toFixed(2).replace('.',',')} • ${lastOrder.date.split(',')[0]}</p>
                         </div>
                         <i class="fas fa-chevron-right text-green-400 text-sm"></i>
                     </div>
@@ -276,7 +276,7 @@
             const search = searchInput ? searchInput.value.toLowerCase() : "";
             
             // Se houver busca, ignoramos a categoria atual (comportamento padrÃ£o)
-            // Se nÃ£o houver busca, usamos a categoria selecionada (incluindo 'favorites' ou 'campaign')
+            // Se não houver busca, usamos a categoria selecionada (incluindo 'favorites' ou 'campaign')
             const effectiveCategory = (search.length > 0) ? 'all' : currentCategory;
             
             container.innerHTML = '';
@@ -308,7 +308,7 @@
             if(filtered.length === 0) {
                 let msg = "Nada encontrado.";
                 if (currentCategory === 'favorites' && search.length === 0) {
-                    msg = "VocÃª ainda nÃ£o tem favoritos.";
+                    msg = "Você ainda não tem favoritos.";
                 } else if (currentCategory === 'campaign' && search.length === 0) {
                     msg = "Nenhum produto da campanha encontrado.";
                 }
@@ -350,7 +350,7 @@
                     nextTierHtml = `
                         <div class="next-tier-hint">
                             <i class="fas fa-arrow-up"></i>
-                            +${nextTier.falta} un â†’ ${nextTier.desconto}% OFF
+                            +${nextTier.falta} un → ${nextTier.desconto}% OFF
                         </div>
                     `;
                 }
@@ -395,7 +395,7 @@
                             // LÃ³gica de destaque para descontos altos (>= 19%)
                             const isHighDiscount = t.d >= 19;
                             const tierClass = isHighDiscount ? 'tier-active-campaign' : 'tier-active';
-                            // Se nÃ£o for o atual, mas for alcanÃ§ado e high discount -> laranja claro. Se normal -> verde claro.
+                            // Se não for o atual, mas for alcanÃ§ado e high discount -> laranja claro. Se normal -> verde claro.
                             const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
                             
                             return `
@@ -514,7 +514,7 @@
             if(total < MIN_ORDER) {
                 if(progressFill) progressFill.className = "h-full bg-red-500 transition-all duration-500";
                 const missing = (MIN_ORDER - total).toFixed(2).replace('.',',');
-                if(label) label.innerHTML = `<span class="text-red-500 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing} para pedido mÃ­nimo</span>`;
+                if(label) label.innerHTML = `<span class="text-red-500 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing} para pedido mínimo</span>`;
                 if(installment) {
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left text-left";
@@ -522,7 +522,7 @@
                 if(btnReview) btnReview.disabled = true;
             } else if (total >= 500) {
                 if(progressFill) progressFill.className = "h-full bg-green-500 transition-all duration-500";
-                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Prazo disponÃ­vel: 40/60 dias</span>`;
+                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Prazo disponível: 40/60 dias</span>`;
                 if(installment) {
                     installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-green-600 leading-none text-left text-left";
@@ -626,7 +626,7 @@
                 currentCalcProduct = products.find(p => p.id === id);
                 
                 if (!currentCalcProduct) {
-                    throw new Error("Produto nÃ£o encontrado");
+                    throw new Error("Produto não encontrado");
                 }
 
                 const toggle = document.getElementById('calc-fraction-toggle');
@@ -761,7 +761,7 @@
 
         function restoreCart(idx) {
             // Pequeno modal ou confirm customizado seria ideal, mas aqui um alert simples ajuda no debug rÃ¡pido, 
-            // porÃ©m, seguindo a regra de nÃ£o usar confirm/alert, vamos apenas carregar direto.
+            // porÃ©m, seguindo a regra de não usar confirm/alert, vamos apenas carregar direto.
             cart = orderHistory[idx].cartSnapshot;
             saveCart();
             render();
@@ -797,7 +797,7 @@
             const date = new Date().toLocaleString('pt-BR');
             doc.text(`Data: ${date}`, 14, 26);
             
-            const cnpj = document.getElementById('cnpj-input').value || "NÃ£o informado";
+            const cnpj = document.getElementById('cnpj-input').value || "Não informado";
             doc.text(`CNPJ Cliente: ${cnpj}`, 14, 32);
 
             let tableRows = [];
@@ -840,7 +840,7 @@
             }
 
             doc.setFont("helvetica", "normal");
-            doc.text(`CondiÃ§Ã£o de Pagamento: ${prazoTexto}`, 14, finalY + 6);
+            doc.text(`Condição de Pagamento: ${prazoTexto}`, 14, finalY + 6);
 
             doc.save('pedido_opella.pdf');
         }
@@ -903,7 +903,7 @@
                         <img src="${item.product.image}" class="w-8 h-8 object-contain mix-blend-multiply bg-white rounded p-0.5 border">
                         <div class="flex-1 min-w-0">
                             <p class="text-[9px] font-bold text-gray-700 truncate">${item.product.name}</p>
-                            <p class="text-[8px] text-gray-500">${item.qty} un Ã— R$ ${item.price.toFixed(2).replace('.',',')}</p>
+                            <p class="text-[8px] text-gray-500">${item.qty} un × R$ ${item.price.toFixed(2).replace('.',',')}</p>
                         </div>
                         <p class="text-[10px] font-bold text-gray-800">R$ ${(item.price * item.qty).toFixed(2).replace('.',',')}</p>
                     </div>
@@ -990,9 +990,9 @@
                         totalBase += p.base * qty;
                         itemCount += qty;
                         
-                        // Item formatado: Qtd, Nome, PreÃ§o com 'â””', EAN com '>' (CitaÃ§Ã£o)
+                        // Item formatado: Qtd, Nome, PreÃ§o com '└”', EAN com '>' (CitaÃ§Ã£o)
                         text += `  *${qty}x* ${p.name}\n`;
-                        text += `   â”” R$ ${price.toFixed(2).replace('.',',')} un\n`;
+                        text += `   └” R$ ${price.toFixed(2).replace('.',',')} un\n`;
                         text += `> EAN: ${p.id}\n`;
                     }
                 }
@@ -1039,4 +1039,5 @@
             window.location.href = url;
         }
     
+
 
