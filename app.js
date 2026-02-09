@@ -990,7 +990,7 @@
                         totalBase += p.base * qty;
                         itemCount += qty;
                         
-                        // Item formatado: Qtd, Nome, Preço com '└”', EAN com '>' (Citação)
+                        // Item formatado: Qtd, Nome, Preço com '└', EAN com '>' (Citação)
                         text += `  *${qty}x* ${p.name}\n`;
                         text += `   └ R$ ${price.toFixed(2).replace('.',',')} un\n`;
                         text += `> EAN: ${p.id}\n`;
@@ -1039,6 +1039,7 @@
             window.location.href = url;
         }
     
+
 
 
 
