@@ -99,6 +99,7 @@
         let calcMode = 'box'; 
         let orderHistory = JSON.parse(localStorage.getItem('opella_history')) || [];
         let favorites = JSON.parse(localStorage.getItem('opella_favorites')) || [];
+        const LAST_CNPJ_KEY = 'opella_last_cnpj';
         
         // === FAVORITOS ===
         function toggleFavorite(id) {
@@ -946,6 +947,13 @@
                 document.getElementById('payment-single').classList.remove('hidden');
             }
 
+            // Preenche automaticamente com o ultimo CNPJ usado no envio.
+            const cnpjInput = document.getElementById('cnpj-input');
+            const lastCnpj = localStorage.getItem(LAST_CNPJ_KEY) || '';
+            if (cnpjInput && lastCnpj && !cnpjInput.value.trim()) {
+                cnpjInput.value = lastCnpj;
+            }
+
             document.getElementById('checkout-modal').classList.remove('hidden'); 
         }
 
@@ -955,8 +963,15 @@
         }
         
         function saveAndSendWhatsapp() {
-            const cnpj = document.getElementById('cnpj-input').value; 
+            const cnpjInput = document.getElementById('cnpj-input');
+            const typedCnpj = cnpjInput ? cnpjInput.value.trim() : '';
+            const savedCnpj = localStorage.getItem(LAST_CNPJ_KEY) || '';
+            const cnpj = typedCnpj || savedCnpj;
             if(!cnpj) { alert("Por favor, digite o CNPJ."); return; }
+
+            // Salva o CNPJ para reaproveitar no proximo pedido.
+            localStorage.setItem(LAST_CNPJ_KEY, cnpj);
+            if (cnpjInput) cnpjInput.value = cnpj;
             
             // --- HEADER OTIMIZADO PARA PC/MOBILE ---
             let text = `*PEDIDO OPELLA | FEV 2026*\n`;
