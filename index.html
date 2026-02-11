@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -149,7 +149,10 @@
             </button>
 
             <div class="flex-1 text-left text-left">
-                <p class="text-[11px] font-bold uppercase tracking-tight text-gray-500 mb-0.5" id="installment-label">Total do Pedido</p>
+                <p class="text-[11px] font-bold uppercase tracking-tight text-gray-500 mb-0.5 flex justify-between" id="installment-label">
+                    <span>Total do Pedido</span>
+                    <span id="active-cnpj-display" class="text-blue-500 lowercase font-normal"></span>
+                </p>
                 <p class="text-2xl font-black text-green-600 leading-none" id="cart-installment">R$ 0,00</p>
                 <p class="text-[9px] font-bold text-gray-400 mt-1 text-left" id="cart-total-small">Total: R$ 0,00</p>
             </div>
@@ -303,27 +306,4 @@
                 <div class="bg-gray-900 text-white p-4 rounded-xl text-center mt-2">
                     <p class="text-[10px] opacity-70 uppercase tracking-widest font-bold">Margem de Lucro</p>
                     <p class="text-3xl font-black" id="calc-result">0.0%</p>
-                    <p class="text-xs opacity-70 mt-1" id="calc-profit-val">Lucro: R$ 0,00</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Histórico -->
-    <div id="history-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-[70] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl animate-slide-up relative max-h-[80vh] flex flex-col">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-800">Histórico de Pedidos</h3>
-                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
-            </div>
-            <div id="history-list" class="overflow-y-auto flex-1 space-y-3">
-                <!-- Injetado via JS -->
-            </div>
-             <button onclick="clearHistory()" class="mt-4 text-xs text-red-500 font-bold uppercase w-full text-center hover:underline">Limpar Histórico</button>
-        </div>
-    </div>
-    <script src="products.js" defer></script>
-    <script src="app.js" defer></script>
-</body>
-</html>
-
+                    <p class="text-xs opacity-70 mt-1" i

@@ -577,6 +577,14 @@
             const progressFill = document.getElementById('progress-fill');
             const bar = document.getElementById('cart-bar');
             const btnReview = document.getElementById('btn-review');
+            
+            // Atualiza indicador de CNPJ ativo na barra
+            const cnpjInput = document.getElementById('cnpj-input');
+            const activeCnpjDisplay = document.getElementById('active-cnpj-display');
+            if (activeCnpjDisplay) {
+                const currentCnpj = cnpjInput?.value || localStorage.getItem(LAST_CNPJ_KEY) || 'Não definido';
+                activeCnpjDisplay.innerText = count > 0 ? `Editando: ${currentCnpj}` : '';
+            }
 
             const progressPercent = Math.min((total / 500) * 100, 100);
             if(progressFill) progressFill.style.width = progressPercent + '%';
@@ -908,7 +916,20 @@
             doc.text(`Data: ${new Date().toLocaleString('pt-BR')}`, 14, 26);
             doc.text(`Quantidade de CNPJs: ${ordersToExport.length}`, 14, 32);
 
-            let y = 40;
+            // --- NOVO: Tabela de Resumo da Rede na primeira página ---
+            const summaryRows = ordersToExport.map((o, i) => [
+                `CNPJ ${i+1}: ${o.cnpj}`,
+                `R$ ${o.total.toFixed(2).replace('.',',')}`
+            ]);
+            doc.autoTable({
+                startY: 38,
+                head: [['Identificação do Pedido', 'Valor Total']],
+                body: summaryRows,
+                theme: 'grid',
+                headStyles: { fillColor: [31, 41, 55] } // Gray-800
+            });
+            let y = doc.lastAutoTable.finalY + 15;
+
             let grandTotal = 0;
             let grandSavings = 0;
 
@@ -1299,8 +1320,3 @@
             window.location.href = url;
         }
     
-
-
-
-
-
