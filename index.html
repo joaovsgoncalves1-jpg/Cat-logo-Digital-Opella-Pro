@@ -213,6 +213,20 @@
                 <label class="block text-xs font-bold text-gray-600 uppercase mb-1 text-left">CNPJ do Cliente</label>
                 <input type="tel" id="cnpj-input" placeholder="Apenas números" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-lg font-medium outline-none text-left">
             </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 shrink-0 text-left">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-[11px] font-black text-amber-800 uppercase tracking-wide">Pedidos da Rede</p>
+                    <p class="text-[11px] font-black text-amber-900">Total: <span id="network-grand-total">R$ 0,00</span></p>
+                </div>
+                <div id="network-orders-preview" class="space-y-2 mb-3">
+                    <p class="text-[11px] text-gray-400">Nenhum pedido de CNPJ separado ainda.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="addCurrentCartToNetwork()" class="text-[10px] font-bold py-3 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 active:scale-95 transition-all">Criar pedido para outro CNPJ</button>
+                    <button onclick="clearNetworkOrders()" class="text-[10px] font-bold py-3 rounded-lg bg-gray-100 text-gray-700 border border-gray-300 active:scale-95 transition-all">Limpar pedidos da rede</button>
+                </div>
+            </div>
             
             <div class="grid grid-cols-4 gap-2 shrink-0 pb-2">
                  <button onclick="exportPDF()" class="col-span-1 bg-red-100 text-red-600 hover:bg-red-200 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-95 transition-all">
@@ -221,7 +235,7 @@
                 </button>
                 <button onclick="saveAndSendWhatsapp()" class="col-span-3 bg-[#00A650] hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-xl flex items-center justify-center gap-2 text-lg active:scale-95 transition-all">
                     <i class="fab fa-whatsapp text-2xl"></i>
-                    <span>Enviar Pedido</span>
+                    <span>Enviar Tudo</span>
                 </button>
             </div>
             

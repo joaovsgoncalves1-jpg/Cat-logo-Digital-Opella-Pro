@@ -100,6 +100,8 @@
         let orderHistory = JSON.parse(localStorage.getItem('opella_history')) || [];
         let favorites = JSON.parse(localStorage.getItem('opella_favorites')) || [];
         const LAST_CNPJ_KEY = 'opella_last_cnpj';
+        const NETWORK_ORDERS_KEY = 'opella_network_orders';
+        let networkOrders = JSON.parse(localStorage.getItem(NETWORK_ORDERS_KEY)) || [];
         
         // === FAVORITOS ===
         function toggleFavorite(id) {
@@ -451,6 +453,73 @@
             localStorage.setItem('opella_cart', JSON.stringify(cart));
         }
 
+        function saveNetworkOrders() {
+            localStorage.setItem(NETWORK_ORDERS_KEY, JSON.stringify(networkOrders));
+        }
+
+        function getCartSummary(cartSnapshot) {
+            let total = 0;
+            let totalBase = 0;
+            let itemCount = 0;
+
+            Object.keys(cartSnapshot || {}).forEach(id => {
+                const qty = cartSnapshot[id];
+                if (qty > 0) {
+                    const p = products.find(x => x.id == id);
+                    if (p) {
+                        const price = getPrice(p, qty);
+                        total += price * qty;
+                        totalBase += p.base * qty;
+                        itemCount += qty;
+                    }
+                }
+            });
+
+            return {
+                total: total,
+                totalBase: totalBase,
+                savings: Math.max(0, totalBase - total),
+                itemCount: itemCount
+            };
+        }
+
+        function getPrazoForTotal(total) {
+            if (total >= 500) {
+                const prazoElem = document.querySelector('input[name="prazo"]:checked');
+                return prazoElem ? prazoElem.value : "50 dias direto";
+            }
+            return "50 dias direto";
+        }
+
+        function buildOrderItemsText(cartSnapshot) {
+            let text = '';
+            let currentCat = '';
+            const sortedCartIds = Object.keys(cartSnapshot).sort((a, b) => {
+                const pA = products.find(x => x.id == a);
+                const pB = products.find(x => x.id == b);
+                return (pA?.cat || '').localeCompare(pB?.cat || '');
+            });
+
+            sortedCartIds.forEach(id => {
+                const qty = cartSnapshot[id];
+                if (qty > 0) {
+                    const p = products.find(x => x.id == id);
+                    if (p) {
+                        const price = getPrice(p, qty);
+                        if (p.cat !== currentCat) {
+                            text += `\n*--- ${p.cat.toUpperCase()} ---*\n`;
+                            currentCat = p.cat;
+                        }
+                        text += `  *${qty}x* ${p.name}\n`;
+                        text += `   └ R$ ${price.toFixed(2).replace('.',',')} un\n`;
+                        text += `> EAN: ${p.id}\n`;
+                    }
+                }
+            });
+
+            return text;
+        }
+
         // --- CLEAR CART SYSTEM ---
         function toggleScrollLock(lock) {
             if (lock) {
@@ -511,6 +580,7 @@
 
             const progressPercent = Math.min((total / 500) * 100, 100);
             if(progressFill) progressFill.style.width = progressPercent + '%';
+            const networkTotal = networkOrders.reduce((sum, order) => sum + (order.total || 0), 0);
 
             if(total < MIN_ORDER) {
                 if(progressFill) progressFill.className = "h-full bg-red-500 transition-all duration-500";
@@ -520,7 +590,7 @@
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left text-left";
                 }
-                if(btnReview) btnReview.disabled = true;
+                if(btnReview) btnReview.disabled = networkOrders.length === 0;
             } else if (total >= 500) {
                 if(progressFill) progressFill.className = "h-full bg-green-500 transition-all duration-500";
                 if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Prazo disponível: 40/60 dias</span>`;
@@ -540,8 +610,14 @@
                 if(btnReview) btnReview.disabled = false;
             }
             
-            if(totalSmall) totalSmall.innerText = `Total: R$ ${total.toFixed(2).replace('.',',')} (Econ: R$ ${savings.toFixed(2).replace('.',',')})`;
-            if (count > 0 && bar) bar.classList.remove('hidden'); else if(bar) bar.classList.add('hidden');
+            if(totalSmall) {
+                let footerText = `Total: R$ ${total.toFixed(2).replace('.',',')} (Econ: R$ ${savings.toFixed(2).replace('.',',')})`;
+                if (networkOrders.length > 0) {
+                    footerText += ` | Rede: R$ ${networkTotal.toFixed(2).replace('.',',')} (${networkOrders.length} CNPJ)`;
+                }
+                totalSmall.innerText = footerText;
+            }
+            if ((count > 0 || networkOrders.length > 0) && bar) bar.classList.remove('hidden'); else if(bar) bar.classList.add('hidden');
         }
 
         // --- DASHBOARD SYSTEM ---
@@ -954,6 +1030,8 @@
                 cnpjInput.value = lastCnpj;
             }
 
+            renderNetworkOrdersPreview();
+
             document.getElementById('checkout-modal').classList.remove('hidden'); 
         }
 
@@ -961,95 +1039,206 @@
             toggleScrollLock(false);
             document.getElementById('checkout-modal').classList.add('hidden'); 
         }
-        
+
+        function renderNetworkOrdersPreview() {
+            const container = document.getElementById('network-orders-preview');
+            const totalEl = document.getElementById('network-grand-total');
+            if (!container || !totalEl) return;
+
+            if (networkOrders.length === 0) {
+                container.innerHTML = '<p class="text-[11px] text-gray-400">Nenhum pedido de CNPJ separado ainda.</p>';
+                totalEl.innerText = 'R$ 0,00';
+                return;
+            }
+
+            container.innerHTML = '';
+            let grandTotal = 0;
+            networkOrders.forEach((order, idx) => {
+                grandTotal += order.total || 0;
+                const card = document.createElement('div');
+                card.className = 'bg-white border border-gray-200 rounded-lg p-3';
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <p class="text-[11px] font-black text-gray-800">CNPJ: ${order.cnpj}</p>
+                            <p class="text-[10px] text-gray-500">${order.itemsCount || 0} itens</p>
+                        </div>
+                        <p class="text-[11px] font-black text-green-700">R$ ${(order.total || 0).toFixed(2).replace('.',',')}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                        <button onclick="editNetworkOrder(${idx})" class="text-[10px] py-2 rounded-lg font-bold bg-blue-50 text-blue-700 border border-blue-200">Editar</button>
+                        <button onclick="removeNetworkOrder(${idx})" class="text-[10px] py-2 rounded-lg font-bold bg-red-50 text-red-700 border border-red-200">Remover</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            totalEl.innerText = `R$ ${grandTotal.toFixed(2).replace('.',',')}`;
+        }
+
+        function addCurrentCartToNetwork() {
+            const summary = getCartSummary(cart);
+            if (summary.itemCount === 0) {
+                alert('Adicione itens antes de criar pedido para outro CNPJ.');
+                return;
+            }
+
+            const cnpjInput = document.getElementById('cnpj-input');
+            const typedCnpj = cnpjInput ? cnpjInput.value.trim() : '';
+            const savedCnpj = localStorage.getItem(LAST_CNPJ_KEY) || '';
+            const cnpj = typedCnpj || savedCnpj;
+            if (!cnpj) {
+                alert('Digite o CNPJ deste pedido antes de separar.');
+                return;
+            }
+
+            localStorage.setItem(LAST_CNPJ_KEY, cnpj);
+            const prazo = getPrazoForTotal(summary.total);
+
+            const existingIdx = networkOrders.findIndex(o => o.cnpj === cnpj);
+            if (existingIdx >= 0) {
+                const merged = JSON.parse(JSON.stringify(networkOrders[existingIdx].cartSnapshot || {}));
+                Object.keys(cart).forEach(id => {
+                    const qty = cart[id] || 0;
+                    if (qty > 0) merged[id] = (merged[id] || 0) + qty;
+                });
+                const mergedSummary = getCartSummary(merged);
+                networkOrders[existingIdx] = {
+                    ...networkOrders[existingIdx],
+                    cartSnapshot: merged,
+                    total: mergedSummary.total,
+                    totalBase: mergedSummary.totalBase,
+                    itemsCount: mergedSummary.itemCount,
+                    prazo: prazo
+                };
+            } else {
+                networkOrders.push({
+                    id: Date.now(),
+                    cnpj: cnpj,
+                    cartSnapshot: JSON.parse(JSON.stringify(cart)),
+                    total: summary.total,
+                    totalBase: summary.totalBase,
+                    itemsCount: summary.itemCount,
+                    prazo: prazo
+                });
+            }
+
+            saveNetworkOrders();
+            cart = {};
+            saveCart();
+            render();
+            if (cnpjInput) cnpjInput.value = '';
+            openModal();
+        }
+
+        function editNetworkOrder(idx) {
+            const order = networkOrders[idx];
+            if (!order) return;
+            cart = JSON.parse(JSON.stringify(order.cartSnapshot || {}));
+            saveCart();
+            networkOrders.splice(idx, 1);
+            saveNetworkOrders();
+            render();
+            const cnpjInput = document.getElementById('cnpj-input');
+            if (cnpjInput) cnpjInput.value = order.cnpj || '';
+            openModal();
+        }
+
+        function removeNetworkOrder(idx) {
+            if (!networkOrders[idx]) return;
+            networkOrders.splice(idx, 1);
+            saveNetworkOrders();
+            renderNetworkOrdersPreview();
+            updateCartBar();
+        }
+
+        function clearNetworkOrders() {
+            if (networkOrders.length === 0) return;
+            networkOrders = [];
+            saveNetworkOrders();
+            renderNetworkOrdersPreview();
+            updateCartBar();
+        }
+
         function saveAndSendWhatsapp() {
             const cnpjInput = document.getElementById('cnpj-input');
             const typedCnpj = cnpjInput ? cnpjInput.value.trim() : '';
             const savedCnpj = localStorage.getItem(LAST_CNPJ_KEY) || '';
             const cnpj = typedCnpj || savedCnpj;
-            if(!cnpj) { alert("Por favor, digite o CNPJ."); return; }
 
-            // Salva o CNPJ para reaproveitar no proximo pedido.
-            localStorage.setItem(LAST_CNPJ_KEY, cnpj);
-            if (cnpjInput) cnpjInput.value = cnpj;
-            
-            // --- HEADER OTIMIZADO PARA PC/MOBILE ---
+            const ordersToSend = networkOrders.map(o => ({
+                cnpj: o.cnpj,
+                cartSnapshot: JSON.parse(JSON.stringify(o.cartSnapshot || {})),
+                total: o.total || 0,
+                totalBase: o.totalBase || 0,
+                itemsCount: o.itemsCount || 0,
+                prazo: o.prazo || "50 dias direto"
+            }));
+
+            const currentSummary = getCartSummary(cart);
+            if (currentSummary.itemCount > 0) {
+                if (!cnpj) { alert("Por favor, digite o CNPJ."); return; }
+                localStorage.setItem(LAST_CNPJ_KEY, cnpj);
+                if (cnpjInput) cnpjInput.value = cnpj;
+                ordersToSend.push({
+                    cnpj: cnpj,
+                    cartSnapshot: JSON.parse(JSON.stringify(cart)),
+                    total: currentSummary.total,
+                    totalBase: currentSummary.totalBase,
+                    itemsCount: currentSummary.itemCount,
+                    prazo: getPrazoForTotal(currentSummary.total)
+                });
+            }
+
+            if (ordersToSend.length === 0) {
+                alert("Nenhum pedido para enviar.");
+                return;
+            }
+
             let text = `*PEDIDO OPELLA | FEV 2026*\n`;
             text += `--------------------------------\n`;
-            text += `CNPJ: ${cnpj}\n`;
             text += `DATA: ${new Date().toLocaleDateString('pt-BR')}\n`;
-            
-            let total = 0; let totalBase = 0; let itemCount = 0;
-            const sortedCartIds = Object.keys(cart).sort((a,b) => {
-                const pA = products.find(x => x.id == a);
-                const pB = products.find(x => x.id == b);
-                return (pA?.cat || '').localeCompare(pB?.cat || '');
+            text += `CNPJs no envio: ${ordersToSend.length}\n`;
+
+            let grandTotal = 0;
+            let grandSavings = 0;
+
+            ordersToSend.forEach((order, idx) => {
+                text += `\n*===== CNPJ ${idx + 1}: ${order.cnpj} =====*\n`;
+                text += buildOrderItemsText(order.cartSnapshot);
+                const savings = Math.max(0, (order.totalBase || 0) - (order.total || 0));
+                text += `\n*Subtotal:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
+                text += `\n*Economia:* R$ ${savings.toFixed(2).replace('.',',')}`;
+                text += `\n*Prazo:* ${order.prazo || "50 dias direto"}`;
+                text += `\n--------------------------------`;
+                grandTotal += order.total || 0;
+                grandSavings += savings;
             });
 
-            let currentCat = '';
-
-            sortedCartIds.forEach(id => {
-                const qty = cart[id];
-                if(qty > 0) {
-                    const p = products.find(x => x.id == id);
-                    if (p) {
-                        const price = getPrice(p, qty);
-                        
-                        // Separador de Categoria Limpo
-                        if(p.cat !== currentCat) {
-                            text += `\n*--- ${p.cat.toUpperCase()} ---*\n`;
-                            currentCat = p.cat;
-                        }
-                        
-                        total += price * qty;
-                        totalBase += p.base * qty;
-                        itemCount += qty;
-                        
-                        // Item formatado: Qtd, Nome, Preço com '└', EAN com '>' (Citação)
-                        text += `  *${qty}x* ${p.name}\n`;
-                        text += `   └ R$ ${price.toFixed(2).replace('.',',')} un\n`;
-                        text += `> EAN: ${p.id}\n`;
-                    }
-                }
-            });
-
-            const savings = totalBase - total;
-            
-            // Rodapé Financeiro Limpo
-            text += `\n--------------------------------`;
-            text += `\n*TOTAL:* R$ ${total.toFixed(2).replace('.',',')}`;
-            text += `\n*ECONOMIA:* R$ ${savings.toFixed(2).replace('.',',')}`;
-
-            // Lógica de prazo no WhatsApp
-            if (total >= 500) {
-                const prazoElem = document.querySelector('input[name="prazo"]:checked');
-                const prazo = prazoElem ? prazoElem.value : "50 dias direto";
-                text += `\n*PRAZO:* ${prazo}`;
-            } else {
-                text += `\n*PRAZO:* 50 dias direto`;
-            }
-            text += `\n--------------------------------`;
+            text += `\n*TOTAL GERAL REDE:* R$ ${grandTotal.toFixed(2).replace('.',',')}`;
+            text += `\n*ECONOMIA GERAL:* R$ ${grandSavings.toFixed(2).replace('.',',')}`;
 
             text += `\n\n> Aguardo faturamento.`;
-            
-            // === SALVAR NO HISTÓRICO PARA QUICK REORDER ===
-            const newOrder = {
-                id: Date.now(),
-                date: new Date().toLocaleString('pt-BR'),
-                cnpj: cnpj,
-                total: total,
-                itemsCount: itemCount,
-                cartSnapshot: JSON.parse(JSON.stringify(cart))
-            };
-            orderHistory.unshift(newOrder);
-            if (orderHistory.length > 10) orderHistory = orderHistory.slice(0, 10);
+
+            const now = new Date().toLocaleString('pt-BR');
+            const historyRecords = ordersToSend.map((order, idx) => ({
+                id: Date.now() + idx,
+                date: now,
+                cnpj: order.cnpj,
+                total: order.total || 0,
+                itemsCount: order.itemsCount || 0,
+                cartSnapshot: JSON.parse(JSON.stringify(order.cartSnapshot || {}))
+            }));
+            orderHistory = [...historyRecords, ...orderHistory].slice(0, 10);
             localStorage.setItem('opella_history', JSON.stringify(orderHistory));
             updateQuickReorderBar();
-            // ================================================
-            
-            // Salvar no Histórico (função original)
-            saveToHistory(total);
-            
+
+            networkOrders = [];
+            saveNetworkOrders();
+            cart = {};
+            saveCart();
+            render();
+
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
             window.location.href = url;
         }
