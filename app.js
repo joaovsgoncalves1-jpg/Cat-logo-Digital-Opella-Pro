@@ -937,14 +937,14 @@
                         if (p) {
                             const price = getPrice(p, qty);
                             const subtotal = price * qty;
-                            tableRows.push([p.cat, p.name, qty, `R$ ${price.toFixed(2).replace('.',',')}`, `R$ ${subtotal.toFixed(2).replace('.',',')}`]);
+                            tableRows.push([p.cat, p.id, p.name, qty, `R$ ${price.toFixed(2).replace('.',',')}`, `R$ ${subtotal.toFixed(2).replace('.',',')}`]);
                         }
                     }
                 });
 
                 doc.autoTable({
                     startY: y,
-                    head: [['Marca', 'Produto', 'Qtd', 'Unit.', 'Total']],
+                    head: [['Marca', 'EAN', 'Produto', 'Qtd', 'Unit.', 'Total']],
                     body: tableRows,
                     theme: 'striped',
                     headStyles: { fillColor: [22, 163, 74] }
