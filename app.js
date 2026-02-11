@@ -864,62 +864,118 @@
         function exportPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
+
+            const cnpjInput = document.getElementById('cnpj-input');
+            const typedCnpj = cnpjInput ? cnpjInput.value.trim() : '';
+            const savedCnpj = localStorage.getItem(LAST_CNPJ_KEY) || '';
+            const currentCnpj = typedCnpj || savedCnpj;
+
+            const ordersToExport = networkOrders.map(o => ({
+                cnpj: o.cnpj,
+                cartSnapshot: JSON.parse(JSON.stringify(o.cartSnapshot || {})),
+                total: o.total || 0,
+                totalBase: o.totalBase || 0,
+                prazo: o.prazo || "50 dias direto"
+            }));
+
+            const currentSummary = getCartSummary(cart);
+            if (currentSummary.itemCount > 0) {
+                if (!currentCnpj && ordersToExport.length > 0) {
+                    alert("Digite o CNPJ do pedido atual antes de exportar PDF consolidado.");
+                    return;
+                }
+                const fallbackCnpj = currentCnpj || "Não informado";
+                localStorage.setItem(LAST_CNPJ_KEY, fallbackCnpj);
+                ordersToExport.push({
+                    cnpj: fallbackCnpj,
+                    cartSnapshot: JSON.parse(JSON.stringify(cart)),
+                    total: currentSummary.total,
+                    totalBase: currentSummary.totalBase,
+                    prazo: getPrazoForTotal(currentSummary.total)
+                });
+            }
+
+            if (ordersToExport.length === 0) {
+                alert("Nenhum pedido para exportar.");
+                return;
+            }
+
             doc.setFont("helvetica", "bold");
             doc.setFontSize(18);
             doc.text("Pedido Opella - Fev 2026", 14, 20);
-            
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
-            const date = new Date().toLocaleString('pt-BR');
-            doc.text(`Data: ${date}`, 14, 26);
-            
-            const cnpj = document.getElementById('cnpj-input').value || "Não informado";
-            doc.text(`CNPJ Cliente: ${cnpj}`, 14, 32);
+            doc.text(`Data: ${new Date().toLocaleString('pt-BR')}`, 14, 26);
+            doc.text(`Quantidade de CNPJs: ${ordersToExport.length}`, 14, 32);
 
-            let tableRows = [];
-            let total = 0;
-            
-            const sortedCartIds = Object.keys(cart).sort((a,b) => {
-                const pA = products.find(x => x.id == a);
-                const pB = products.find(x => x.id == b);
-                return (pA?.cat || '').localeCompare(pB?.cat || '');
-            });
+            let y = 40;
+            let grandTotal = 0;
+            let grandSavings = 0;
 
-            sortedCartIds.forEach(id => {
-                const qty = cart[id];
-                if(qty > 0) {
-                    const p = products.find(x => x.id == id);
-                    const price = getPrice(p, qty);
-                    const subtotal = price * qty;
-                    total += subtotal;
-                    tableRows.push([p.cat, p.name, qty, `R$ ${price.toFixed(2)}`, `R$ ${subtotal.toFixed(2)}`]);
+            ordersToExport.forEach((order, idx) => {
+                if (y > 250) {
+                    doc.addPage();
+                    y = 20;
                 }
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(12);
+                doc.text(`CNPJ ${idx + 1}: ${order.cnpj}`, 14, y);
+                y += 6;
+
+                const tableRows = [];
+                const sortedCartIds = Object.keys(order.cartSnapshot || {}).sort((a,b) => {
+                    const pA = products.find(x => x.id == a);
+                    const pB = products.find(x => x.id == b);
+                    return (pA?.cat || '').localeCompare(pB?.cat || '');
+                });
+
+                sortedCartIds.forEach(id => {
+                    const qty = order.cartSnapshot[id];
+                    if (qty > 0) {
+                        const p = products.find(x => x.id == id);
+                        if (p) {
+                            const price = getPrice(p, qty);
+                            const subtotal = price * qty;
+                            tableRows.push([p.cat, p.name, qty, `R$ ${price.toFixed(2).replace('.',',')}`, `R$ ${subtotal.toFixed(2).replace('.',',')}`]);
+                        }
+                    }
+                });
+
+                doc.autoTable({
+                    startY: y,
+                    head: [['Marca', 'Produto', 'Qtd', 'Unit.', 'Total']],
+                    body: tableRows,
+                    theme: 'striped',
+                    headStyles: { fillColor: [22, 163, 74] }
+                });
+
+                const orderSavings = Math.max(0, (order.totalBase || 0) - (order.total || 0));
+                const finalY = doc.lastAutoTable.finalY + 6;
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(10);
+                doc.text(`Subtotal: R$ ${(order.total || 0).toFixed(2).replace('.',',')}`, 14, finalY);
+                doc.text(`Economia: R$ ${orderSavings.toFixed(2).replace('.',',')}`, 14, finalY + 5);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Prazo: ${order.prazo || "50 dias direto"}`, 14, finalY + 10);
+
+                grandTotal += order.total || 0;
+                grandSavings += orderSavings;
+                y = finalY + 18;
             });
 
-            doc.autoTable({
-                startY: 40,
-                head: [['Marca', 'Produto', 'Qtd', 'Unit.', 'Total']],
-                body: tableRows,
-                theme: 'striped',
-                headStyles: { fillColor: [22, 163, 74] } // Green-600
-            });
-
-            const finalY = doc.lastAutoTable.finalY + 10;
-            doc.setFont("helvetica", "bold");
-            doc.text(`TOTAL GERAL: R$ ${total.toFixed(2).replace('.',',')}`, 14, finalY);
-            
-            // Lógica de prazo no PDF (Removida a opção especial de 3k)
-            let prazoTexto = "50 dias direto";
-            if(total >= 500) {
-                 const elem = document.querySelector('input[name="prazo"]:checked');
-                 prazoTexto = elem ? elem.value : "2x (40/60 dias)";
+            if (y > 260) {
+                doc.addPage();
+                y = 20;
             }
 
-            doc.setFont("helvetica", "normal");
-            doc.text(`Condição de Pagamento: ${prazoTexto}`, 14, finalY + 6);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text(`TOTAL GERAL REDE: R$ ${grandTotal.toFixed(2).replace('.',',')}`, 14, y);
+            doc.text(`ECONOMIA GERAL: R$ ${grandSavings.toFixed(2).replace('.',',')}`, 14, y + 7);
 
-            doc.save('pedido_opella.pdf');
+            const fileName = ordersToExport.length > 1 ? 'pedido_opella_rede.pdf' : 'pedido_opella.pdf';
+            doc.save(fileName);
         }
 
         // --- CORE FUNCTIONS ---
