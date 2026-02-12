@@ -167,7 +167,7 @@
             { id: "7891058002343", cat: 'Oscal', name: 'Oscal 500mg – 60 Cpr', base: 107.54, tiers: [ {q:1, p:97.86, d:9} ] },
             { id: "7891058002336", cat: 'Oscal', name: 'Oscal D 500mg + 400UI – 60 Cpr', base: 116.46, tiers: [ {q:1, p:105.98, d:9} ] },
             { id: "7891058022730", cat: 'Oscal', name: 'Oscal D 500mg + 1000UI – 60 Cpr', base: 117.66, tiers: [ {q:1, p:107.07, d:9} ] },
-            { id: "7891058005788", cat: 'Oscal', name: 'Oscal Vitamina D 500ui/Gota 10ml', base: 71.81, tiers: [ {q:1, p:65.35, d:9} ] },
+
 
             // DULCOLAX / GUTTALAX
             { id: "7891058021528", cat: 'Dulco', name: 'Dulcolax 5mg – 20 Drágeas', base: 15.64, tiers: [ {q:1, p:14.23, d:9} ] },
