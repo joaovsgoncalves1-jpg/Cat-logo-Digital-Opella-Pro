@@ -1274,26 +1274,42 @@
 
             let text = `*PEDIDO OPELLA | FEV 2026*\n`;
             text += `--------------------------------\n`;
-            text += `DATA: ${new Date().toLocaleDateString('pt-BR')}\n`;
-            text += `CNPJs no envio: ${ordersToSend.length}\n`;
 
-            let grandTotal = 0;
-            let grandSavings = 0;
+            const isSingleCnpj = ordersToSend.length === 1;
 
-            ordersToSend.forEach((order, idx) => {
-                text += `\n*===== CNPJ ${idx + 1}: ${order.cnpj} =====*\n`;
+            if (isSingleCnpj) {
+                const order = ordersToSend[0];
+                text += `CNPJ: ${order.cnpj}\n`;
+                text += `DATA: ${new Date().toLocaleDateString('pt-BR')}\n`;
                 text += buildOrderItemsText(order.cartSnapshot);
                 const savings = Math.max(0, (order.totalBase || 0) - (order.total || 0));
-                text += `\n*Subtotal:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
-                text += `\n*Economia:* R$ ${savings.toFixed(2).replace('.',',')}`;
-                text += `\n*Prazo:* ${order.prazo || "50 dias direto"}`;
                 text += `\n--------------------------------`;
-                grandTotal += order.total || 0;
-                grandSavings += savings;
-            });
+                text += `\n*TOTAL:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
+                text += `\n*ECONOMIA:* R$ ${savings.toFixed(2).replace('.',',')}`;
+                text += `\n*PRAZO:* ${order.prazo || "50 dias direto"}`;
+                text += `\n--------------------------------`;
+            } else {
+                text += `DATA: ${new Date().toLocaleDateString('pt-BR')}\n`;
+                text += `CNPJs no envio: ${ordersToSend.length}\n`;
 
-            text += `\n*TOTAL GERAL REDE:* R$ ${grandTotal.toFixed(2).replace('.',',')}`;
-            text += `\n*ECONOMIA GERAL:* R$ ${grandSavings.toFixed(2).replace('.',',')}`;
+                let grandTotal = 0;
+                let grandSavings = 0;
+
+                ordersToSend.forEach((order, idx) => {
+                    text += `\n*===== CNPJ ${idx + 1}: ${order.cnpj} =====*\n`;
+                    text += buildOrderItemsText(order.cartSnapshot);
+                    const savings = Math.max(0, (order.totalBase || 0) - (order.total || 0));
+                    text += `\n*Subtotal:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
+                    text += `\n*Economia:* R$ ${savings.toFixed(2).replace('.',',')}`;
+                    text += `\n*Prazo:* ${order.prazo || "50 dias direto"}`;
+                    text += `\n--------------------------------`;
+                    grandTotal += order.total || 0;
+                    grandSavings += savings;
+                });
+
+                text += `\n*TOTAL GERAL REDE:* R$ ${grandTotal.toFixed(2).replace('.',',')}`;
+                text += `\n*ECONOMIA GERAL:* R$ ${grandSavings.toFixed(2).replace('.',',')}`;
+            }
 
             text += `\n\n> Aguardo faturamento.`;
 
