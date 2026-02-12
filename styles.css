@@ -338,8 +338,55 @@
         .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 300ms, transform 300ms; }
         .modal-exit { opacity: 1; transform: scale(1); }
         .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
-    
 
+        /* --- GAMIFICAÇÃO: Tier Pulsante --- */
+        .tier-next-target {
+            border: 1.5px dashed #f59e0b !important;
+            background: #fffbeb !important;
+            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.1);
+        }
 
+        .tier-next-badge {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f59e0b;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 6px;
+            white-space: nowrap;
+            line-height: 1.4;
+            animation: pulse-soft 2.5s infinite;
+        }
 
+        /* --- GAMIFICAÇÃO: Micro-recompensa preço --- */
+        .tier-reward-pop {
+            animation: tierRewardPop 400ms ease-out;
+        }
+        @keyframes tierRewardPop {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- GAMIFICAÇÃO: Barra de progresso dourada --- */
+        .progress-bar-gold {
+            background: linear-gradient(90deg, #d97706, #f59e0b);
+        }
+        .progress-bar-complete {
+            background: linear-gradient(90deg, #16a34a, #22c55e) !important;
+        }
+
+        /* --- GAMIFICAÇÃO: Flash barra de progresso --- */
+        .goal-hit-flash {
+            animation: goalFlash 600ms ease-out;
+        }
+        @keyframes goalFlash {
+            0%   { filter: brightness(1); }
+            35%  { filter: brightness(1.4); }
+            100% { filter: brightness(1); }
+        }
 

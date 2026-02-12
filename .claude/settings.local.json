@@ -6,7 +6,8 @@
       "Bash(where:*)",
       "Bash(python:*)",
       "Bash(pip install:*)",
-      "Bash(del \"d:\\\\Projetos\\\\Cat-logo-Digital-Opella-Pro\\\\favicon.ico\")"
+      "Bash(del \"d:\\\\Projetos\\\\Cat-logo-Digital-Opella-Pro\\\\favicon.ico\")",
+      "Bash(cmd /c \"node --check \"\"d:\\\\Projetos\\\\Catalogo Digital Opella\\\\app.js\"\"\")"
     ]
   }
 }

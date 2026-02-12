@@ -3,6 +3,7 @@
         // ------------------------------------------------------------
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
+        const INSTALLMENT_TARGET = 500.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -157,6 +158,7 @@
         const LAST_CNPJ_KEY = 'opella_last_cnpj';
         const NETWORK_ORDERS_KEY = 'opella_network_orders';
         let networkOrders = JSON.parse(localStorage.getItem(NETWORK_ORDERS_KEY)) || [];
+        let achievedGoalLevel = null;
         // === QUICK REORDER ===
         function getLastOrder() {
             return orderHistory.length > 0 ? orderHistory[0] : null;
@@ -418,12 +420,13 @@
                 
                 // Hint do próximo tier
                 const nextTier = getNextTierHint(p, qty);
+                const nextTierQty = nextTier ? nextTier.tierQty : null;
                 let nextTierHtml = '';
                 if (nextTier && qty > 0) {
                     nextTierHtml = `
                         <div class="next-tier-hint">
                             <i class="fas fa-arrow-up"></i>
-                            +${nextTier.falta} un → ${nextTier.desconto}% OFF
+                            Faltam ${nextTier.falta} un para ${nextTier.desconto}% OFF
                         </div>
                     `;
                 }
@@ -461,19 +464,22 @@
                     </div>
                     
                     <div class="flex gap-2 mt-3 overflow-x-auto scrollbar-hide pb-1 pr-4">
-                        ${p.tiers.map(t => {
+                        ${p.tiers.map((t, i) => {
                             const isReached = qty >= t.q;
-                            const isCurrent = isReached && (p.tiers[p.tiers.indexOf(t)+1] ? qty < p.tiers[p.tiers.indexOf(t)+1].q : true);
+                            const isCurrent = isReached && (p.tiers[i+1] ? qty < p.tiers[i+1].q : true);
                             
                             // Lógica de destaque para descontos altos (>= 19%)
                             const isHighDiscount = t.d >= 19;
                             const tierClass = isHighDiscount ? 'tier-active-campaign' : 'tier-active';
                             // Se não for o atual, mas for alcançado e high discount -> laranja claro. Se normal -> verde claro.
                             const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
+                            const isNext = qty > 0 && !isReached && nextTierQty !== null && t.q === nextTierQty;
+                            const nextBadge = isNext ? `<span class="tier-next-badge">Faltam ${nextTier.falta}</span>` : '';
                             
                             return `
-                            <div onclick="toggleQty('${p.id}', ${t.q})" class="tier-box ${isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white')} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative">
+                            <div onclick="toggleQty('${p.id}', ${t.q})" class="tier-box ${isNext ? 'tier-next-target' : (isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white'))} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative">
                                 <span class="font-bold uppercase">${t.q} un</span>
+                                ${nextBadge}
                                 <span class="text-xs">R$ ${t.p.toFixed(2).replace('.',',')}</span>
                                 <span class="text-[9px] ${isHighDiscount ? 'text-orange-600 font-black' : (t.d > 0 ? 'text-green-600 font-bold' : 'text-gray-400')}">
                                     ${t.d > 0 ? `(-${t.d}% OFF)` : ''} ${isHighDiscount ? '<i class="fas fa-fire"></i>' : ''}
@@ -509,13 +515,21 @@
             const currentPrice = getPrice(p, qty);
             const isPromo = currentPrice < p.tiers[0].p;
             const textClass = getTextStyle(p.cat);
+            const prevTierLevel = Number(card.dataset.tierLevel || -1);
+            const currentTierLevel = p.tiers.reduce((level, tier, idx) => (qty >= tier.q ? idx : level), -1);
 
             // Atualizar preço
             const priceEl = card.querySelector('.text-xl');
             if (priceEl) {
                 priceEl.className = `text-xl font-black mt-0 ${isPromo ? 'text-green-600' : textClass} text-left`;
                 priceEl.textContent = `R$ ${currentPrice.toFixed(2).replace('.',',')}`;
+                if (prevTierLevel >= 0 && currentTierLevel > prevTierLevel) {
+                    priceEl.classList.remove('tier-reward-pop');
+                    void priceEl.offsetWidth;
+                    priceEl.classList.add('tier-reward-pop');
+                }
             }
+            card.dataset.tierLevel = String(currentTierLevel);
 
             // Atualizar hint de próximo tier
             const nextTier = getNextTierHint(p, qty);
@@ -526,13 +540,14 @@
                     existingHint.className = 'next-tier-hint';
                     priceEl?.parentNode?.appendChild(existingHint);
                 }
-                existingHint.innerHTML = `<i class="fas fa-arrow-up"></i> +${nextTier.falta} un → ${nextTier.desconto}% OFF`;
+                existingHint.innerHTML = `<i class="fas fa-arrow-up"></i> Faltam ${nextTier.falta} un para ${nextTier.desconto}% OFF`;
             } else if (existingHint) {
                 existingHint.remove();
             }
 
             // Atualizar tiers visuais
             const tierBoxes = card.querySelectorAll('.tier-box');
+            const nextTierQty = nextTier ? nextTier.tierQty : null;
             p.tiers.forEach((t, i) => {
                 const box = tierBoxes[i];
                 if (!box) return;
@@ -541,8 +556,22 @@
                 const isHighDiscount = t.d >= 19;
                 const tierClass = isHighDiscount ? 'tier-active-campaign' : 'tier-active';
                 const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
+                const isNext = qty > 0 && !isReached && nextTierQty !== null && t.q === nextTierQty;
 
-                box.className = `tier-box ${isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white')} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative`;
+                box.className = `tier-box ${isNext ? 'tier-next-target' : (isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white'))} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative`;
+
+                let badgeEl = box.querySelector('.tier-next-badge');
+                if (isNext) {
+                    if (!badgeEl) {
+                        badgeEl = document.createElement('span');
+                        badgeEl.className = 'tier-next-badge';
+                        const titleEl = box.querySelector('span');
+                        if (titleEl) titleEl.insertAdjacentElement('afterend', badgeEl);
+                    }
+                    badgeEl.textContent = `Faltam ${nextTier.falta}`;
+                } else if (badgeEl) {
+                    badgeEl.remove();
+                }
             });
 
             // Atualizar input de quantidade
@@ -692,20 +721,26 @@
             }
         }
 
+                function getGoalLevel(total) {
+            if (total >= INSTALLMENT_TARGET) return 2;
+            if (total >= MIN_ORDER) return 1;
+            return 0;
+        }
+
         function updateCartBar() {
             let total = 0; let totalBase = 0; let count = 0;
-            Object.keys(cart).forEach(id => { 
-                const qty = cart[id]; 
-                if(qty > 0) { 
-                    const p = productsMap[id]; 
+            Object.keys(cart).forEach(id => {
+                const qty = cart[id];
+                if(qty > 0) {
+                    const p = productsMap[id];
                     if(p) {
-                        total += getPrice(p, qty) * qty; 
+                        total += getPrice(p, qty) * qty;
                         totalBase += p.base * qty;
-                        count += qty; 
+                        count += qty;
                     }
-                } 
+                }
             });
-            
+
             const savings = Math.max(0, totalBase - total);
             const savingsModal = document.getElementById('total-savings-modal');
             if(savingsModal) savingsModal.innerText = 'R$ ' + savings.toFixed(2).replace('.',',');
@@ -716,8 +751,7 @@
             const progressFill = document.getElementById('progress-fill');
             const bar = document.getElementById('cart-bar');
             const btnReview = document.getElementById('btn-review');
-            
-            // Atualiza indicador de CNPJ ativo na barra
+
             const cnpjInput = document.getElementById('cnpj-input');
             const activeCnpjDisplay = document.getElementById('active-cnpj-display');
             if (activeCnpjDisplay) {
@@ -725,45 +759,77 @@
                 activeCnpjDisplay.innerText = count > 0 ? `Editando: ${currentCnpj}` : '';
             }
 
-            const progressPercent = Math.min((total / 500) * 100, 100);
-            if(progressFill) progressFill.style.width = progressPercent + '%';
             const networkTotal = networkOrders.reduce((sum, order) => sum + (order.total || 0), 0);
 
+            let currentTarget = MIN_ORDER;
+            let missing = Math.max(0, MIN_ORDER - total);
+            let goalText = 'pedido mínimo';
+
+            if (total >= MIN_ORDER && total < INSTALLMENT_TARGET) {
+                currentTarget = INSTALLMENT_TARGET;
+                missing = INSTALLMENT_TARGET - total;
+                goalText = 'parcelar em 2x';
+            } else if (total >= INSTALLMENT_TARGET) {
+                currentTarget = INSTALLMENT_TARGET;
+                missing = 0;
+                goalText = '';
+            }
+
+            const progressPercent = Math.min((total / currentTarget) * 100, 100);
+            if(progressFill) {
+                progressFill.style.width = progressPercent + '%';
+                progressFill.className = `h-full progress-bar-gold ${progressPercent >= 100 ? 'progress-bar-complete' : ''} transition-all duration-500`;
+            }
+
+            const currentGoalLevel = getGoalLevel(total);
+            if (achievedGoalLevel === null) {
+                achievedGoalLevel = currentGoalLevel;
+            } else if (progressFill && currentGoalLevel > achievedGoalLevel) {
+                progressFill.classList.remove('goal-hit-flash');
+                void progressFill.offsetWidth;
+                progressFill.classList.add('goal-hit-flash');
+                setTimeout(() => progressFill.classList.remove('goal-hit-flash'), 650);
+                achievedGoalLevel = currentGoalLevel;
+            } else {
+                achievedGoalLevel = currentGoalLevel;
+            }
+
             if(total < MIN_ORDER) {
-                if(progressFill) progressFill.className = "h-full bg-red-500 transition-all duration-500";
-                const missing = (MIN_ORDER - total).toFixed(2).replace('.',',');
-                if(label) label.innerHTML = `<span class="text-red-500 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing} para pedido mínimo</span>`;
+                if(label) label.innerHTML = `<span class="text-amber-700 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing.toFixed(2).replace('.',',')} para pedido mínimo</span>`;
                 if(installment) {
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
-                    installment.className = "text-2xl font-black text-gray-900 leading-none text-left text-left";
+                    installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = networkOrders.length === 0;
-            } else if (total >= 500) {
-                if(progressFill) progressFill.className = "h-full bg-green-500 transition-all duration-500";
-                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Prazo disponível: 40/60 dias</span>`;
+            } else if (total >= INSTALLMENT_TARGET) {
+                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 2x disponível</span>`;
                 if(installment) {
                     installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
-                    installment.className = "text-2xl font-black text-green-600 leading-none text-left text-left";
+                    installment.className = "text-2xl font-black text-green-600 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = false;
             } else {
-                if(progressFill) progressFill.className = "h-full bg-blue-500 transition-all duration-500";
-                const missing = (500 - total).toFixed(2).replace('.',',');
-                if(label) label.innerHTML = `<span class="text-blue-600 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing} para parcelar</span>`;
+                if(label) label.innerHTML = `<span class="text-amber-700 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing.toFixed(2).replace('.',',')} para parcelar em 2x</span>`;
                 if(installment) {
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
-                    installment.className = "text-2xl font-black text-gray-900 leading-none text-left text-left";
+                    installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = false;
             }
-            
+
             if(totalSmall) {
-                let footerText = `Total: R$ ${total.toFixed(2).replace('.',',')} (Econ: R$ ${savings.toFixed(2).replace('.',',')})`;
+                let footerGoal = '';
+                if (goalText) {
+                    footerGoal = ` | Faltam R$ ${missing.toFixed(2).replace('.',',')} para ${goalText}`;
+                }
+
+                let footerText = `Total: R$ ${total.toFixed(2).replace('.',',')}${footerGoal} | Econ: R$ ${savings.toFixed(2).replace('.',',')}`;
                 if (networkOrders.length > 0) {
                     footerText += ` | Rede: R$ ${networkTotal.toFixed(2).replace('.',',')} (${networkOrders.length} CNPJ)`;
                 }
                 totalSmall.innerText = footerText;
             }
+
             if ((count > 0 || networkOrders.length > 0) && bar) bar.classList.remove('hidden'); else if(bar) bar.classList.add('hidden');
         }
 
@@ -1478,6 +1544,13 @@
             window.location.href = url;
         }
     
+
+
+
+
+
+
+
 
 
 
