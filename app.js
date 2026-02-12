@@ -88,6 +88,10 @@
             };
         });
 
+        // Mapa de produtos por ID para busca O(1) em vez de O(n)
+        const productsMap = {};
+        products.forEach(p => { productsMap[p.id] = p; });
+
         // ------------------------------------------------------------
         // SEÇÃO 4: VARIÁVEIS DE ESTADO E FUNÇÕES PRINCIPAIS
         // ------------------------------------------------------------
@@ -412,7 +416,7 @@
                         }).join('')}
                     </div>
 
-                    <div class="flex items-center justify-between mt-2 bg-white/60 p-1.5 rounded-xl border border-white/60 backdrop-blur-sm">
+                    <div class="flex items-center justify-between mt-2 bg-white/90 p-1.5 rounded-xl border border-white/60">
                         <button onclick="changeQty('${p.id}', -1)" class="w-10 h-10 bg-white rounded-lg shadow-sm text-gray-600 font-bold active:bg-gray-100 transition-colors">-</button>
                         <input type="number" value="${qty > 0 ? qty : ''}" placeholder="0" onchange="manualInput('${p.id}', this.value)" class="w-full text-center bg-transparent font-bold text-gray-800 text-lg focus:outline-none">
                         <button onclick="changeQty('${p.id}', 1)" class="w-10 h-10 ${badgeClass} rounded-lg shadow-md font-bold active:scale-95 transition-colors">+</button>
@@ -429,24 +433,79 @@
         }
 
         // Funções de Carrinho e Persistência
-        function toggleQty(id, t) { 
-            cart[id] = (cart[id] === t) ? 0 : t; 
-            saveCart();
-            render(); 
+        function updateProductCard(id) {
+            const card = document.getElementById('product-' + id);
+            if (!card) { render(); return; }
+            const p = productsMap[id];
+            if (!p) return;
+
+            const qty = cart[id] || 0;
+            const currentPrice = getPrice(p, qty);
+            const isPromo = currentPrice < p.tiers[0].p;
+            const textClass = getTextStyle(p.cat);
+
+            // Atualizar preço
+            const priceEl = card.querySelector('.text-xl');
+            if (priceEl) {
+                priceEl.className = `text-xl font-black mt-0 ${isPromo ? 'text-green-600' : textClass} text-left`;
+                priceEl.textContent = `R$ ${currentPrice.toFixed(2).replace('.',',')}`;
+            }
+
+            // Atualizar hint de próximo tier
+            const nextTier = getNextTierHint(p, qty);
+            let existingHint = card.querySelector('.next-tier-hint');
+            if (nextTier && qty > 0) {
+                if (!existingHint) {
+                    existingHint = document.createElement('div');
+                    existingHint.className = 'next-tier-hint';
+                    priceEl?.parentNode?.appendChild(existingHint);
+                }
+                existingHint.innerHTML = `<i class="fas fa-arrow-up"></i> +${nextTier.falta} un → ${nextTier.desconto}% OFF`;
+            } else if (existingHint) {
+                existingHint.remove();
+            }
+
+            // Atualizar tiers visuais
+            const tierBoxes = card.querySelectorAll('.tier-box');
+            p.tiers.forEach((t, i) => {
+                const box = tierBoxes[i];
+                if (!box) return;
+                const isReached = qty >= t.q;
+                const isCurrent = isReached && (p.tiers[i+1] ? qty < p.tiers[i+1].q : true);
+                const isHighDiscount = t.d >= 19;
+                const tierClass = isHighDiscount ? 'tier-active-campaign' : 'tier-active';
+                const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
+
+                box.className = `tier-box ${isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white')} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative`;
+            });
+
+            // Atualizar input de quantidade
+            const input = card.querySelector('input[type="number"]');
+            if (input && document.activeElement !== input) {
+                input.value = qty > 0 ? qty : '';
+            }
+
+            updateCartBar();
         }
-        function changeQty(id, delta) { 
-            if (!cart[id]) cart[id] = 0; 
-            cart[id] += delta; 
-            if (cart[id] < 0) cart[id] = 0; 
+
+        function toggleQty(id, t) {
+            cart[id] = (cart[id] === t) ? 0 : t;
             saveCart();
-            render(); 
+            updateProductCard(id);
         }
-        function manualInput(id, value) { 
-            let val = parseInt(value); 
-            if(isNaN(val) || val < 0) val = 0; 
-            cart[id] = val; 
+        function changeQty(id, delta) {
+            if (!cart[id]) cart[id] = 0;
+            cart[id] += delta;
+            if (cart[id] < 0) cart[id] = 0;
             saveCart();
-            render(); 
+            updateProductCard(id);
+        }
+        function manualInput(id, value) {
+            let val = parseInt(value);
+            if(isNaN(val) || val < 0) val = 0;
+            cart[id] = val;
+            saveCart();
+            updateProductCard(id);
         }
         
         function saveCart() {
@@ -465,7 +524,7 @@
             Object.keys(cartSnapshot || {}).forEach(id => {
                 const qty = cartSnapshot[id];
                 if (qty > 0) {
-                    const p = products.find(x => x.id == id);
+                    const p = productsMap[id];
                     if (p) {
                         const price = getPrice(p, qty);
                         total += price * qty;
@@ -495,15 +554,15 @@
             let text = '';
             let currentCat = '';
             const sortedCartIds = Object.keys(cartSnapshot).sort((a, b) => {
-                const pA = products.find(x => x.id == a);
-                const pB = products.find(x => x.id == b);
+                const pA = productsMap[a];
+                const pB = productsMap[b];
                 return (pA?.cat || '').localeCompare(pB?.cat || '');
             });
 
             sortedCartIds.forEach(id => {
                 const qty = cartSnapshot[id];
                 if (qty > 0) {
-                    const p = products.find(x => x.id == id);
+                    const p = productsMap[id];
                     if (p) {
                         const price = getPrice(p, qty);
                         if (p.cat !== currentCat) {
@@ -558,7 +617,7 @@
             Object.keys(cart).forEach(id => { 
                 const qty = cart[id]; 
                 if(qty > 0) { 
-                    const p = products.find(x => x.id == id); 
+                    const p = productsMap[id]; 
                     if(p) {
                         total += getPrice(p, qty) * qty; 
                         totalBase += p.base * qty;
@@ -637,7 +696,7 @@
             Object.keys(cart).forEach(id => { 
                 const qty = cart[id]; 
                 if(qty > 0) { 
-                    const p = products.find(x => x.id == id); 
+                    const p = productsMap[id]; 
                     if(p) { // Check p
                         const price = getPrice(p, qty);
                         const val = price * qty;
@@ -708,7 +767,7 @@
                 document.getElementById('calc-modal').classList.remove('hidden');
                 toggleScrollLock(true);
 
-                currentCalcProduct = products.find(p => p.id === id);
+                currentCalcProduct = productsMap[id];
                 
                 if (!currentCalcProduct) {
                     throw new Error("Produto não encontrado");
@@ -946,15 +1005,15 @@
 
                 const tableRows = [];
                 const sortedCartIds = Object.keys(order.cartSnapshot || {}).sort((a,b) => {
-                    const pA = products.find(x => x.id == a);
-                    const pB = products.find(x => x.id == b);
+                    const pA = productsMap[a];
+                    const pB = productsMap[b];
                     return (pA?.cat || '').localeCompare(pB?.cat || '');
                 });
 
                 sortedCartIds.forEach(id => {
                     const qty = order.cartSnapshot[id];
                     if (qty > 0) {
-                        const p = products.find(x => x.id == id);
+                        const p = productsMap[id];
                         if (p) {
                             const price = getPrice(p, qty);
                             const subtotal = price * qty;
@@ -1014,15 +1073,15 @@
             const brandGroups = {};
 
             const sortedCartIds = Object.keys(cart).sort((a,b) => {
-                const pA = products.find(x => x.id == a);
-                const pB = products.find(x => x.id == b);
+                const pA = productsMap[a];
+                const pB = productsMap[b];
                 return (pA?.cat || '').localeCompare(pB?.cat || '');
             });
 
             sortedCartIds.forEach(id => {
                 const qty = cart[id];
                 if(qty > 0) {
-                    const p = products.find(x => x.id == id);
+                    const p = productsMap[id];
                     if (p) {
                         const price = getPrice(p, qty);
                         total += price * qty;
