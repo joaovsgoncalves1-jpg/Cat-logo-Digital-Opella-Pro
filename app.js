@@ -625,6 +625,20 @@
              askClearCart(); // Redireciona para o novo sistema
         }
 
+        function removeFromCart(id) {
+            cart[id] = 0;
+            saveCart();
+            updateProductCard(id);
+            updateCartBar();
+            // Re-abre o modal para atualizar a lista
+            const hasItems = Object.values(cart).some(q => q > 0);
+            if (hasItems) {
+                openModal();
+            } else {
+                closeModal();
+            }
+        }
+
         function updateCartBar() {
             let total = 0; let totalBase = 0; let count = 0;
             Object.keys(cart).forEach(id => { 
@@ -1131,7 +1145,10 @@
                             <p class="text-[9px] font-bold text-gray-700 truncate">${item.product.name}</p>
                             <p class="text-[8px] text-gray-500">${item.qty} un × R$ ${item.price.toFixed(2).replace('.',',')}</p>
                         </div>
-                        <p class="text-[10px] font-bold text-gray-800">R$ ${(item.price * item.qty).toFixed(2).replace('.',',')}</p>
+                        <p class="text-[10px] font-bold text-gray-800 mr-1">R$ ${(item.price * item.qty).toFixed(2).replace('.',',')}</p>
+                        <button onclick="removeFromCart('${item.product.id}')" class="w-6 h-6 flex items-center justify-center rounded-full bg-red-50 text-red-400 hover:bg-red-100 hover:text-red-600 transition-colors shrink-0" title="Remover item">
+                            <i class="fas fa-times text-[9px]"></i>
+                        </button>
                     </div>
                 `).join('');
                 
