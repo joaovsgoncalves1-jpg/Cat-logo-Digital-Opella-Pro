@@ -52,6 +52,24 @@
             </div>
         </div>
 
+        <div class="mx-1 mb-3 bg-white/5 border border-white/10 rounded-xl px-3 py-2 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2 min-w-0">
+                <div class="relative w-9 h-9">
+                    <img id="rep-profile-avatar" src="assets/rep.jpg" alt="Representante" class="w-9 h-9 rounded-full object-cover border border-white/40" style="object-position: 54% 42%;" loading="lazy">
+                    <div id="rep-profile-avatar-fallback" aria-label="Representante" class="hidden absolute inset-0 rounded-full border border-white/40 bg-emerald-700 text-white text-xs font-black grid place-items-center">JA</div>
+                </div>
+                <div class="min-w-0 text-left">
+                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold leading-none">Seu representante</p>
+                    <p id="rep-profile-name" class="text-[12px] text-white font-black truncate leading-tight">João Almeida</p>
+                    <p id="rep-profile-role" class="text-[10px] text-green-300 font-bold truncate leading-tight">RCA Opella</p>
+                </div>
+            </div>
+            <button type="button" onclick="openRepresentativeWhatsapp()" class="shrink-0 inline-flex items-center gap-1 bg-[#00A650] hover:bg-green-600 text-white text-[10px] font-black uppercase tracking-wide px-3 py-2 rounded-lg shadow-sm">
+                <i class="fab fa-whatsapp"></i>
+                <span id="rep-whatsapp-label">Fale comigo</span>
+            </button>
+        </div>
+
         <div class="relative px-1 mb-2">
             <i class="fas fa-search absolute left-5 top-3.5 text-gray-400"></i>
             <input type="text" id="search-input" oninput="render()" 
@@ -338,7 +356,6 @@
     <script src="app.js" defer></script>
 </body>
 </html>
-
 
 
 

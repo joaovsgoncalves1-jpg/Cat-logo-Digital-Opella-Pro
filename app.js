@@ -6,10 +6,61 @@
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
+        const REP_PROFILE = {
+            name: "João Victor",
+            role: "RCA Opella",
+            whatsapp: WHATSAPP_NUMBER,
+            photo: 'ref.jpg'
+        };
 
         // ------------------------------------------------------------
         // SEÇÃO 2: FUNÇÕES AUXILIARES (GLOBALMENTE DISPONÍVEIS)
         // ------------------------------------------------------------
+        function openRepresentativeWhatsapp() {
+            const msg = `Olá, ${REP_PROFILE.name}. Preciso de ajuda com o catálogo/pedido.`;
+            const url = `https://wa.me/${REP_PROFILE.whatsapp}?text=${encodeURIComponent(msg)}`;
+            window.location.href = url;
+        }
+
+        function getRepresentativeInitials(name) {
+            if (!name) return 'R';
+            const parts = String(name).trim().split(/\s+/).filter(Boolean);
+            if (parts.length === 0) return 'R';
+            if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+            return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+        }
+
+        function hydrateRepresentativeProfile() {
+            const nameEl = document.getElementById('rep-profile-name');
+            const roleEl = document.getElementById('rep-profile-role');
+            const avatarEl = document.getElementById('rep-profile-avatar');
+            const avatarFallbackEl = document.getElementById('rep-profile-avatar-fallback');
+            const waLabelEl = document.getElementById('rep-whatsapp-label');
+            const initials = getRepresentativeInitials(REP_PROFILE.name);
+
+            if (nameEl) nameEl.textContent = REP_PROFILE.name || 'Representante';
+            if (roleEl) roleEl.textContent = REP_PROFILE.role || '';
+
+            if (avatarFallbackEl) {
+                avatarFallbackEl.textContent = initials;
+                avatarFallbackEl.classList.add('hidden');
+            }
+
+            if (avatarEl && avatarEl.tagName === 'IMG') {
+                avatarEl.src = REP_PROFILE.photo || '';
+                avatarEl.onerror = () => {
+                    avatarEl.style.display = 'none';
+                    if (avatarFallbackEl) avatarFallbackEl.classList.remove('hidden');
+                };
+                avatarEl.onload = () => {
+                    avatarEl.style.display = 'block';
+                    if (avatarFallbackEl) avatarFallbackEl.classList.add('hidden');
+                };
+            }
+
+            if (waLabelEl) waLabelEl.textContent = 'Fale comigo';
+        }
+
         function getCardStyle(cat) {
             const styles = {
                 'Dorflex': 'card-dorflex', 'Enterogermina': 'card-entero', 'Allegra': 'card-allegra', 
@@ -175,6 +226,7 @@
                 }
             }
             // ------------------------------------------------------
+            hydrateRepresentativeProfile();
             render();
             updateHistoryList();
             updateQuickReorderBar(); // Inicializa Quick Reorder
@@ -1426,6 +1478,7 @@
             window.location.href = url;
         }
     
+
 
 
 
