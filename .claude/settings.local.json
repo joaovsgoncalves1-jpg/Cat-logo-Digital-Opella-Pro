@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -command \"Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::OpenRead\\(''Logo Fivecom\\\\favicon_io sem fundo.zip''\\).Entries | ForEach-Object { $_FullName }\")",
+      "Bash(powershell:*)",
+      "Bash(where:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(del \"d:\\\\Projetos\\\\Cat-logo-Digital-Opella-Pro\\\\favicon.ico\")"
+    ]
+  }
+}
