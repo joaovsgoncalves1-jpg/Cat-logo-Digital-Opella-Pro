@@ -1,10 +1,25 @@
-﻿html, body {
+﻿html {
             margin: 0;
             padding: 0;
-            background-color: #f3f4f6;
+            background-color: #111827;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #main-header {
+            z-index: 50;
+        }
+
+        #filters-container {
+            z-index: 90 !important;
+            position: relative;
+        }
 
         #main-header::before {
             content: "";
@@ -16,7 +31,7 @@
             background: #111827;
             pointer-events: none;
         }
-        
+
         /* --- BLOQUEIO DE ROLAGEM ROBUSTO PARA MOBILE --- */
         html.no-scroll, body.no-scroll {
             overflow: hidden !important;
@@ -130,7 +145,7 @@
         
         .promo-badge {
             position: absolute;
-            top: -10px; 
+            top: -6px; 
             right: 0;
             background-color: #ef4444;
             color: white;
@@ -141,7 +156,7 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
             white-space: nowrap;
             animation: bounce-slow 2s infinite;
-            z-index: 10;
+            z-index: 130 !important;
         }
         @keyframes bounce-slow {
             0%, 100% { transform: translateY(0); }
@@ -326,6 +341,9 @@
         #category-scroll {
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            position: relative;
+            z-index: 100;
+            overflow-y: visible !important;
         }
 
         .lazy-img {
@@ -341,4 +359,5 @@
         .modal-exit { opacity: 1; transform: scale(1); }
         .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
     
+
 

@@ -31,8 +31,9 @@
 </head>
 <body class="pb-44 bg-gray-100 text-left overflow-x-hidden">
 
+    <div id="top-fixed-stack" class="fixed top-0 left-0 w-full z-[70]">
     <!-- Header Fixo -->
-    <div id="main-header" class="relative bg-gray-900 p-4 pb-0 shadow-xl sticky top-0 z-50 rounded-b-[1.5rem]">
+    <div id="main-header" class="relative bg-gray-900 px-4 pt-2 pb-0 shadow-xl z-50 rounded-b-[1.5rem]">
         <div class="flex justify-between items-center mb-4 px-1 text-white text-left">
             <div class="bg-white p-1.5 rounded-lg shadow-md">
                 <img src="https://www.opella.com/dam/jcr:f38ea294-efa2-4b65-95ed-f58b3c5f103f/opella_logo-intro-anim.svg" alt="Opella" class="h-6 w-auto">
@@ -70,16 +71,16 @@
     
     <!-- Filtros de Categoría (STICKY WRAPPER) -->
     <!-- Ajustado top para 165px -->
-    <div id="filters-container" class="sticky top-[165px] z-40 bg-gray-100 border-b border-gray-200 transition-all">
+    <div id="filters-container" class="relative z-[80] bg-gray-100 border-b border-gray-200 transition-all -mt-1">
         
         <!-- Aviso de Scroll Discreto -->
-        <div class="absolute top-2 right-2 z-50 pointer-events-none">
+        <div class="absolute top-1 right-6 z-[120] pointer-events-none">
              <span class="text-[9px] text-gray-400 font-bold bg-white/80 px-2 py-0.5 rounded-full shadow-sm backdrop-blur-sm animate-pulse flex items-center gap-1 border border-gray-100">
                 Arraste <i class="fas fa-arrow-right"></i>
              </span>
         </div>
 
-        <div id="category-scroll" class="overflow-x-auto whitespace-nowrap custom-scrollbar pt-6 pb-3 pl-4 pr-4 flex items-center relative">
+        <div id="category-scroll" class="overflow-x-auto overflow-y-visible whitespace-nowrap custom-scrollbar pt-3 pb-2 pl-4 pr-4 flex items-center relative">
             <button id="btn-all" onclick="setCategory('all')" class="cat-btn cat-btn-all-active border-transparent">Todos</button>
             
             <button id="btn-favorites" onclick="setCategory('favorites')" class="cat-btn border-red-200 text-red-500"><i class="fas fa-heart mr-1"></i> Favoritos</button>
@@ -113,6 +114,7 @@
             <button id="btn-Bisolvon" onclick="setCategory('Bisolvon')" class="cat-btn border-[#FFD700]">Bisolvon / Mucosolvan</button>
             <button id="btn-Fenergan" onclick="setCategory('Fenergan')" class="cat-btn border-[#32CD32]">Fenergan</button>
         </div>
+    </div>
     </div>
 
     <!-- Lista de Produtos -->
@@ -336,6 +338,7 @@
     <script src="app.js" defer></script>
 </body>
 </html>
+
 
 
 

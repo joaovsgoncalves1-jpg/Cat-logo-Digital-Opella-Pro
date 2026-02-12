@@ -172,6 +172,14 @@
             }
         }
 
+        function syncFixedTopStack() {
+            const stack = document.getElementById('top-fixed-stack');
+            if (!stack) return;
+
+            const stackHeight = Math.round(stack.getBoundingClientRect().height);
+            document.body.style.paddingTop = `${Math.max(0, stackHeight)}px`;
+        }
+
         window.onload = function() {
             // --- CORREÇÃO DE SEGURANÇA: SANITIZAÇÃO DO CARRINHO ---
             const savedCart = localStorage.getItem('opella_cart');
@@ -193,6 +201,9 @@
             render();
             updateHistoryList();
             updateQuickReorderBar(); // Inicializa Quick Reorder
+            syncFixedTopStack();
+            requestAnimationFrame(syncFixedTopStack);
+            setTimeout(syncFixedTopStack, 120);
             
             // --- Lazy loading para imagens ---
             if ('IntersectionObserver' in window) {
@@ -237,6 +248,8 @@
                 slider.scrollLeft = scrollLeft - walk;
             });
         };
+
+        window.addEventListener('resize', syncFixedTopStack);
 
         function setCategory(cat) {
             currentCategory = cat;
