@@ -383,8 +383,8 @@
                                     <p class="text-[10px] text-gray-500 mt-1 bg-white/50 inline-block px-1 rounded font-mono text-left">EAN: ${p.id}</p>
                                     <div class="flex items-center gap-2 mt-1">
                                          <p class="text-[12px] text-red-500 font-bold line-through">Base: R$ ${p.base.toFixed(2).replace('.',',')}</p>
-                                         <button onclick="openCalc('${p.id}')" class="text-blue-500 hover:text-blue-700 bg-white/50 p-1 rounded-full text-[10px]" title="Calculadora de Margem">
-                                            <i class="fas fa-calculator"></i>
+                                         <button onclick="openCalc('${p.id}')" class="text-blue-500 hover:text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 border border-blue-200" title="Calculadora de Markup">
+                                            <i class="fas fa-calculator"></i> Margem
                                          </button>
                                     </div>
                                     <p class="text-xl font-black mt-0 ${isPromo ? 'text-green-600' : textClass} text-left">R$ ${currentPrice.toFixed(2).replace('.',',')}</p>
