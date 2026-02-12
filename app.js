@@ -84,7 +84,8 @@
                 base: p.base,
                 tiers: p.tiers,
                 fraction: p.fraction,
-                isCampaign: p.isCampaign || false // Propaga a flag de campanha
+                isCampaign: p.isCampaign || false,
+                curva: p.curva || 'E'
             };
         });
 
@@ -102,33 +103,9 @@
         let chartInstance = null;
         let calcMode = 'box'; 
         let orderHistory = JSON.parse(localStorage.getItem('opella_history')) || [];
-        let favorites = JSON.parse(localStorage.getItem('opella_favorites')) || [];
         const LAST_CNPJ_KEY = 'opella_last_cnpj';
         const NETWORK_ORDERS_KEY = 'opella_network_orders';
         let networkOrders = JSON.parse(localStorage.getItem(NETWORK_ORDERS_KEY)) || [];
-        
-        // === FAVORITOS ===
-        function toggleFavorite(id) {
-            const idx = favorites.indexOf(id);
-            if (idx > -1) {
-                favorites.splice(idx, 1);
-            } else {
-                favorites.push(id);
-            }
-            localStorage.setItem('opella_favorites', JSON.stringify(favorites));
-            
-            // Se estivermos na categoria favoritos ou campanha, re-renderizar
-            if (currentCategory === 'favorites' || currentCategory === 'campaign') {
-                render();
-            } else {
-                render(); // Render normal para atualizar o ícone
-            }
-        }
-        
-        function isFavorite(id) {
-            return favorites.includes(id);
-        }
-        
         // === QUICK REORDER ===
         function getLastOrder() {
             return orderHistory.length > 0 ? orderHistory[0] : null;
@@ -255,18 +232,18 @@
             currentCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.classList.remove(
-                    'btn-dorflex-active', 'btn-enterogermina-active', 'btn-allegra-active', 
-                    'btn-novalgina-active', 'btn-anador-active', 'btn-targifor-active', 
-                    'btn-moura-active', 'btn-oscal-active', 'btn-dulco-active', 
-                    'btn-bisolvon-active', 'btn-fenergan-active', 'btn-favorites-active', 'cat-btn-all-active', 'btn-campaign-active'
+                    'btn-dorflex-active', 'btn-enterogermina-active', 'btn-allegra-active',
+                    'btn-novalgina-active', 'btn-anador-active', 'btn-targifor-active',
+                    'btn-moura-active', 'btn-oscal-active', 'btn-dulco-active',
+                    'btn-bisolvon-active', 'btn-fenergan-active', 'cat-btn-all-active', 'btn-campaign-active', 'btn-indispensaveis-active'
                 );
             });
 
-            const activeBtn = document.getElementById(cat === 'favorites' ? 'btn-favorites' : (cat === 'campaign' ? 'btn-campaign' : 'btn-' + cat));
+            const activeBtn = document.getElementById(cat === 'campaign' ? 'btn-campaign' : (cat === 'indispensaveis' ? 'btn-indispensaveis' : 'btn-' + cat));
             if(activeBtn) {
                 if(cat === 'all') activeBtn.classList.add('cat-btn-all-active');
-                else if (cat === 'favorites') activeBtn.classList.add('btn-favorites-active');
                 else if (cat === 'campaign') activeBtn.classList.add('btn-campaign-active');
+                else if (cat === 'indispensaveis') activeBtn.classList.add('btn-indispensaveis-active');
                 else {
                     const activeClass = `btn-${cat.toLowerCase()}-active`;
                     activeBtn.classList.add(activeClass);
@@ -296,40 +273,49 @@
             const search = searchInput ? searchInput.value.toLowerCase() : "";
             
             // Se houver busca, ignoramos a categoria atual (comportamento padrão)
-            // Se não houver busca, usamos a categoria selecionada (incluindo 'favorites' ou 'campaign')
+            // Se não houver busca, usamos a categoria selecionada
             const effectiveCategory = (search.length > 0) ? 'all' : currentCategory;
             
             container.innerHTML = '';
 
+            const curvaOrder = { A: 0, B: 1, C: 2, D: 3, E: 4 };
+
             const filtered = products.filter(p => {
                 const matchesSearch = p.name.toLowerCase().includes(search) || p.id.includes(search);
-                
+
                 let matchesCat = false;
                 if (effectiveCategory === 'all') {
                     matchesCat = true;
-                } else if (effectiveCategory === 'favorites') {
-                    matchesCat = isFavorite(p.id);
+
                 } else if (effectiveCategory === 'campaign') {
-                    // Exibe APENAS os itens marcados como Campanha
                     matchesCat = p.isCampaign === true;
+                } else if (effectiveCategory === 'indispensaveis') {
+                    matchesCat = p.curva === 'A';
                 } else {
                     matchesCat = p.cat === effectiveCategory;
                 }
 
                 return matchesSearch && matchesCat;
             });
-            
-            // Ordenação: Itens de campanha primeiro APENAS quando em 'campaign'
-            // Quando em 'all', mantém a ordem original do array products (sequencial por marca)
+
+            // Ordenação inteligente: dentro de cada categoria, ordena por Curva A→B→C→D→E
             if (effectiveCategory === 'campaign') {
                  filtered.sort((a, b) => (b.isCampaign === true ? 1 : 0) - (a.isCampaign === true ? 1 : 0));
+            }
+            // Ordenação por curva quando dentro de uma marca específica ou indispensáveis
+            if (effectiveCategory !== 'all' && effectiveCategory !== 'campaign') {
+                filtered.sort((a, b) => {
+                    // Manter agrupamento por marca primeiro (para indispensáveis)
+                    const catCmp = (a.cat || '').localeCompare(b.cat || '');
+                    if (catCmp !== 0 && effectiveCategory === 'indispensaveis') return catCmp;
+                    // Dentro da mesma marca, ordenar por curva
+                    return (curvaOrder[a.curva] ?? 4) - (curvaOrder[b.curva] ?? 4);
+                });
             }
 
             if(filtered.length === 0) {
                 let msg = "Nada encontrado.";
-                if (currentCategory === 'favorites' && search.length === 0) {
-                    msg = "Você ainda não tem favoritos.";
-                } else if (currentCategory === 'campaign' && search.length === 0) {
+                if (currentCategory === 'campaign' && search.length === 0) {
                     msg = "Nenhum produto da campanha encontrado.";
                 }
                 container.innerHTML = `<div class="text-center text-gray-400 mt-10"><i class="fas fa-box-open text-4xl mb-2"></i><p>${msg}</p></div>`; return;
@@ -339,7 +325,7 @@
 
             filtered.forEach(p => {
                 // Show category header if showing ALL, FAVORITES or CAMPAIGN (since they can be mixed)
-                if((effectiveCategory === 'all' || effectiveCategory === 'favorites' || effectiveCategory === 'campaign') && p.cat !== lastCat) {
+                if((effectiveCategory === 'all' || effectiveCategory === 'campaign' || effectiveCategory === 'indispensaveis') && p.cat !== lastCat) {
                     lastCat = p.cat;
                     const catHeader = document.createElement('div');
                     catHeader.className = `font-bold text-xs uppercase tracking-widest mt-8 mb-2 ml-1 ${getTextStyle(p.cat)} flex items-center gap-2`;
@@ -360,8 +346,6 @@
                 card.id = 'product-' + p.id; // Added ID for anchor scrolling
                 card.className = `product-card p-4 rounded-xl shadow-sm border relative mb-3 ${cardClass}`;
                 
-                // Botão de Favorito
-                const favClass = isFavorite(p.id) ? 'active' : '';
                 
                 // Hint do próximo tier
                 const nextTier = getNextTierHint(p, qty);
@@ -380,13 +364,13 @@
                     ? `<img data-src="${p.image}" class="w-full h-full object-contain mix-blend-multiply lazy-img" alt="${p.name}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E">`
                     : `<img src="${p.image}" class="w-full h-full object-contain mix-blend-multiply" alt="${p.name}">`;
                 
+                const curvaABadge = p.curva === 'A' ? '<span class="absolute -top-2 -right-2 text-[8px] bg-amber-500 text-white px-1.5 py-0.5 rounded-full font-bold shadow-sm z-10 whitespace-nowrap">&#127942; Campeão</span>' : '';
+
                 card.innerHTML = `
-                    <button onclick="event.stopPropagation(); toggleFavorite('${p.id}')" class="favorite-btn ${favClass}" title="Favoritar">
-                        <i class="fas fa-heart"></i>
-                    </button>
                     <div class="flex gap-4 items-start">
                         <div class="w-20 h-20 flex-shrink-0 bg-white rounded-lg border border-white/50 p-1 flex items-center justify-center shadow-sm relative text-center">
                              ${p.isCampaign ? '<span class="absolute -top-1 -left-1 text-[9px] bg-red-600 text-white px-1 rounded font-bold shadow-sm z-10"><i class="fas fa-fire"></i></span>' : ''}
+                             ${curvaABadge}
                              ${imgHtml}
                         </div>
                         <div class="flex-1 min-w-0">
@@ -1425,3 +1409,5 @@
             window.location.href = url;
         }
     
+
+
