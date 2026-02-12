@@ -279,6 +279,17 @@
             container.innerHTML = '';
 
             const curvaOrder = { A: 0, B: 1, C: 2, D: 3, E: 4 };
+            const indispensaveisBrandOrder = {
+                Dorflex: 0,
+                Enterogermina: 1,
+                Allegra: 2,
+                Novalgina: 3,
+                Targifor: 4,
+                Anador: 5,
+                Moura: 6,
+                Oscal: 7,
+                Dulco: 8
+            }; 
 
             const filtered = products.filter(p => {
                 const matchesSearch = p.name.toLowerCase().includes(search) || p.id.includes(search);
@@ -305,9 +316,15 @@
             // Ordenação por curva quando dentro de uma marca específica ou indispensáveis
             if (effectiveCategory !== 'all' && effectiveCategory !== 'campaign') {
                 filtered.sort((a, b) => {
-                    // Manter agrupamento por marca primeiro (para indispensáveis)
-                    const catCmp = (a.cat || '').localeCompare(b.cat || '');
-                    if (catCmp !== 0 && effectiveCategory === 'indispensaveis') return catCmp;
+                    // Manter agrupamento por marca primeiro (para indispensáveis) na ordem desejada
+                    if (effectiveCategory === 'indispensaveis') {
+                        const aBrandOrder = indispensaveisBrandOrder[a.cat] ?? 999;
+                        const bBrandOrder = indispensaveisBrandOrder[b.cat] ?? 999;
+                        if (aBrandOrder !== bBrandOrder) return aBrandOrder - bBrandOrder;
+
+                        const catCmp = (a.cat || '').localeCompare(b.cat || '');
+                        if (catCmp !== 0) return catCmp;
+                    }
                     // Dentro da mesma marca, ordenar por curva
                     return (curvaOrder[a.curva] ?? 4) - (curvaOrder[b.curva] ?? 4);
                 });
@@ -1409,5 +1426,6 @@
             window.location.href = url;
         }
     
+
 
 
