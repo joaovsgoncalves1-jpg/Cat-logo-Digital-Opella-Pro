@@ -192,6 +192,46 @@
         .campaign-flash {
             animation: bg-pulse 2s infinite;
         }
+        .campaign-banner {
+            background: #facc15;
+            color: #7f1d1d;
+            border: 1px solid #eab308;
+            border-radius: 10px;
+            padding: 6px 10px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .campaign-banner-main {
+            font-size: 10px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .campaign-banner-sub {
+            margin-top: 4px;
+            font-size: 9px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #991b1b;
+            letter-spacing: 0.03em;
+        }
+        .campaign-pill {
+            background: #991b1b;
+            color: #fef3c7;
+            border-radius: 9999px;
+            padding: 2px 6px;
+            font-size: 8px;
+            line-height: 1;
+        }
+        .campaign-dot {
+            opacity: 0.8;
+        }
         @keyframes bg-pulse {
             0%, 100% { background-color: #fef3c7; } /* Amarelo claro */
             50% { background-color: #fee2e2; } /* Vermelho claro */
@@ -284,6 +324,23 @@
         }
 
         @media (max-width: 420px) {
+            .campaign-banner {
+                padding: 6px 8px;
+            }
+            .campaign-banner-main {
+                font-size: 9px;
+                gap: 5px;
+                letter-spacing: 0.06em;
+            }
+            .campaign-banner-sub {
+                font-size: 8px;
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+            .campaign-pill {
+                font-size: 7px;
+                padding: 2px 5px;
+            }
             .preorder-hero {
                 grid-template-columns: 66px 1fr;
                 gap: 8px;
