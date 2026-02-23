@@ -4,6 +4,7 @@
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const INSTALLMENT_TARGET = 500.00;
+        const SPECIAL_INSTALLMENT_3X_TARGET = 2000.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -638,9 +639,10 @@
         }
 
         function getPrazoForTotal(total) {
-            if (total >= 500) {
+            if (total >= INSTALLMENT_TARGET) {
                 const prazoElem = document.querySelector('input[name="prazo"]:checked');
-                return prazoElem ? prazoElem.value : "50 dias direto";
+                if (prazoElem) return prazoElem.value;
+                return total >= SPECIAL_INSTALLMENT_3X_TARGET ? "3x (50/70/90 dias)" : "2x (40/60 dias)";
             }
             return "50 dias direto";
         }
@@ -769,8 +771,12 @@
                 currentTarget = INSTALLMENT_TARGET;
                 missing = INSTALLMENT_TARGET - total;
                 goalText = 'parcelar em 2x';
-            } else if (total >= INSTALLMENT_TARGET) {
-                currentTarget = INSTALLMENT_TARGET;
+            } else if (total >= INSTALLMENT_TARGET && total < SPECIAL_INSTALLMENT_3X_TARGET) {
+                currentTarget = SPECIAL_INSTALLMENT_3X_TARGET;
+                missing = SPECIAL_INSTALLMENT_3X_TARGET - total;
+                goalText = 'parcelar em 3x (50/70/90)';
+            } else if (total >= SPECIAL_INSTALLMENT_3X_TARGET) {
+                currentTarget = SPECIAL_INSTALLMENT_3X_TARGET;
                 missing = 0;
                 goalText = '';
             }
@@ -801,8 +807,15 @@
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = networkOrders.length === 0;
+            } else if (total >= SPECIAL_INSTALLMENT_3X_TARGET) {
+                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 3x disponível (50/70/90)</span>`;
+                if(installment) {
+                    installment.innerText = "3x de R$ " + (total/3).toFixed(2).replace('.',',');
+                    installment.className = "text-2xl font-black text-green-600 leading-none text-left";
+                }
+                if(btnReview) btnReview.disabled = false;
             } else if (total >= INSTALLMENT_TARGET) {
-                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 2x disponível</span>`;
+                if(label) label.innerHTML = `<span class="text-amber-700 font-bold text-[12px] uppercase tracking-tighter text-left">2x disponível | Faltam R$ ${missing.toFixed(2).replace('.',',')} para 3x (50/70/90)</span>`;
                 if(installment) {
                     installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-green-600 leading-none text-left";
@@ -1287,22 +1300,38 @@
             if(savingsModal) savingsModal.innerText = 'R$ ' + savings.toFixed(2).replace('.',',');
 
             // --- Lógica de Pagamento Simplificada ---
-            // Removemos a opção de prazo especial para > 3k.
             if (total >= 500) {
                 document.getElementById('payment-options').classList.remove('hidden');
                 document.getElementById('payment-single').classList.add('hidden');
 
                 const grid = document.getElementById('payment-options-grid');
-                grid.innerHTML = `
-                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                        <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600" checked>
-                        <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                        <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
-                        <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
-                    </label>
-                `;
+                if (total >= SPECIAL_INSTALLMENT_3X_TARGET) {
+                    grid.innerHTML = `
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="3x (50/70/90 dias)" class="w-4 h-4 text-blue-600" checked>
+                            <span class="text-[10px] font-bold text-gray-800">3x (50/70/90 dias)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600">
+                            <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
+                            <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
+                        </label>
+                    `;
+                } else {
+                    grid.innerHTML = `
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600" checked>
+                            <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
+                            <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
+                        </label>
+                    `;
+                }
             } else {
                 document.getElementById('payment-options').classList.add('hidden');
                 document.getElementById('payment-single').classList.remove('hidden');
@@ -1544,7 +1573,6 @@
             window.location.href = url;
         }
     
-
 
 
 
