@@ -121,18 +121,35 @@
             console.error('Dados de produtos não carregados. Verifique products.js.');
         }
         const imgMap = productData?.imgMap || {};
+        const imgMapById = productData?.imgMapById || {};
         const rawProducts = productData?.rawProducts || [];
-        const products = rawProducts.map((p) => {
-            let img = imgMap[p.name] || (p.image || IMG_DEFAULT);
-            // Fallback para novos itens Anador sem imagem específica no mapa
+        function normalizeProductImageKey(value) {
+            return String(value || '')
+                .normalize('NFKC')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toLowerCase();
+        }
+        const normalizedImgMap = {};
+        Object.entries(imgMap).forEach(([key, value]) => {
+            normalizedImgMap[normalizeProductImageKey(key)] = value;
+        });
+        function getProductImage(p) {
+            const exactName = imgMap[p.name];
+            const byId = imgMapById[p.id];
+            const normalizedName = normalizedImgMap[normalizeProductImageKey(p.name)];
+            let img = byId || exactName || normalizedName || p.image || IMG_DEFAULT;
             if (p.cat === 'Anador' && img === IMG_DEFAULT) {
                 img = 'https://promofarma.vtexassets.com/arquivos/ids/168106/7896886410834.jpg?v=637952133732100000';
             }
+            return img;
+        }
+        const products = rawProducts.map((p) => {
             return {
                 id: p.id,
                 cat: p.cat,
                 name: p.name,
-                image: img,
+                image: getProductImage(p),
                 base: p.base,
                 tiers: p.tiers,
                 fraction: p.fraction,
@@ -442,10 +459,7 @@
                     `;
                 }
                 
-                // Lazy loading: usar data-src para imagens
-                const imgHtml = window.imgObserver 
-                    ? `<img data-src="${p.image}" class="w-full h-full object-contain mix-blend-multiply lazy-img" alt="${p.name}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E">`
-                    : `<img src="${p.image}" class="w-full h-full object-contain mix-blend-multiply" alt="${p.name}">`;
+                const imgHtml = `<img src="${p.image}" class="w-full h-full object-contain mix-blend-multiply" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='${IMG_DEFAULT}'">`;
                 
                 const curvaABadge = p.curva === 'A' ? '<span class="absolute -top-2 -right-2 text-[8px] bg-amber-500 text-white px-1.5 py-0.5 rounded-full font-bold shadow-sm z-10 whitespace-nowrap">&#127942; Campeão</span>' : '';
 
@@ -506,11 +520,6 @@
                     </div>`;
                 container.appendChild(card);
                 
-                // Ativar lazy loading para esta imagem
-                if (window.imgObserver) {
-                    const lazyImg = card.querySelector('.lazy-img');
-                    if (lazyImg) window.imgObserver.observe(lazyImg);
-                }
             });
             updateCartBar();
         }
@@ -1282,7 +1291,7 @@
                 
                 let itemsHtml = group.items.map(item => `
                     <div class="flex gap-2 items-center py-1 text-left">
-                        <img src="${item.product.image}" class="w-8 h-8 object-contain mix-blend-multiply bg-white rounded p-0.5 border">
+                        <img src="${item.product.image}" class="w-8 h-8 object-contain mix-blend-multiply bg-white rounded p-0.5 border" loading="lazy" onerror="this.onerror=null;this.src='${IMG_DEFAULT}'">
                         <div class="flex-1 min-w-0">
                             <p class="text-[9px] font-bold text-gray-700 truncate">${item.product.name}</p>
                             <p class="text-[8px] text-gray-500">${item.qty} un × R$ ${item.price.toFixed(2).replace('.',',')}</p>
@@ -1566,8 +1575,6 @@
             window.location.href = url;
         }
     
-
-
 
 
 
