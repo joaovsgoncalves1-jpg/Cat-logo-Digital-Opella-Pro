@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo Opella | Fevereiro 2026</title>
+    <title>Catálogo Opella | Março 2026</title>
 
     <!-- Favicon -->
     <link rel="icon" href="favicons/favicon.ico?v=6" sizes="any">
@@ -47,7 +47,7 @@
                 </button>
                 <div class="text-right border-l border-gray-700 pl-3">
                     <h2 class="font-bold text-sm text-right leading-tight">Catálogo Digital</h2>
-                    <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest text-right">RCA+ | Fev 2026</p>
+                    <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest text-right">RCA+ | Mar 2026</p>
                 </div>
             </div>
         </div>
@@ -81,13 +81,8 @@
         <div class="mt-2 mb-2 campaign-flash campaign-banner shadow-lg mx-1">
             <div class="campaign-banner-main">
                 <i class="fas fa-bolt"></i>
-                <span>CAMPANHA DE FEVEREIRO ATÉ 27/02</span>
+                <span>CAMPANHA DE MARÇO 2026</span>
                 <i class="fas fa-bolt"></i>
-            </div>
-            <div class="campaign-banner-sub">
-                <span class="campaign-pill">Prazo especial 50x70x90</span>
-                <span class="campaign-dot">•</span>
-                <span>Volume mínimo: <strong>R$ 2.000,00</strong></span>
             </div>
         </div>
         
@@ -110,31 +105,31 @@
         <div id="category-scroll" class="overflow-x-auto overflow-y-visible whitespace-nowrap custom-scrollbar pt-3 pb-2 pl-4 pr-4 flex items-center relative">
             <button id="btn-all" onclick="setCategory('all')" class="cat-btn cat-btn-all-active border-transparent">Todos</button>
             
-            <button id="btn-campaign" onclick="setCategory('campaign')" class="cat-btn border-orange-500 text-orange-600 bg-orange-50 font-bold"><i class="fas fa-fire mr-1"></i> Ofertas Campanha (até 27/02)</button>
+            <button id="btn-campaign" onclick="setCategory('campaign')" class="cat-btn border-orange-500 text-orange-600 bg-orange-50 font-bold"><i class="fas fa-fire mr-1"></i> Ofertas Campanha (Mar/26)</button>
 
             <button id="btn-indispensaveis" onclick="setCategory('indispensaveis')" class="cat-btn border-amber-500 text-amber-700 bg-amber-50 font-bold">&#11088; Indispensáveis</button>
             
-            <button id="btn-Dorflex" onclick="setCategory('Dorflex')" class="cat-btn border-[#E20613]">Dorflex</button>
-            
-            <button id="btn-Enterogermina" onclick="setCategory('Enterogermina')" class="cat-btn border-[#009EE2]">
-                Enterogermina 🔥
-                <span class="promo-badge">Até 30% OFF</span>
+            <button id="btn-Dorflex" onclick="setCategory('Dorflex')" class="cat-btn border-[#E20613]">
+                Dorflex 🔥
+                <span class="promo-badge">Campanha ativa</span>
             </button>
             
-            <button id="btn-Allegra" onclick="setCategory('Allegra')" class="cat-btn border-[#C5007F]">Allegra</button>
+            <button id="btn-Enterogermina" onclick="setCategory('Enterogermina')" class="cat-btn border-[#009EE2]">Enterogermina</button>
             
-            <button id="btn-Novalgina" onclick="setCategory('Novalgina')" class="cat-btn border-[#009640]">
-                Novalgina 🔥
-                <span class="promo-badge">Até 28% OFF</span>
+            <button id="btn-Allegra" onclick="setCategory('Allegra')" class="cat-btn border-[#C5007F]">
+                Allegra 🔥
+                <span class="promo-badge">1 destaque</span>
             </button>
+            
+            <button id="btn-Novalgina" onclick="setCategory('Novalgina')" class="cat-btn border-[#009640]">Novalgina</button>
             
             <button id="btn-Anador" onclick="setCategory('Anador')" class="cat-btn border-[#FFBD59]">Anador</button>
-            <button id="btn-Targifor" onclick="setCategory('Targifor')" class="cat-btn border-[#F57F20]">Targifor / Cewin / Pharmaton</button>
-            
-            <button id="btn-Moura" onclick="setCategory('Moura')" class="cat-btn border-[#0055b8]">
-                Moura Brasil 🔥
-                <span class="promo-badge">Até 21% OFF</span>
+            <button id="btn-Targifor" onclick="setCategory('Targifor')" class="cat-btn border-[#F57F20]">
+                Targifor / Cewin / Pharmaton 🔥
+                <span class="promo-badge">Campanha ativa</span>
             </button>
+            
+            <button id="btn-Moura" onclick="setCategory('Moura')" class="cat-btn border-[#0055b8]">Moura Brasil</button>
             
             <button id="btn-Oscal" onclick="setCategory('Oscal')" class="cat-btn border-[#003366]">Oscal</button>
             <button id="btn-Dulco" onclick="setCategory('Dulco')" class="cat-btn border-[#00aed9]">Dulcolax</button>
@@ -148,12 +143,12 @@
     <div id="quick-reorder-container"></div>
 
     <div class="px-4 max-w-lg mx-auto mt-3">
-        <button type="button" onclick="openFeaturedPreOrder()" class="preorder-hero" aria-label="Ir para Novalgina Flash em pré-pedido">
-            <img src="https://drogariasp.vteximg.com.br/arquivos/ids/1614175-500-500/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" alt="Novalgina Flash Pré-Pedido" class="preorder-hero-image">
+        <button type="button" onclick="openFeaturedPreOrder()" class="preorder-hero" aria-label="Ir para Novalgina Flash em destaque">
+            <img src="https://drogariasp.vteximg.com.br/arquivos/ids/1614175-500-500/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" alt="Novalgina Flash em destaque" class="preorder-hero-image">
             <div class="preorder-hero-content">
-                <p class="preorder-hero-label">Pré-pedido em destaque</p>
+                <p class="preorder-hero-label">Destaque da campanha</p>
                 <h3 class="preorder-hero-title">Novalgina Flash</h3>
-                <p class="preorder-hero-subtitle">Clique para ir direto ao produto</p>
+                <p class="preorder-hero-subtitle">Clique para ir direto ao produto ativo</p>
             </div>
             <div class="preorder-hero-cta">
                 <span>Ver produto</span>

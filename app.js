@@ -4,7 +4,6 @@
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const INSTALLMENT_TARGET = 500.00;
-        const SPECIAL_INSTALLMENT_3X_TARGET = 2000.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -642,7 +641,7 @@
             if (total >= INSTALLMENT_TARGET) {
                 const prazoElem = document.querySelector('input[name="prazo"]:checked');
                 if (prazoElem) return prazoElem.value;
-                return total >= SPECIAL_INSTALLMENT_3X_TARGET ? "3x (50/70/90 dias)" : "2x (40/60 dias)";
+                return "2x (40/60 dias)";
             }
             return "50 dias direto";
         }
@@ -1128,7 +1127,7 @@
 
             doc.setFont("helvetica", "bold");
             doc.setFontSize(18);
-            doc.text("Pedido Opella - Fev 2026", 14, 20);
+            doc.text("Pedido Opella - Mar 2026", 14, 20);
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
             doc.text(`Data: ${new Date().toLocaleString('pt-BR')}`, 14, 26);
@@ -1305,33 +1304,16 @@
                 document.getElementById('payment-single').classList.add('hidden');
 
                 const grid = document.getElementById('payment-options-grid');
-                if (total >= SPECIAL_INSTALLMENT_3X_TARGET) {
-                    grid.innerHTML = `
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="3x (50/70/90 dias)" class="w-4 h-4 text-blue-600" checked>
-                            <span class="text-[10px] font-bold text-gray-800">3x (50/70/90 dias)</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600">
-                            <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
-                            <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
-                        </label>
-                    `;
-                } else {
-                    grid.innerHTML = `
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600" checked>
-                            <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
-                            <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
-                        </label>
-                    `;
-                }
+                grid.innerHTML = `
+                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                        <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600" checked>
+                        <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                        <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
+                        <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
+                    </label>
+                `;
             } else {
                 document.getElementById('payment-options').classList.add('hidden');
                 document.getElementById('payment-single').classList.remove('hidden');
@@ -1509,7 +1491,7 @@
                 return;
             }
 
-            let text = `*PEDIDO OPELLA | FEV 2026*\n`;
+            let text = `*PEDIDO OPELLA | MAR 2026*\n`;
             text += `--------------------------------\n`;
 
             const isSingleCnpj = ordersToSend.length === 1;
@@ -1573,9 +1555,6 @@
             window.location.href = url;
         }
     
-
-
-
 
 
 
