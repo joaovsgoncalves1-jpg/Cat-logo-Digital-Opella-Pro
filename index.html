@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Opella | Março 2026</title>
 
     <!-- Favicon -->
@@ -55,7 +55,7 @@
         <div class="mx-1 mb-3 bg-white/5 border border-white/10 rounded-xl px-3 py-2 flex items-center justify-between gap-3">
             <div class="flex items-center gap-2 min-w-0">
                 <div class="relative w-9 h-9">
-                    <img id="rep-profile-avatar" src="ref.jpg" alt="Representante" class="w-9 h-9 rounded-full object-cover border border-white/40" style="object-position: 54% 42%;" loading="lazy">
+                    <img id="rep-profile-avatar" src="ref.jpg" alt="Representante" class="w-9 h-9 rounded-full object-cover border border-white/40 object-[54%_42%]" loading="lazy">
                     <div id="rep-profile-avatar-fallback" aria-label="Representante" class="hidden absolute inset-0 rounded-full border border-white/40 bg-emerald-700 text-white text-xs font-black grid place-items-center">JV</div>
                 </div>
                 <div class="min-w-0 text-left">
@@ -171,7 +171,7 @@
     <!-- Barra Inferior (Carrinho Dinâmico) -->
     <div id="cart-bar" class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] hidden z-50 animate-slide-up">
         <div class="w-full bg-gray-100 h-2">
-            <div id="progress-fill" class="h-full bg-orange-400 transition-all duration-500" style="width: 0%"></div>
+            <div id="progress-fill" class="h-full w-0 bg-orange-400 transition-all duration-500"></div>
         </div>
         
         <div class="max-w-lg mx-auto p-4 flex items-center gap-3 text-left">
@@ -215,7 +215,7 @@
             
             <div class="flex justify-between items-center mb-4 border-b pb-4 shrink-0 text-left">
                 <h2 class="text-xl font-bold text-gray-800">Seu Pedido</h2>
-                <button onclick="closeModal()" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal()" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200" title="Fechar" aria-label="Fechar"><i class="fas fa-times"></i></button>
             </div>
 
             <div id="cart-items-preview" class="overflow-y-auto flex-1 space-y-3 pr-1 mb-4 scrollbar-hide py-2 text-left">
@@ -280,7 +280,7 @@
     <!-- Modal Dashboard -->
     <div id="dashboard-modal" class="fixed inset-0 bg-black/80 hidden z-[70] flex items-center justify-center transition-opacity p-4">
         <div class="bg-white w-full max-w-lg rounded-2xl p-6 shadow-2xl animate-slide-up relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeDashboard()" class="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200"><i class="fas fa-times"></i></button>
+            <button onclick="closeDashboard()" class="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200" title="Fechar" aria-label="Fechar"><i class="fas fa-times"></i></button>
             
             <h2 class="text-2xl font-bold text-gray-800 mb-1">Dashboard</h2>
             <p class="text-xs text-gray-500 mb-6 uppercase tracking-wider font-bold">Visão Geral do Pedido Atual</p>
@@ -310,7 +310,7 @@
     <!-- Modal Calculadora de Margem -->
     <div id="calc-modal" class="fixed inset-0 bg-black/60 hidden z-[80] flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl animate-slide-up relative">
-            <button onclick="closeCalc()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+            <button onclick="closeCalc()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" title="Fechar" aria-label="Fechar"><i class="fas fa-times"></i></button>
             
             <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <i class="fas fa-calculator text-blue-600"></i> Calculadora de Margem de Lucro
@@ -326,12 +326,12 @@
             
             <div class="space-y-4">
                 <div>
-                    <label class="text-xs font-bold text-gray-500 uppercase block mb-1" id="label-calc-cost">Custo do Produto (R$)</label>
-                    <input type="number" id="calc-cost" class="w-full bg-gray-100 rounded-lg p-3 font-bold text-gray-700 outline-none" readonly>
+                    <label for="calc-cost" class="text-xs font-bold text-gray-500 uppercase block mb-1" id="label-calc-cost">Custo do Produto (R$)</label>
+                    <input type="number" id="calc-cost" class="w-full bg-gray-100 rounded-lg p-3 font-bold text-gray-700 outline-none" title="Custo do Produto" placeholder="Custo do Produto" readonly>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-gray-500 uppercase block mb-1" id="label-calc-sell">Preço de Venda (R$)</label>
-                    <input type="number" id="calc-sell" oninput="calculateMargin()" class="w-full bg-white border-2 border-blue-100 focus:border-blue-500 rounded-lg p-3 font-bold text-gray-800 outline-none" placeholder="0.00">
+                    <label for="calc-sell" class="text-xs font-bold text-gray-500 uppercase block mb-1" id="label-calc-sell">Preço de Venda (R$)</label>
+                    <input type="number" id="calc-sell" oninput="calculateMargin()" class="w-full bg-white border-2 border-blue-100 focus:border-blue-500 rounded-lg p-3 font-bold text-gray-800 outline-none" placeholder="0.00" title="Preço de Venda">
                 </div>
 
                 <div class="bg-gray-900 text-white p-4 rounded-xl text-center mt-2">
@@ -348,7 +348,7 @@
         <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl animate-slide-up relative max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-bold text-gray-800">Histórico de Pedidos</h3>
-                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-gray-600" title="Fechar" aria-label="Fechar"><i class="fas fa-times"></i></button>
             </div>
             <div id="history-list" class="overflow-y-auto flex-1 space-y-3">
                 <!-- Injetado via JS -->

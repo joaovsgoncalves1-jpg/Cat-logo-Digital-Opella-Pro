@@ -208,7 +208,16 @@
 
             const stackHeight = Math.round(stack.getBoundingClientRect().height);
             document.body.style.paddingTop = `${Math.max(0, stackHeight)}px`;
+            document.documentElement.style.scrollPaddingTop = `${Math.max(0, stackHeight + 10)}px`;
         }
+        
+        // Observer fixo e contínuo para qualquer mudança de altura no header (e.g. banners, fontes carregando)
+        document.addEventListener('DOMContentLoaded', () => {
+             const stackObj = document.getElementById('top-fixed-stack');
+             if (stackObj && window.ResizeObserver) {
+                 new ResizeObserver(() => requestAnimationFrame(syncFixedTopStack)).observe(stackObj);
+             }
+        });
 
         window.onload = function() {
             // --- CORREÇÃO DE SEGURANÇA: SANITIZAÇÃO DO CARRINHO ---
@@ -235,6 +244,8 @@
             syncFixedTopStack();
             requestAnimationFrame(syncFixedTopStack);
             setTimeout(syncFixedTopStack, 120);
+            setTimeout(syncFixedTopStack, 500); // Segurança extra contra demoras da net
+
             
             // --- Lazy loading para imagens ---
             if ('IntersectionObserver' in window) {
