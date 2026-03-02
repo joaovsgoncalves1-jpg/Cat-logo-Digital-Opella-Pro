@@ -425,9 +425,10 @@
             filtered.forEach(p => {
                 // Show category header if showing ALL, FAVORITES or CAMPAIGN (since they can be mixed)
                 if((effectiveCategory === 'all' || effectiveCategory === 'campaign' || effectiveCategory === 'indispensaveis') && p.cat !== lastCat) {
+                    const isFirstGroupedSection = lastCat === '';
                     lastCat = p.cat;
                     const catHeader = document.createElement('div');
-                    catHeader.className = `font-bold text-xs uppercase tracking-widest mt-8 mb-2 ml-1 ${getTextStyle(p.cat)} flex items-center gap-2`;
+                    catHeader.className = `font-bold text-xs uppercase tracking-widest ${isFirstGroupedSection ? 'mt-2' : 'mt-8'} mb-2 ml-1 ${getTextStyle(p.cat)} flex items-center gap-2`;
                     let badgeColorClass = getBadgeStyle(p.cat).split(' ')[0];
                     if(badgeColorClass.startsWith('text')) badgeColorClass = 'bg-gray-800'; 
                     catHeader.innerHTML = `<span class="w-1 h-4 ${badgeColorClass} rounded-full"></span> ${p.cat}`;
@@ -1575,7 +1576,6 @@
             window.location.href = url;
         }
     
-
 
 
 
