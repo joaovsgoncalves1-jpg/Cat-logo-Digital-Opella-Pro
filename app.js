@@ -202,24 +202,47 @@
             const container = document.getElementById('quick-reorder-container');
             if (!container) return;
             
+            // Check if dismissed
+            if (sessionStorage.getItem('quickReorderDismissed') === 'true') {
+                container.innerHTML = '';
+                return;
+            }
+
             const lastOrder = getLastOrder();
             if (lastOrder) {
                 container.innerHTML = `
-                    <div id="quick-reorder-bar" class="quick-reorder-bar" onclick="quickReorder()">
-                        <div class="w-9 h-9 bg-green-500 rounded-full flex items-center justify-center text-white">
-                            <i class="fas fa-redo text-sm"></i>
+                    <div id="quick-reorder-bar" class="quick-reorder-bar flex items-center justify-between">
+                        <div class="flex-1 flex items-center gap-3 cursor-pointer" onclick="quickReorder()">
+                            <div class="w-9 h-9 bg-green-500 rounded-full flex items-center justify-center text-white shrink-0">
+                                <i class="fas fa-redo text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-bold text-green-800">Repetir Último Pedido</p>
+                                <p class="text-[9px] text-green-600">${lastOrder.itemsCount} itens • R$ ${lastOrder.total.toFixed(2).replace('.',',')} • ${lastOrder.date.split(',')[0]}</p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="text-[11px] font-bold text-green-800">Repetir Último Pedido</p>
-                            <p class="text-[9px] text-green-600">${lastOrder.itemsCount} itens • R$ ${lastOrder.total.toFixed(2).replace('.',',')} • ${lastOrder.date.split(',')[0]}</p>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-chevron-right text-green-400 text-sm cursor-pointer" onclick="quickReorder()"></i>
+                            <div class="w-8 h-8 flex items-center justify-center text-green-600 hover:bg-green-200 rounded-full cursor-pointer transition-colors" onclick="closeReorderBar(event)" title="Dispensar">
+                                <i class="fas fa-times text-lg"></i>
+                            </div>
                         </div>
-                        <i class="fas fa-chevron-right text-green-400 text-sm"></i>
                     </div>
                 `;
             } else {
                 container.innerHTML = '';
             }
         }
+
+        window.closeReorderBar = function(e) {
+            if(e) { e.stopPropagation(); }
+            sessionStorage.setItem('quickReorderDismissed', 'true');
+            const container = document.getElementById('quick-reorder-container');
+            if (container) {
+                container.innerHTML = '';
+                syncFixedTopStack();
+            }
+        };
 
         function syncFixedTopStack() {
             const stack = document.getElementById('top-fixed-stack');
