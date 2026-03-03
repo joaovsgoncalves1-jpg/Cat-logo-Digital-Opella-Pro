@@ -4,6 +4,7 @@
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const INSTALLMENT_TARGET = 500.00;
+        const SPECIAL_INSTALLMENT_3X_TARGET = 900.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -332,7 +333,7 @@
                 }
             }
             render();
-            window.scrollTo({ top: 0, behavior: 'auto' });
+            window.scrollTo(0, 0);
         }
 
         function openFeaturedPreOrder() {
@@ -660,11 +661,10 @@
         }
 
         function getPrazoForTotal(total) {
-            if (total >= INSTALLMENT_TARGET) {
-                const prazoElem = document.querySelector('input[name="prazo"]:checked');
-                if (prazoElem) return prazoElem.value;
-                return "2x (40/60 dias)";
-            }
+            const prazoElem = document.querySelector('input[name="prazo"]:checked');
+            if (prazoElem) return prazoElem.value;
+            if (total >= SPECIAL_INSTALLMENT_3X_TARGET) return "3x (50/70/90 dias)";
+            if (total >= INSTALLMENT_TARGET) return "2x (40/60 dias)";
             return "50 dias direto";
         }
 
