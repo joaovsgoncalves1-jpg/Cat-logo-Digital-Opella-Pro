@@ -332,6 +332,7 @@
                 }
             }
             render();
+            window.scrollTo({ top: 0, behavior: 'auto' });
         }
 
         function openFeaturedPreOrder() {
@@ -773,6 +774,8 @@
             const progressFill = document.getElementById('progress-fill');
             const bar = document.getElementById('cart-bar');
             const btnReview = document.getElementById('btn-review');
+            const hasItemsInCart = count > 0;
+            const hasAnyOrder = hasItemsInCart || networkOrders.length > 0;
 
             const cnpjInput = document.getElementById('cnpj-input');
             const activeCnpjDisplay = document.getElementById('active-cnpj-display');
@@ -826,7 +829,7 @@
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
-                if(btnReview) btnReview.disabled = networkOrders.length === 0;
+                if(btnReview) btnReview.disabled = !hasAnyOrder;
             } else if (total >= SPECIAL_INSTALLMENT_3X_TARGET) {
                 if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 3x disponível (50/70/90)</span>`;
                 if(installment) {
@@ -863,7 +866,10 @@
                 totalSmall.innerText = footerText;
             }
 
-            if ((count > 0 || networkOrders.length > 0) && bar) bar.classList.remove('hidden'); else if(bar) bar.classList.add('hidden');
+            if (bar) {
+                bar.classList.toggle('hidden', !hasAnyOrder);
+                bar.style.display = hasAnyOrder ? '' : 'none';
+            }
         }
 
         // --- DASHBOARD SYSTEM ---
@@ -1576,6 +1582,5 @@
             window.location.href = url;
         }
     
-
 
 
