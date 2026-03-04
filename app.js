@@ -1060,6 +1060,8 @@
             const cost = parseFloat(document.getElementById('calc-cost').value);
             const sell = parseFloat(document.getElementById('calc-sell').value);
             
+            const totalEl = document.getElementById('calc-total-profit-val');
+            
             if(sell > 0) {
                 const profit = sell - cost;
                 const margin = (profit / sell) * 100;
@@ -1068,7 +1070,21 @@
                 const valEl = document.getElementById('calc-profit-val');
                 
                 resultEl.innerText = margin.toFixed(1) + '%';
-                valEl.innerText = 'Lucro: R$ ' + profit.toFixed(2).replace('.',',');
+                valEl.innerText = 'Lucro (Unid): R$ ' + profit.toFixed(2).replace('.',',');
+                
+                // Calculate Total Projection
+                const qty = cart[currentCalcProduct.id] || 0;
+                if (qty > 0) {
+                    let totalUnits = qty;
+                    if (calcMode === 'unit' && currentCalcProduct.fraction) {
+                        totalUnits = qty * currentCalcProduct.fraction.divisor;
+                    }
+                    const totalProfit = profit * totalUnits;
+                    totalEl.innerText = `Projeção Total (${qty} ${qty > 1 ? 'caixas' : 'caixa'}): R$ ` + totalProfit.toFixed(2).replace('.',',');
+                    totalEl.classList.remove('hidden');
+                } else {
+                    totalEl.classList.add('hidden');
+                }
                 
                 if(margin < 0) {
                     resultEl.className = "text-3xl font-black text-red-400";
@@ -1079,8 +1095,9 @@
                 }
             } else {
                  document.getElementById('calc-result').innerText = '0.0%';
-                 document.getElementById('calc-profit-val').innerText = 'Lucro: R$ 0,00';
+                 document.getElementById('calc-profit-val').innerText = 'Lucro (Unid): R$ 0,00';
                  document.getElementById('calc-result').className = "text-3xl font-black";
+                 totalEl.classList.add('hidden');
             }
         }
 
