@@ -514,7 +514,7 @@
                         </div>
                     </div>
                     
-                    <div class="flex gap-2 mt-3 overflow-x-auto scrollbar-hide pb-1 pr-4">
+                    <div class="flex gap-2 mt-3 flex-wrap pb-1">
                         ${p.tiers.map((t, i) => {
                             const isReached = qty >= t.q;
                             const isCurrent = isReached && (p.tiers[i+1] ? qty < p.tiers[i+1].q : true);
