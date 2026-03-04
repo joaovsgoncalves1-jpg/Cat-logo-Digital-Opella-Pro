@@ -500,10 +500,10 @@
                             <div class="flex justify-between items-start text-left">
                                 <div>
                                     <h3 class="font-bold text-sm leading-tight ${textClass} uppercase">${p.name}</h3>
-                                    <p class="text-[10px] text-gray-500 mt-1 bg-white/50 inline-block px-1 rounded font-mono text-left">EAN: ${p.id}</p>
+                                    <p class="text-[11px] text-gray-500 mt-1 bg-white/50 inline-block px-1 rounded font-mono text-left">EAN: ${p.id}</p>
                                     <div class="flex items-center gap-2 mt-1">
-                                         <p class="text-[12px] text-red-500 font-bold line-through">Base: R$ ${p.base.toFixed(2).replace('.',',')}</p>
-                                         <button onclick="openCalc('${p.id}')" class="text-blue-500 hover:text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 border border-blue-200" title="Calculadora de Markup">
+                                         <p class="text-[13px] text-red-500 font-bold line-through">Base: R$ ${p.base.toFixed(2).replace('.',',')}</p>
+                                         <button onclick="openCalc('${p.id}')" class="text-blue-500 hover:text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 border border-blue-200" title="Calculadora de Markup">
                                             <i class="fas fa-calculator"></i> Margem
                                          </button>
                                     </div>
@@ -528,11 +528,11 @@
                             const nextBadge = isNext ? `<span class="tier-next-badge">Faltam ${nextTier.falta}</span>` : '';
                             
                             return `
-                            <div onclick="toggleQty('${p.id}', ${t.q})" class="tier-box ${isNext ? 'tier-next-target' : (isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white'))} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative">
+                            <div onclick="toggleQty('${p.id}', ${t.q})" class="tier-box ${isNext ? 'tier-next-target' : (isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white'))} rounded-lg px-2 py-1 text-[11px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative">
                                 <span class="font-bold uppercase">${t.q} un</span>
                                 ${nextBadge}
                                 <span class="text-xs">R$ ${t.p.toFixed(2).replace('.',',')}</span>
-                                <span class="text-[9px] ${isHighDiscount ? 'text-orange-600 font-black' : (t.d > 0 ? 'text-green-600 font-bold' : 'text-gray-400')}">
+                                <span class="text-[10px] ${isHighDiscount ? 'text-orange-600 font-black' : (t.d > 0 ? 'text-green-600 font-bold' : 'text-gray-400')}">
                                     ${t.d > 0 ? `(-${t.d}% OFF)` : ''} ${isHighDiscount ? '<i class="fas fa-fire"></i>' : ''}
                                 </span>
                             </div>`;
@@ -604,7 +604,7 @@
                 const reachedBg = isHighDiscount ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200';
                 const isNext = qty > 0 && !isReached && nextTierQty !== null && t.q === nextTierQty;
 
-                box.className = `tier-box ${isNext ? 'tier-next-target' : (isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white'))} rounded-lg px-2 py-1 text-[10px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative`;
+                box.className = `tier-box ${isNext ? 'tier-next-target' : (isCurrent ? tierClass : (isReached ? reachedBg : 'bg-white'))} rounded-lg px-2 py-1 text-[11px] min-w-[75px] flex flex-col items-center shadow-sm transition-all relative`;
 
                 let badgeEl = box.querySelector('.tier-next-badge');
                 if (isNext) {
