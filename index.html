@@ -199,69 +199,73 @@
 
     <!-- Modal Checkout (Revisão Completa) -->
     <div id="checkout-modal" class="fixed inset-0 bg-black/60 hidden z-[90] flex items-end sm:items-center justify-center transition-opacity text-left">
-        <div class="bg-white w-full sm:w-[450px] sm:rounded-2xl rounded-t-3xl p-6 h-[85vh] sm:h-auto sm:max-h-[90vh] flex flex-col shadow-2xl animate-slide-up text-left">
+        <div class="bg-white w-full sm:w-[450px] sm:rounded-2xl rounded-t-3xl h-[85vh] sm:h-auto sm:max-h-[90vh] flex flex-col shadow-2xl animate-slide-up text-left">
             
-            <div class="flex justify-between items-center mb-4 border-b pb-4 shrink-0 text-left">
+            <div class="flex justify-between items-center px-6 pt-6 pb-4 border-b shrink-0 text-left">
                 <h2 class="text-xl font-bold text-gray-800">Seu Pedido</h2>
                 <button onclick="closeModal()" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200" title="Fechar" aria-label="Fechar"><i class="fas fa-times"></i></button>
             </div>
 
-            <div id="cart-items-preview" class="overflow-y-auto flex-1 space-y-3 pr-1 mb-4 scrollbar-hide py-2 text-left">
-                <!-- JS injeta os itens aqui -->
-            </div>
-
-            <div id="savings-summary" class="bg-green-50 border border-green-200 rounded-xl p-3 mb-4 flex items-center gap-3 shrink-0 text-left">
-                <div class="bg-green-100 text-green-600 p-2 rounded-lg"><i class="fas fa-hand-holding-usd text-lg"></i></div>
-                <div class="text-left leading-tight text-left">
-                    <p class="text-[10px] text-green-700 font-bold uppercase tracking-tight text-left">Você economizou</p>
-                    <p class="text-lg font-black text-green-700 text-left" id="total-savings-modal">R$ 0,00</p>
+            <!-- Scrollable Content Area -->
+            <div class="overflow-y-auto flex-1 px-6 py-4 scrollbar-hide text-left flex flex-col gap-4">
+                <div id="cart-items-preview" class="space-y-3">
+                    <!-- JS injeta os itens aqui -->
                 </div>
-            </div>
 
-            <!-- Seletor de Prazo -->
-            <div id="payment-options" class="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-4 hidden shrink-0 text-left">
-                <p class="text-[11px] font-bold text-blue-700 uppercase mb-3 tracking-wider text-left">Selecione o Prazo:</p>
-                <!-- Grid será preenchido dinamicamente via JS -->
-                <div class="grid grid-cols-2 gap-2 text-left" id="payment-options-grid">
-                    <!-- Opções injetadas aqui -->
+                <div id="savings-summary" class="bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3 shrink-0 text-left">
+                    <div class="bg-green-100 text-green-600 p-2 rounded-lg"><i class="fas fa-hand-holding-usd text-lg"></i></div>
+                    <div class="text-left leading-tight text-left">
+                        <p class="text-[10px] text-green-700 font-bold uppercase tracking-tight text-left">Você economizou</p>
+                        <p class="text-lg font-black text-green-700 text-left" id="total-savings-modal">R$ 0,00</p>
+                    </div>
+                </div>
+
+                <!-- Seletor de Prazo -->
+                <div id="payment-options" class="bg-blue-50 p-4 rounded-xl border border-blue-100 hidden shrink-0 text-left">
+                    <p class="text-[11px] font-bold text-blue-700 uppercase mb-3 tracking-wider text-left">Selecione o Prazo:</p>
+                    <div class="grid grid-cols-2 gap-2 text-left" id="payment-options-grid">
+                        <!-- Opções injetadas aqui -->
+                    </div>
+                </div>
+                
+                <div id="payment-single" class="bg-gray-50 p-3 rounded-xl border border-gray-200 hidden text-center shrink-0 text-left">
+                    <p class="text-xs text-gray-600 text-left">Prazo padrão: <strong>50 dias direto</strong></p>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shrink-0 text-left">
+                    <label class="block text-xs font-bold text-gray-600 uppercase mb-1 text-left">CNPJ do Cliente</label>
+                    <input type="tel" id="cnpj-input" placeholder="Apenas números" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-lg font-medium outline-none text-left">
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 shrink-0 text-left">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-[11px] font-black text-amber-800 uppercase tracking-wide">Pedidos da Rede</p>
+                        <p class="text-[11px] font-black text-amber-900">Total: <span id="network-grand-total">R$ 0,00</span></p>
+                    </div>
+                    <div id="network-orders-preview" class="space-y-2 mb-3">
+                        <p class="text-[11px] text-gray-400">Nenhum pedido de CNPJ separado ainda.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="addCurrentCartToNetwork()" class="text-[10px] font-bold py-3 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 active:scale-95 transition-all">Criar pedido para outro CNPJ</button>
+                        <button onclick="clearNetworkOrders()" class="text-[10px] font-bold py-3 rounded-lg bg-gray-100 text-gray-700 border border-gray-300 active:scale-95 transition-all">Limpar pedidos da rede</button>
+                    </div>
                 </div>
             </div>
             
-            <div id="payment-single" class="bg-gray-50 p-3 rounded-xl border border-gray-200 mb-4 hidden text-center shrink-0 text-left">
-                <p class="text-xs text-gray-600 text-left">Prazo padrão: <strong>50 dias direto</strong></p>
-            </div>
-
-            <div class="bg-white p-4 rounded-xl border border-gray-200 mb-4 shrink-0 text-left">
-                <label class="block text-xs font-bold text-gray-600 uppercase mb-1 text-left">CNPJ do Cliente</label>
-                <input type="tel" id="cnpj-input" placeholder="Apenas números" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-lg font-medium outline-none text-left">
-            </div>
-
-            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 shrink-0 text-left">
-                <div class="flex items-center justify-between mb-2">
-                    <p class="text-[11px] font-black text-amber-800 uppercase tracking-wide">Pedidos da Rede</p>
-                    <p class="text-[11px] font-black text-amber-900">Total: <span id="network-grand-total">R$ 0,00</span></p>
+            <!-- Fixed Bottom Buttons -->
+            <div class="px-6 pb-6 pt-3 shrink-0 bg-white">
+                <div class="grid grid-cols-4 gap-2 mb-2">
+                     <button onclick="exportPDF()" class="col-span-1 bg-red-100 text-red-600 hover:bg-red-200 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-95 transition-all">
+                        <i class="fas fa-file-pdf text-xl"></i>
+                        <span class="text-[8px] uppercase">PDF</span>
+                    </button>
+                    <button onclick="saveAndSendWhatsapp()" class="col-span-3 bg-[#00A650] hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-xl flex items-center justify-center gap-2 text-lg active:scale-95 transition-all">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                        <span>Enviar Tudo</span>
+                    </button>
                 </div>
-                <div id="network-orders-preview" class="space-y-2 mb-3">
-                    <p class="text-[11px] text-gray-400">Nenhum pedido de CNPJ separado ainda.</p>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="addCurrentCartToNetwork()" class="text-[10px] font-bold py-3 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 active:scale-95 transition-all">Criar pedido para outro CNPJ</button>
-                    <button onclick="clearNetworkOrders()" class="text-[10px] font-bold py-3 rounded-lg bg-gray-100 text-gray-700 border border-gray-300 active:scale-95 transition-all">Limpar pedidos da rede</button>
-                </div>
+                <p class="text-[10px] text-gray-400 text-center px-4">Qualquer item pode ser ajustado antes do faturamento.</p>
             </div>
-            
-            <div class="grid grid-cols-4 gap-2 shrink-0 pb-2">
-                 <button onclick="exportPDF()" class="col-span-1 bg-red-100 text-red-600 hover:bg-red-200 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-95 transition-all">
-                    <i class="fas fa-file-pdf text-xl"></i>
-                    <span class="text-[8px] uppercase">PDF</span>
-                </button>
-                <button onclick="saveAndSendWhatsapp()" class="col-span-3 bg-[#00A650] hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-xl flex items-center justify-center gap-2 text-lg active:scale-95 transition-all">
-                    <i class="fab fa-whatsapp text-2xl"></i>
-                    <span>Enviar Tudo</span>
-                </button>
-            </div>
-            
-            <p class="text-[10px] text-gray-400 text-center mt-3 px-4">Qualquer item pode ser ajustado antes do faturamento.</p>
         </div>
     </div>
 
