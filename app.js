@@ -1068,9 +1068,19 @@
                 
                 const resultEl = document.getElementById('calc-result');
                 const valEl = document.getElementById('calc-profit-val');
+                const boxProfitEl = document.getElementById('calc-box-profit-val');
                 
                 resultEl.innerText = margin.toFixed(1) + '%';
                 valEl.innerText = 'Lucro (Unid): R$ ' + profit.toFixed(2).replace('.',',');
+                
+                // Calculate Box Profit (for fraction items)
+                if (calcMode === 'unit' && currentCalcProduct.fraction) {
+                    const boxProfit = profit * currentCalcProduct.fraction.divisor;
+                    boxProfitEl.innerText = `Lucro na Caixa (${currentCalcProduct.fraction.divisor} un): R$ ` + boxProfit.toFixed(2).replace('.',',');
+                    boxProfitEl.classList.remove('hidden');
+                } else {
+                    boxProfitEl.classList.add('hidden');
+                }
                 
                 // Calculate Total Projection
                 const qty = cart[currentCalcProduct.id] || 0;
@@ -1080,7 +1090,13 @@
                         totalUnits = qty * currentCalcProduct.fraction.divisor;
                     }
                     const totalProfit = profit * totalUnits;
-                    totalEl.innerText = `Projeção Total (${qty} ${qty > 1 ? 'caixas' : 'caixa'}): R$ ` + totalProfit.toFixed(2).replace('.',',');
+                    
+                    let caixasText = qty > 1 ? 'caixas' : 'caixa';
+                    if (calcMode === 'unit' && currentCalcProduct.fraction) {
+                        caixasText = qty > 1 ? currentCalcProduct.fraction.unit + 's' : currentCalcProduct.fraction.unit;
+                    }
+                    
+                    totalEl.innerText = `Projeção Total (${qty} ${caixasText}): R$ ` + totalProfit.toFixed(2).replace('.',',');
                     totalEl.classList.remove('hidden');
                 } else {
                     totalEl.classList.add('hidden');
@@ -1096,6 +1112,7 @@
             } else {
                  document.getElementById('calc-result').innerText = '0.0%';
                  document.getElementById('calc-profit-val').innerText = 'Lucro (Unid): R$ 0,00';
+                 document.getElementById('calc-box-profit-val').classList.add('hidden');
                  document.getElementById('calc-result').className = "text-3xl font-black";
                  totalEl.classList.add('hidden');
             }
