@@ -865,7 +865,7 @@
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
-                if(btnReview) btnReview.disabled = !hasAnyOrder;
+                if(btnReview) btnReview.disabled = true;
             } else if (total >= INSTALLMENT_3X_60_TARGET) {
                 if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 3x disponível (60/70/80)</span>`;
                 if(installment) {
@@ -1320,6 +1320,12 @@
 
         // --- CORE FUNCTIONS ---
         function openModal() { 
+            let checkTotal = 0;
+            Object.keys(cart).forEach(id => {
+                if(cart[id] > 0 && productsMap[id]) checkTotal += getPrice(productsMap[id], cart[id]) * cart[id];
+            });
+            if (checkTotal < MIN_ORDER) return;
+
             toggleScrollLock(true);
 
             const container = document.getElementById('cart-items-preview');
