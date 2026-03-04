@@ -4,8 +4,7 @@
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const INSTALLMENT_TARGET = 500.00;
-        const INSTALLMENT_3X_50_TARGET = 2000.00;
-        const INSTALLMENT_3X_60_TARGET = 3000.00;
+        const INSTALLMENT_3X_TARGET = 2000.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -687,8 +686,7 @@
         function getPrazoForTotal(total) {
             const prazoElem = document.querySelector('input[name="prazo"]:checked');
             if (prazoElem) return prazoElem.value;
-            if (total >= INSTALLMENT_3X_60_TARGET) return "3x (60/70/80 dias)";
-            if (total >= INSTALLMENT_3X_50_TARGET) return "3x (50/60/70 dias)";
+            if (total >= INSTALLMENT_3X_TARGET) return "3x (30/60/90 dias)";
             if (total >= INSTALLMENT_TARGET) return "2x (40/60 dias)";
             return "50 dias direto";
         }
@@ -770,8 +768,7 @@
         }
 
         function getGoalLevel(total) {
-            if (total >= INSTALLMENT_3X_60_TARGET) return 4;
-            if (total >= INSTALLMENT_3X_50_TARGET) return 3;
+            if (total >= INSTALLMENT_3X_TARGET) return 3;
             if (total >= INSTALLMENT_TARGET) return 2;
             if (total >= MIN_ORDER) return 1;
             return 0;
@@ -820,17 +817,13 @@
             if (total >= MIN_ORDER && total < INSTALLMENT_TARGET) {
                 currentTarget = INSTALLMENT_TARGET;
                 missing = INSTALLMENT_TARGET - total;
-                goalText = 'parcelar em 2x';
-            } else if (total >= INSTALLMENT_TARGET && total < INSTALLMENT_3X_50_TARGET) {
-                currentTarget = INSTALLMENT_3X_50_TARGET;
-                missing = INSTALLMENT_3X_50_TARGET - total;
-                goalText = 'parcelar em 3x (50/60/70)';
-            } else if (total >= INSTALLMENT_3X_50_TARGET && total < INSTALLMENT_3X_60_TARGET) {
-                currentTarget = INSTALLMENT_3X_60_TARGET;
-                missing = INSTALLMENT_3X_60_TARGET - total;
-                goalText = 'parcelar em 3x (60/70/80)';
-            } else if (total >= INSTALLMENT_3X_60_TARGET) {
-                currentTarget = INSTALLMENT_3X_60_TARGET;
+                goalText = 'parcelar em 2x (40/60)';
+            } else if (total >= INSTALLMENT_TARGET && total < INSTALLMENT_3X_TARGET) {
+                currentTarget = INSTALLMENT_3X_TARGET;
+                missing = INSTALLMENT_3X_TARGET - total;
+                goalText = 'parcelar em 3x (30/60/90)';
+            } else if (total >= INSTALLMENT_3X_TARGET) {
+                currentTarget = INSTALLMENT_3X_TARGET;
                 missing = 0;
                 goalText = '';
             }
@@ -839,8 +832,7 @@
             if(progressFill) {
                 progressFill.style.width = progressPercent + '%';
                 let colorClass = 'bg-orange-400';
-                if (total >= INSTALLMENT_3X_60_TARGET || currentTarget === INSTALLMENT_3X_60_TARGET) colorClass = 'bg-green-500';
-                else if (total >= INSTALLMENT_3X_50_TARGET || currentTarget === INSTALLMENT_3X_50_TARGET) colorClass = 'bg-teal-500';
+                if (total >= INSTALLMENT_3X_TARGET || currentTarget === INSTALLMENT_3X_TARGET) colorClass = 'bg-green-500';
                 else if (total >= INSTALLMENT_TARGET || currentTarget === INSTALLMENT_TARGET) colorClass = 'bg-blue-400';
                 
                 progressFill.className = `h-full ${colorClass} ${progressPercent >= 100 ? 'progress-bar-complete' : ''} transition-all duration-500`;
@@ -866,22 +858,15 @@
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = true;
-            } else if (total >= INSTALLMENT_3X_60_TARGET) {
-                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 3x disponível (60/70/80)</span>`;
+            } else if (total >= INSTALLMENT_3X_TARGET) {
+                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 3x disponível (30/60/90)</span>`;
                 if(installment) {
                     installment.innerText = "3x de R$ " + (total/3).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-green-600 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = false;
-            } else if (total >= INSTALLMENT_3X_50_TARGET) {
-                if(label) label.innerHTML = `<span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">3x (50/60/70) | Faltam R$ ${missing.toFixed(2).replace('.',',')} para 3x (60/70/80)</span>`;
-                if(installment) {
-                    installment.innerText = "3x de R$ " + (total/3).toFixed(2).replace('.',',');
-                    installment.className = "text-2xl font-black text-teal-600 leading-none text-left";
-                }
-                if(btnReview) btnReview.disabled = false;
             } else if (total >= INSTALLMENT_TARGET) {
-                if(label) label.innerHTML = `<span class="text-blue-700 font-bold text-[12px] uppercase tracking-tighter text-left">2x disponível | Faltam R$ ${missing.toFixed(2).replace('.',',')} para 3x (50/60/70)</span>`;
+                if(label) label.innerHTML = `<span class="text-blue-700 font-bold text-[12px] uppercase tracking-tighter text-left">2x disponível | Faltam R$ ${missing.toFixed(2).replace('.',',')} para 3x (30/60/90)</span>`;
                 if(installment) {
                     installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-blue-600 leading-none text-left";
@@ -1412,16 +1397,34 @@
                 document.getElementById('payment-single').classList.add('hidden');
 
                 const grid = document.getElementById('payment-options-grid');
-                grid.innerHTML = `
+                let optionsHtml = `
                     <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
                         <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600" checked>
-                        <span class="text-[10px] font-bold text-gray-800">2x (40/60 dias)</span>
+                        <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
                         <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
                         <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
                     </label>
                 `;
+
+                if (total >= INSTALLMENT_3X_TARGET) {
+                    optionsHtml = `
+                        <label class="flex items-center gap-2 cursor-pointer bg-green-50 p-2 rounded-lg border border-green-300 hover:border-green-500 transition-all text-left shadow-sm">
+                            <input type="radio" name="prazo" value="3x (30/60/90 dias)" class="w-4 h-4 text-green-600" checked>
+                            <span class="text-[10px] font-black text-green-800">3x (30/60/90)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600">
+                            <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
+                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
+                            <span class="text-[10px] font-bold text-gray-800 text-left">50 dias</span>
+                        </label>
+                    `;
+                }
+                grid.innerHTML = optionsHtml;
             } else {
                 document.getElementById('payment-options').classList.add('hidden');
                 document.getElementById('payment-single').classList.remove('hidden');
