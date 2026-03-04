@@ -1036,7 +1036,8 @@
             } else {
                 btnBox.className = "flex-1 py-1.5 text-[10px] font-bold rounded text-gray-500 hover:bg-gray-50 transition-all";
                 btnUnit.className = "flex-1 py-1.5 text-[10px] font-bold rounded bg-yellow-400 text-white shadow-sm transition-all";
-                const unitName = currentCalcProduct.fraction ? currentCalcProduct.fraction.unit : 'Unidade';
+                let unitName = currentCalcProduct.fraction ? currentCalcProduct.fraction.unit : 'Unidade';
+                unitName = unitName.replace(/\s*\(.*\)/, '').trim();
                 document.getElementById('label-calc-cost').innerText = `Custo por ${unitName} (R$)`;
                 document.getElementById('label-calc-sell').innerText = `Venda por ${unitName} (R$)`;
             }
@@ -1076,7 +1077,7 @@
                 // Calculate Box Profit (for fraction items)
                 if (calcMode === 'unit' && currentCalcProduct.fraction) {
                     const boxProfit = profit * currentCalcProduct.fraction.divisor;
-                    boxProfitEl.innerText = `Lucro na Caixa (${currentCalcProduct.fraction.divisor} un): R$ ` + boxProfit.toFixed(2).replace('.',',');
+                    boxProfitEl.innerText = `Lucro na Caixa: R$ ` + boxProfit.toFixed(2).replace('.',',');
                     boxProfitEl.classList.remove('hidden');
                 } else {
                     boxProfitEl.classList.add('hidden');
@@ -1091,10 +1092,7 @@
                     }
                     const totalProfit = profit * totalUnits;
                     
-                    let caixasText = qty > 1 ? 'caixas' : 'caixa';
-                    if (calcMode === 'unit' && currentCalcProduct.fraction) {
-                        caixasText = qty > 1 ? currentCalcProduct.fraction.unit + 's' : currentCalcProduct.fraction.unit;
-                    }
+                    const caixasText = qty > 1 ? 'caixas' : 'caixa';
                     
                     totalEl.innerText = `Projeção Total (${qty} ${caixasText}): R$ ` + totalProfit.toFixed(2).replace('.',',');
                     totalEl.classList.remove('hidden');

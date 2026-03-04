@@ -95,7 +95,7 @@
   rawProducts: [
             // DORFLEX
             { id: "7891058022136", cat: 'Dorflex', name: 'Dorflex 24 Cpr', base: 14.91, curva: 'A', tiers: [ {q:1, p:13.87, d:7}, {q:4, p:13.57, d:9}, {q:8, p:13.27, d:11} ], isCampaign: true },
-            { id: "7891058017392", cat: 'Dorflex', name: 'Dorflex 300 Cpr', base: 194.96, curva: 'A', tiers: [ {q:1, p:177.41, d:9}, {q:4, p:169.62, d:13}, {q:8, p:163.77, d:16}, {q:12, p:157.92, d:19} ], isCampaign: true, fraction: { unit: 'Cartela (10un)', divisor: 30 } },
+            { id: "7891058017392", cat: 'Dorflex', name: 'Dorflex 300 Cpr', base: 194.96, curva: 'A', tiers: [ {q:1, p:177.41, d:9}, {q:2, p:173.51, d:11}, {q:4, p:169.62, d:13}, {q:8, p:163.77, d:16}, {q:12, p:157.92, d:19} ], isCampaign: true, fraction: { unit: 'Cartela (10un)', divisor: 30 } },
             { id: "7891058017507", cat: 'Dorflex', name: 'Dorflex 36 Cpr', base: 19.06, curva: 'A', tiers: [ {q:1, p:17.54, d:8}, {q:30, p:17.15, d:10}, {q:60, p:16.77, d:12}, {q:80, p:16.01, d:16} ], isCampaign: true },
             { id: "7891058005474", cat: 'Dorflex', name: 'Dorflex Dip 1g – 10 Cpr', base: 13.31, curva: 'A', tiers: [ {q:1, p:11.71, d:12}, {q:10, p:9.32, d:30}, {q:20, p:7.32, d:45} ], isCampaign: true },
             { id: "7891058009458", cat: 'Dorflex', name: 'Dorflex Gotas 20ml', base: 21.05, curva: 'B', tiers: [ {q:1, p:18.95, d:10} ] },
@@ -103,6 +103,9 @@
             { id: "7891058003944", cat: 'Dorflex', name: 'Dorflex Max 8 Cpr', base: 13.50, curva: 'A', tiers: [ {q:1, p:12.42, d:8}, {q:4, p:11.75, d:13}, {q:8, p:11.34, d:16}, {q:12, p:10.53, d:22} ], isCampaign: true },
             { id: "7891058003937", cat: 'Dorflex', name: 'Dorflex Max 80 Cpr', base: 151.01, curva: 'D', tiers: [ {q:1, p:135.91, d:10}, {q:2, p:132.89, d:12}, {q:3, p:129.87, d:14}, {q:4, p:126.85, d:16} ], isCampaign: true, fraction: { unit: 'Cartela (4un)', divisor: 20 } },
             { id: "7891058022792", cat: 'Dorflex', name: 'Dorflex Uno 1g – 10 Cpr Eferv.', base: 26.50, curva: 'C', tiers: [ {q:1, p:23.59, d:11} ] },
+            { id: "7891058022815", cat: 'Dorflex', name: 'Dorflex Uno 1g – 10 Cpr', base: 14.83, curva: 'A', tiers: [ {q:1, p:13.79, d:7}, {q:3, p:13.20, d:11}, {q:6, p:13.05, d:12}, {q:8, p:12.16, d:18} ], isCampaign: true },
+            { id: "7891058000103", cat: 'Dorflex', name: 'Dorflex Uno 1g – 20 Cpr', base: 24.01, curva: 'C', tiers: [ {q:1, p:22.33, d:7}, {q:3, p:21.37, d:11}, {q:4, p:21.13, d:12} ], isCampaign: true },
+            { id: "7891058022785", cat: 'Dorflex', name: 'Dorflex Uno 1g – 100 Cpr', base: 172.06, curva: 'D', tiers: [ {q:1, p:151.41, d:12} ], fraction: { unit: 'Cartela', divisor: 10 } },
 
             // ENTEROGERMINA (PREÇOS ATUALIZADOS)
             { id: "7891058016999", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 10 flac', base: 43.05, curva: 'A', tiers: [ {q:1, p:38.31, d:11}, {q:6, p:36.59, d:15}, {q:14, p:35.73, d:17} ], isCampaign: true },
@@ -186,7 +189,7 @@
             { id: "7891058021627", cat: 'Bisolvon', name: 'Bisolvon Xarope Ped 4mg/5ml 120ml', base: 24.86, curva: 'C', tiers: [ {q:1, p:21.13, d:15} ] },
             { id: "7891058021610", cat: 'Bisolvon', name: 'Bisolvon XPE 8mg/5ml Adulto 120ml', base: 30.38, curva: 'C', tiers: [ {q:1, p:25.82, d:15} ] },
             { id: "7891058001810", cat: 'Bisolvon', name: 'Bisolvon 2mg/ml Sol Expec 40ml', base: 29.85, curva: 'E', tiers: [ {q:1, p:24.48, d:18} ] },
-            { id: "7891058021566", cat: 'Bisolvon', name: 'Mucosolvan Xarope Ad 120ml', base: 49.91, curva: 'E', tiers: [ {q:1, p:42.42, d:15} ] },
+            { id: "7891058021566", cat: 'Bisolvon', name: 'Mucosolvan Xarope Ad 30mg/5ml 120ml', base: 49.91, curva: 'E', tiers: [ {q:1, p:42.42, d:15} ] },
             { id: "7891058021573", cat: 'Bisolvon', name: 'Mucosolvan Xarope Ped 15mg/5ml 120ml', base: 35.94, curva: 'E', tiers: [ {q:1, p:30.55, d:15} ] },
 
             // FENERGAN
