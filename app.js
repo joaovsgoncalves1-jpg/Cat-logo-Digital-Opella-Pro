@@ -1,4 +1,4 @@
-﻿        // ------------------------------------------------------------
+        // ------------------------------------------------------------
         // SEÇÃO 1: CONSTANTES E CONFIGURAÇÕES GLOBAIS
         // ------------------------------------------------------------
         const WHATSAPP_NUMBER = "5584996887483";
@@ -688,7 +688,7 @@
             if (prazoElem) return prazoElem.value;
             if (total >= INSTALLMENT_3X_TARGET) return "3x (30/60/90 dias)";
             if (total >= INSTALLMENT_TARGET) return "2x (40/60 dias)";
-            return "50 dias direto";
+            return "60 dias direto";
         }
 
         function buildOrderItemsText(cartSnapshot) {
@@ -1187,7 +1187,7 @@
                 cartSnapshot: JSON.parse(JSON.stringify(o.cartSnapshot || {})),
                 total: o.total || 0,
                 totalBase: o.totalBase || 0,
-                prazo: o.prazo || "50 dias direto"
+                prazo: o.prazo || "60 dias direto"
             }));
 
             const currentSummary = getCartSummary(cart);
@@ -1282,7 +1282,7 @@
                 doc.text(`Subtotal: R$ ${(order.total || 0).toFixed(2).replace('.',',')}`, 14, finalY);
                 doc.text(`Economia: R$ ${orderSavings.toFixed(2).replace('.',',')}`, 14, finalY + 5);
                 doc.setFont("helvetica", "normal");
-                doc.text(`Prazo: ${order.prazo || "50 dias direto"}`, 14, finalY + 10);
+                doc.text(`Prazo: ${order.prazo || "60 dias direto"}`, 14, finalY + 10);
 
                 grandTotal += order.total || 0;
                 grandSavings += orderSavings;
@@ -1403,8 +1403,8 @@
                         <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                        <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
-                        <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
+                        <input type="radio" name="prazo" value="60 dias direto" class="w-4 h-4 text-blue-600">
+                        <span class="text-[10px] font-bold text-gray-800 text-left">60 dias direto</span>
                     </label>
                 `;
 
@@ -1419,7 +1419,7 @@
                             <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
+                            <input type="radio" name="prazo" value="60 dias direto" class="w-4 h-4 text-blue-600">
                             <span class="text-[10px] font-bold text-gray-800 text-left">50 dias</span>
                         </label>
                     `;
@@ -1579,7 +1579,7 @@
                 total: o.total || 0,
                 totalBase: o.totalBase || 0,
                 itemsCount: o.itemsCount || 0,
-                prazo: o.prazo || "50 dias direto"
+                prazo: o.prazo || "60 dias direto"
             }));
 
             const currentSummary = getCartSummary(cart);
@@ -1616,7 +1616,7 @@
                 text += `\n--------------------------------`;
                 text += `\n*TOTAL:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
                 text += `\n*ECONOMIA:* R$ ${savings.toFixed(2).replace('.',',')}`;
-                text += `\n*PRAZO:* ${order.prazo || "50 dias direto"}`;
+                text += `\n*PRAZO:* ${order.prazo || "60 dias direto"}`;
                 text += `\n--------------------------------`;
             } else {
                 text += `DATA: ${new Date().toLocaleDateString('pt-BR')}\n`;
@@ -1631,7 +1631,7 @@
                     const savings = Math.max(0, (order.totalBase || 0) - (order.total || 0));
                     text += `\n*Subtotal:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
                     text += `\n*Economia:* R$ ${savings.toFixed(2).replace('.',',')}`;
-                    text += `\n*Prazo:* ${order.prazo || "50 dias direto"}`;
+                    text += `\n*Prazo:* ${order.prazo || "60 dias direto"}`;
                     text += `\n--------------------------------`;
                     grandTotal += order.total || 0;
                     grandSavings += savings;
@@ -1666,5 +1666,6 @@
             window.location.href = url;
         }
     
+
 
 
