@@ -4,7 +4,7 @@
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const INSTALLMENT_TARGET = 500.00;
-        const INSTALLMENT_3X_TARGET = 2000.00;
+        const INSTALLMENT_3X_TARGET = 1500.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -831,9 +831,10 @@
             const progressPercent = Math.min((total / currentTarget) * 100, 100);
             if(progressFill) {
                 progressFill.style.width = progressPercent + '%';
-                let colorClass = 'bg-orange-400';
-                if (total >= INSTALLMENT_3X_TARGET || currentTarget === INSTALLMENT_3X_TARGET) colorClass = 'bg-green-500';
-                else if (total >= INSTALLMENT_TARGET || currentTarget === INSTALLMENT_TARGET) colorClass = 'bg-blue-400';
+                let colorClass = 'bg-gray-400'; // minimum order
+                if (total >= INSTALLMENT_3X_TARGET) colorClass = 'bg-yellow-400';
+                else if (currentTarget === INSTALLMENT_3X_TARGET) colorClass = 'bg-green-500';
+                else if (currentTarget === INSTALLMENT_TARGET) colorClass = 'bg-blue-400';
                 
                 progressFill.className = `h-full ${colorClass} ${progressPercent >= 100 ? 'progress-bar-complete' : ''} transition-all duration-500`;
             }
@@ -859,10 +860,10 @@
                 }
                 if(btnReview) btnReview.disabled = true;
             } else if (total >= INSTALLMENT_3X_TARGET) {
-                if(label) label.innerHTML = `<span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left">Parcelamento em 3x disponível (30/60/90)</span>`;
+                if(label) label.innerHTML = `<span class="bg-yellow-100 text-yellow-800 border-yellow-300 border px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left"><i class="fas fa-star text-yellow-500 mr-1"></i> Prazo Especial: 3x (30/60/90)</span>`;
                 if(installment) {
                     installment.innerText = "3x de R$ " + (total/3).toFixed(2).replace('.',',');
-                    installment.className = "text-2xl font-black text-green-600 leading-none text-left";
+                    installment.className = "text-2xl font-black text-yellow-600 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = false;
             } else if (total >= INSTALLMENT_TARGET) {
