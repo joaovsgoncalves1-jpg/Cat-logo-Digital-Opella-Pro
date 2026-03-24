@@ -3,7 +3,7 @@
         // ------------------------------------------------------------
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
-        const INSTALLMENT_TARGET = 500.00;
+        const INSTALLMENT_TARGET = 800.00;
         const INSTALLMENT_3X_TARGET = 1500.00;
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
@@ -1393,7 +1393,7 @@
             if(savingsModal) savingsModal.innerText = 'R$ ' + savings.toFixed(2).replace('.',',');
 
             // --- Lógica de Pagamento Simplificada ---
-            if (total >= 500) {
+            if (total >= INSTALLMENT_TARGET) {
                 document.getElementById('payment-options').classList.remove('hidden');
                 document.getElementById('payment-single').classList.add('hidden');
 
