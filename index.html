@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo Opella | Março 2026</title>
+    <title>Catálogo Opella | Abril 2026</title>
 
     <!-- Favicon -->
     <link rel="icon" href="favicons/favicon.ico?v=6" sizes="any">
@@ -47,7 +47,7 @@
                 </button>
                 <div class="text-right border-l border-gray-700 pl-3">
                     <h2 class="font-bold text-sm text-right leading-tight">Catálogo Digital</h2>
-                    <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest text-right">RCA+ | Mar 2026</p>
+                    <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest text-right">RCA+ | Abr 2026</p>
                 </div>
             </div>
         </div>
@@ -78,16 +78,6 @@
         </div>
         
         <!-- SUB-HEADER CAMPANHA -->
-        <div class="mt-2 mb-2 campaign-flash campaign-banner shadow-lg mx-1">
-            <div class="campaign-banner-main flex flex-col items-center justify-center p-1">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-bolt"></i>
-                    <span class="text-xs">PRAZO ESPECIAL DE CAMPANHA!</span>
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <span class="text-[9px] font-black opacity-90 tracking-widest mt-0.5">3X (30/60/90) A PARTIR DE R$ 1500</span>
-            </div>
-        </div>
         
         <p class="text-[10px] text-gray-400 font-medium text-center italic opacity-90 px-2 pb-3 flex justify-center items-center gap-2">
             📦 Selecione as quantidades e veja o pedido se formar em tempo real.
@@ -108,35 +98,42 @@
         <div id="category-scroll" class="overflow-x-auto overflow-y-visible whitespace-nowrap custom-scrollbar pt-3 pb-2 pl-4 pr-4 flex items-center relative">
             <button id="btn-all" onclick="setCategory('all')" class="cat-btn cat-btn-all-active border-transparent">Todos</button>
             
-            <button id="btn-campaign" onclick="setCategory('campaign')" class="cat-btn border-orange-500 text-orange-600 bg-orange-50 font-bold"><i class="fas fa-fire mr-1"></i> Ofertas Campanha (Mar/26)</button>
+            <button id="btn-campaign" onclick="setCategory('campaign')" class="cat-btn border-orange-500 text-orange-600 bg-orange-50 font-bold"><i class="fas fa-fire mr-1"></i> Ofertas Campanha (Abr/26)</button>
 
             <button id="btn-indispensaveis" onclick="setCategory('indispensaveis')" class="cat-btn border-amber-500 text-amber-700 bg-amber-50 font-bold">&#11088; Indispensáveis</button>
             
-            <button id="btn-Dorflex" onclick="setCategory('Dorflex')" class="cat-btn border-[#E20613]">
-                Dorflex 🔥
-                <span class="promo-badge">Até 22% OFF</span>
-            </button>
+            <button id="btn-Dorflex" onclick="setCategory('Dorflex')" class="cat-btn border-[#E20613]">Dorflex</button>
             
             <button id="btn-Enterogermina" onclick="setCategory('Enterogermina')" class="cat-btn border-[#009EE2]">Enterogermina</button>
             
             <button id="btn-Allegra" onclick="setCategory('Allegra')" class="cat-btn border-[#C5007F]">
                 Allegra 🔥
-                <span class="promo-badge">1 destaque até 35% OFF</span>
+                <span class="promo-badge">Destaques até 20% OFF</span>
             </button>
             
-            <button id="btn-Novalgina" onclick="setCategory('Novalgina')" class="cat-btn border-[#009640]">Novalgina</button>
+            <button id="btn-Novalgina" onclick="setCategory('Novalgina')" class="cat-btn border-[#009640]">
+                Novalgina 🔥
+                <span class="promo-badge">Até 40% OFF</span>
+            </button>
             
             <button id="btn-Anador" onclick="setCategory('Anador')" class="cat-btn border-[#FFBD59]">Anador</button>
-            <button id="btn-Targifor" onclick="setCategory('Targifor')" class="cat-btn border-[#F57F20]">
-                Targifor / Cewin / Pharmaton 🔥
-                <span class="promo-badge">Até 43% OFF</span>
-            </button>
+            
+            <button id="btn-Targifor" onclick="setCategory('Targifor')" class="cat-btn border-[#F57F20]">Targifor / Cewin / Pharmaton</button>
             
             <button id="btn-Moura" onclick="setCategory('Moura')" class="cat-btn border-[#0055b8]">Moura Brasil</button>
             
             <button id="btn-Oscal" onclick="setCategory('Oscal')" class="cat-btn border-[#003366]">Oscal</button>
-            <button id="btn-Dulco" onclick="setCategory('Dulco')" class="cat-btn border-[#00aed9]">Dulcolax</button>
-            <button id="btn-Bisolvon" onclick="setCategory('Bisolvon')" class="cat-btn border-[#FFD700]">Bisolvon / Mucosolvan</button>
+            
+            <button id="btn-Dulco" onclick="setCategory('Dulco')" class="cat-btn border-[#00aed9]">
+                Dulcolax 🔥
+                <span class="promo-badge">Até 17% OFF</span>
+            </button>
+            
+            <button id="btn-Bisolvon" onclick="setCategory('Bisolvon')" class="cat-btn border-[#FFD700]">
+                Bisolvon / Mucosolvan 🔥
+                <span class="promo-badge">Até 55% OFF</span>
+            </button>
+            
             <button id="btn-Fenergan" onclick="setCategory('Fenergan')" class="cat-btn border-[#32CD32]">Fenergan</button>
         </div>
     </div>
@@ -229,7 +226,7 @@
                 </div>
                 
                 <div id="payment-single" class="bg-gray-50 p-3 rounded-xl border border-gray-200 hidden text-center shrink-0 text-left">
-                    <p class="text-xs text-gray-600 text-left">Prazo padrão: <strong>60 dias direto</strong></p>
+                    <p class="text-xs text-gray-600 text-left">Prazo padrão: <strong>50 dias direto</strong></p>
                 </div>
 
                 <div class="bg-white p-4 rounded-xl border border-gray-200 shrink-0 text-left">

@@ -1,4 +1,4 @@
-﻿window.PRODUCT_DATA = {
+window.PRODUCT_DATA = {
   imgMap: {
             'Dorflex 24 Cpr': "https://www.drogarianovaesperanca.com.br/imagens/600x600/dorflex-com-24-comprimidos-132d4455b6.jpg",
             'Dorflex 300 Cpr': "https://nexodata.vtexassets.com/arquivos/ids/207705/7891058017392_IR.jpg",
@@ -40,6 +40,8 @@
             'Novalgina 500mg – 240 Cpr': "https://farmaindex.com/_next/image?url=https%3A%2F%2Fik.imagekit.io%2FFarmaindex%2Ftr%3Aw-350%2Ch-350%2Fmedicine%2F47653.jpg&w=3840&q=75",
             'Novalgina Sol Oral 100ml + Seringa': "https://drogariavenancio.vtexassets.com/arquivos/ids/1149800/12232_z.jpg?v=638526046386870000",
             'Novalgina Cup Xarope 100ml': "https://product-data.raiadrogasil.io/images/6760217.webp",
+            'Novalgina Flash 8 Cpr': "https://paguemenos.vtexassets.com/arquivos/ids/1143158/7891058005993_1.png?v=639087647183830000",
+            'Novalgina Flash 16 Cpr': "https://paguemenos.vtexassets.com/arquivos/ids/1143162/7891058006044_1.png?v=639087647608530000",
             'Novalgina Gotas 10ml': "https://drogariavenancio.vtexassets.com/arquivos/ids/1149813/77472_z.jpg",
             'Novalgina Gotas 20ml': "https://uploads.consultaremedios.com.br/product_variation_images/full/a1ac4d2e70eeb0dfee016f9603722ab0806aaa7c.jpg",
             'Anador 1g – 10 Cpr': "https://product-data.raiadrogasil.io/images/12780090.webp",
@@ -90,60 +92,64 @@
             "7891058005467": "https://images.tcdn.com.br/img/img_prod/1221238/targifor_c_1g_c16_cpr_eferv_2_20251205191950_38620ded3977.png",
             "7891058000295": "https://drogariaspacheco.vteximg.com.br/arquivos/ids/1380468-1000-1000/725668-Vitamina-C-Cewin-500mg-com-30-Comprimidos.jpg.jpg?v=638743682908770000",
             "7891058001643": "https://product-data.raiadrogasil.io/images/12853897.webp",
-            "7891058021566": "https://drogariasp.vteximg.com.br/arquivos/ids/651896-1000-1000/17728---xarope-mucosolvan-15mg5ml-pediatrico-120ml.jpg?v=637892556615870000"
+            "7891058021566": "https://drogariasp.vteximg.com.br/arquivos/ids/651896-1000-1000/17728---xarope-mucosolvan-15mg5ml-pediatrico-120ml.jpg?v=637892556615870000",
+            "7891058022730": "https://drogariasp.vteximg.com.br/arquivos/ids/1197239-1000-1000/692328-calcio-com-vitamina-d-os-cal-d-500mg--1000ui-60-comprimidos-3.jpg.jpg?v=638743567647870000",
+            "7891058005993": "https://paguemenos.vtexassets.com/arquivos/ids/1143158/7891058005993_1.png?v=639087647183830000",
+            "7891058006044": "https://paguemenos.vtexassets.com/arquivos/ids/1143162/7891058006044_1.png?v=639087647608530000"
         },
   rawProducts: [
             // DORFLEX
-            { id: "7891058022136", cat: 'Dorflex', name: 'Dorflex 24 Cpr', base: 14.91, curva: 'A', tiers: [ {q:1, p:13.87, d:7}, {q:4, p:13.57, d:9}, {q:8, p:13.27, d:11} ], isCampaign: true },
-            { id: "7891058017392", cat: 'Dorflex', name: 'Dorflex 300 Cpr', base: 194.96, curva: 'A', tiers: [ {q:1, p:177.41, d:9}, {q:2, p:173.51, d:11}, {q:4, p:169.62, d:13}, {q:8, p:163.77, d:16}, {q:12, p:157.92, d:19} ], isCampaign: true, fraction: { unit: 'Cartela (10un)', divisor: 30 } },
-            { id: "7891058017507", cat: 'Dorflex', name: 'Dorflex 36 Cpr', base: 19.06, curva: 'A', tiers: [ {q:1, p:17.54, d:8}, {q:30, p:17.15, d:10}, {q:60, p:16.77, d:12}, {q:80, p:16.01, d:16} ], isCampaign: true },
+            { id: "7891058022136", cat: 'Dorflex', name: 'Dorflex 24 Cpr', base: 14.91, curva: 'A', tiers: [ {q:1, p:13.87, d:7}, {q:4, p:13.57, d:9}, {q:8, p:13.27, d:11} ] },
+            { id: "7891058017392", cat: 'Dorflex', name: 'Dorflex 300 Cpr', base: 194.96, curva: 'A', tiers: [ {q:1, p:177.41, d:9}, {q:2, p:173.51, d:11}, {q:4, p:169.62, d:13} ], fraction: { unit: 'Cartela (10un)', divisor: 30 } },
+            { id: "7891058017507", cat: 'Dorflex', name: 'Dorflex 36 Cpr', base: 19.06, curva: 'A', tiers: [ {q:1, p:17.54, d:8}, {q:30, p:17.15, d:10}, {q:60, p:16.77, d:12} ] },
+            { id: "7891058020941", cat: 'Dorflex', name: 'Dorflex 50 Cpr', base: 22.76, curva: 'A', tiers: [ {q:1, p:22.76, d:0} ] },
             { id: "7891058005474", cat: 'Dorflex', name: 'Dorflex Dip 1g – 10 Cpr', base: 13.31, curva: 'A', tiers: [ {q:1, p:11.71, d:12}, {q:10, p:9.32, d:30}, {q:20, p:7.32, d:45} ], isCampaign: true },
             { id: "7891058009458", cat: 'Dorflex', name: 'Dorflex Gotas 20ml', base: 21.05, curva: 'B', tiers: [ {q:1, p:18.95, d:10} ] },
-            { id: "7891058003975", cat: 'Dorflex', name: 'Dorflex Max 16 Cpr', base: 24.36, curva: 'B', tiers: [ {q:1, p:22.41, d:8}, {q:3, p:21.19, d:13}, {q:4, p:20.46, d:16}, {q:6, p:19.00, d:22} ], isCampaign: true },
-            { id: "7891058003944", cat: 'Dorflex', name: 'Dorflex Max 8 Cpr', base: 13.50, curva: 'A', tiers: [ {q:1, p:12.42, d:8}, {q:4, p:11.75, d:13}, {q:8, p:11.34, d:16}, {q:12, p:10.53, d:22} ], isCampaign: true },
-            { id: "7891058003937", cat: 'Dorflex', name: 'Dorflex Max 80 Cpr', base: 151.01, curva: 'D', tiers: [ {q:1, p:135.91, d:10}, {q:2, p:132.89, d:12}, {q:3, p:129.87, d:14}, {q:4, p:126.85, d:16} ], isCampaign: true, fraction: { unit: 'Cartela (4un)', divisor: 20 } },
+            { id: "7891058003975", cat: 'Dorflex', name: 'Dorflex Max 16 Cpr', base: 24.36, curva: 'B', tiers: [ {q:1, p:22.41, d:8}, {q:3, p:21.19, d:13}, {q:4, p:20.46, d:16} ] },
+            { id: "7891058003944", cat: 'Dorflex', name: 'Dorflex Max 8 Cpr', base: 13.50, curva: 'A', tiers: [ {q:1, p:12.42, d:8}, {q:4, p:11.75, d:13}, {q:8, p:11.34, d:16} ] },
+            { id: "7891058003937", cat: 'Dorflex', name: 'Dorflex Max 80 Cpr', base: 151.01, curva: 'D', tiers: [ {q:1, p:135.91, d:10}, {q:2, p:132.89, d:12}, {q:3, p:129.87, d:14} ], fraction: { unit: 'Cartela (4un)', divisor: 20 } },
             { id: "7891058022792", cat: 'Dorflex', name: 'Dorflex Uno 1g – 10 Cpr Eferv.', base: 26.50, curva: 'C', tiers: [ {q:1, p:23.59, d:11} ] },
-            { id: "7891058022815", cat: 'Dorflex', name: 'Dorflex Uno 1g – 10 Cpr', base: 14.83, curva: 'A', tiers: [ {q:1, p:13.79, d:7}, {q:3, p:13.20, d:11}, {q:6, p:13.05, d:12}, {q:8, p:12.16, d:18} ], isCampaign: true },
-            { id: "7891058000103", cat: 'Dorflex', name: 'Dorflex Uno 1g – 20 Cpr', base: 24.01, curva: 'C', tiers: [ {q:1, p:22.33, d:7}, {q:3, p:21.37, d:11}, {q:4, p:21.13, d:12} ], isCampaign: true },
+            { id: "7891058022815", cat: 'Dorflex', name: 'Dorflex Uno 1g – 10 Cpr', base: 14.83, curva: 'A', tiers: [ {q:1, p:13.79, d:7}, {q:3, p:13.20, d:11}, {q:6, p:13.05, d:12} ] },
+            { id: "7891058000103", cat: 'Dorflex', name: 'Dorflex Uno 1g – 20 Cpr', base: 24.01, curva: 'C', tiers: [ {q:1, p:22.33, d:7}, {q:3, p:21.37, d:11}, {q:4, p:21.13, d:12} ] },
             { id: "7891058022785", cat: 'Dorflex', name: 'Dorflex Uno 1g – 100 Cpr', base: 172.06, curva: 'D', tiers: [ {q:1, p:151.41, d:12} ], fraction: { unit: 'Cartela', divisor: 10 } },
 
             // ENTEROGERMINA (PREÇOS ATUALIZADOS)
-            { id: "7891058016999", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 10 flac', base: 43.05, curva: 'A', tiers: [ {q:1, p:38.31, d:11}, {q:6, p:36.59, d:15}, {q:14, p:35.73, d:17} ], isCampaign: true },
-            { id: "7891058017002", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 20 flac', base: 68.11, curva: 'B', tiers: [ {q:1, p:60.62, d:11}, {q:3, p:57.89, d:15}, {q:4, p:56.53, d:17} ], isCampaign: true },
-            { id: "7891058006501", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 5 flac', base: 28.67, curva: 'B', tiers: [ {q:1, p:25.52, d:11}, {q:3, p:24.37, d:15}, {q:4, p:23.80, d:17} ], isCampaign: true },
-            { id: "7891058022594", cat: 'Enterogermina', name: 'Enterogermina Plus 4 BCFU 10 flac', base: 70.09, curva: 'B', tiers: [ {q:1, p:62.38, d:11}, {q:3, p:59.58, d:15}, {q:4, p:58.17, d:17} ], isCampaign: true },
-            { id: "7891058020286", cat: 'Enterogermina', name: 'Enterogermina Plus 4 BCFU 5 flac', base: 44.29, curva: 'A', tiers: [ {q:1, p:39.42, d:11}, {q:5, p:37.65, d:15}, {q:10, p:36.76, d:17} ], isCampaign: true },
+            { id: "7891058016999", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 10 flac', base: 43.05, curva: 'A', tiers: [ {q:1, p:38.31, d:11}, {q:6, p:36.59, d:15}, {q:14, p:35.73, d:17} ] },
+            { id: "7891058017002", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 20 flac', base: 68.11, curva: 'B', tiers: [ {q:1, p:60.62, d:11}, {q:3, p:57.89, d:15}, {q:4, p:56.53, d:17} ] },
+            { id: "7891058006501", cat: 'Enterogermina', name: 'Enterogermina 2 BCFU 5 flac', base: 28.67, curva: 'B', tiers: [ {q:1, p:25.52, d:11}, {q:3, p:24.37, d:15}, {q:4, p:23.80, d:17} ] },
+            { id: "7891058022594", cat: 'Enterogermina', name: 'Enterogermina Plus 4 BCFU 10 flac', base: 70.09, curva: 'B', tiers: [ {q:1, p:62.38, d:11}, {q:3, p:59.58, d:15}, {q:4, p:58.17, d:17} ] },
+            { id: "7891058020286", cat: 'Enterogermina', name: 'Enterogermina Plus 4 BCFU 5 flac', base: 44.29, curva: 'A', tiers: [ {q:1, p:39.42, d:11}, {q:5, p:37.65, d:15}, {q:10, p:36.76, d:17} ] },
             { id: "7891058001988", cat: 'Enterogermina', name: 'Enterogermina Adulto 2g 9 Sachês', base: 56.01, curva: 'E', tiers: [ {q:1, p:47.05, d:16} ] },
 
             // ALLEGRA
-            { id: "7891058004347", cat: 'Allegra', name: 'Allegra Pediátrico Susp 60ml', base: 30.64, curva: 'A', tiers: [ {q:1, p:28.19, d:8}, {q:3, p:27.58, d:10}, {q:6, p:26.96, d:12} ] },
-            { id: "7891058168049", cat: 'Allegra', name: 'Allegra 120mg – 10 Cpr', base: 45.76, curva: 'B', tiers: [ {q:1, p:42.56, d:7}, {q:2, p:41.64, d:9}, {q:3, p:40.73, d:11} ] },
-            { id: "7891058002596", cat: 'Allegra', name: 'Allegra 120mg – 2 Cpr', base: 14.56, curva: 'C', tiers: [ {q:1, p:13.10, d:10} ] },
+            { id: "7891058004347", cat: 'Allegra', name: 'Allegra Pediátrico Susp 60ml', base: 30.64, curva: 'A', tiers: [ {q:1, p:28.19, d:8}, {q:3, p:27.58, d:10}, {q:6, p:26.96, d:12}, {q:10, p:25.12, d:18}, {q:14, p:24.51, d:20} ], isCampaign: true },
+            { id: "7891058168049", cat: 'Allegra', name: 'Allegra 120mg – 10 Cpr', base: 45.76, curva: 'B', tiers: [ {q:1, p:42.56, d:7}, {q:2, p:41.64, d:9}, {q:3, p:40.73, d:11}, {q:6, p:37.52, d:18} ], isCampaign: true },
+            { id: "7891058002596", cat: 'Allegra', name: 'Allegra 120mg – 2 Cpr', base: 14.56, curva: 'C', tiers: [ {q:1, p:13.10, d:10}, {q:3, p:12.08, d:17} ], isCampaign: true },
             { id: "7891058002701", cat: 'Allegra', name: 'Allegra 120mg – 20 Cpr', base: 82.45, curva: 'E', tiers: [ {q:1, p:74.21, d:10} ] },
             { id: "7891058169015", cat: 'Allegra', name: 'Allegra 180mg – 10 Cpr', base: 68.70, curva: 'C', tiers: [ {q:1, p:61.83, d:10} ] },
-            { id: "7891058024314", cat: 'Allegra', name: 'Allegra 60mg – 10 Cpr', base: 22.85, curva: 'B', tiers: [ {q:1, p:21.25, d:7}, {q:2, p:20.79, d:9}, {q:3, p:20.34, d:11} ] },
-            { id: "7891058006716", cat: 'Allegra', name: 'Allegra D – 10 Cpr', base: 55.74, curva: 'B', tiers: [ {q:1, p:51.84, d:7}, {q:2, p:50.72, d:9}, {q:3, p:49.61, d:11}, {q:6, p:45.71, d:18}, {q:8, p:36.23, d:35} ], isCampaign: true },
-            { id: "7891058002589", cat: 'Allegra', name: 'Allegra Pediátrico 6mg/ml – Cup 60ml', base: 30.64, curva: 'C', tiers: [ {q:1, p:28.50, d:7}, {q:3, p:27.88, d:9}, {q:6, p:27.27, d:11} ] },
-            { id: "7891058004354", cat: 'Allegra', name: 'Allegra Pediátrico Susp 150ml', base: 69.56, curva: 'C', tiers: [ {q:1, p:64.00, d:8}, {q:3, p:62.60, d:10}, {q:4, p:61.21, d:12} ] },
+            { id: "7891058024314", cat: 'Allegra', name: 'Allegra 60mg – 10 Cpr', base: 22.85, curva: 'B', tiers: [ {q:1, p:21.25, d:7}, {q:2, p:20.79, d:9}, {q:3, p:20.34, d:11}, {q:6, p:18.74, d:18} ], isCampaign: true },
+            { id: "7891058006716", cat: 'Allegra', name: 'Allegra D – 10 Cpr', base: 56.36, curva: 'B', tiers: [ {q:1, p:52.41, d:7}, {q:2, p:51.29, d:9}, {q:3, p:50.16, d:11}, {q:6, p:46.22, d:18} ], isCampaign: true },
+            { id: "7891058002589", cat: 'Allegra', name: 'Allegra Pediátrico 6mg/ml – Cup 60ml', base: 30.64, curva: 'C', tiers: [ {q:1, p:28.50, d:7}, {q:3, p:27.88, d:9}, {q:6, p:27.27, d:11}, {q:10, p:25.12, d:18}, {q:14, p:24.51, d:20} ], isCampaign: true },
+            { id: "7891058004354", cat: 'Allegra', name: 'Allegra Pediátrico Susp 150ml', base: 69.56, curva: 'C', tiers: [ {q:1, p:64.00, d:8}, {q:3, p:62.60, d:10}, {q:4, p:61.21, d:12}, {q:6, p:57.04, d:18}, {q:8, p:55.65, d:20} ], isCampaign: true },
             { id: "7891058002572", cat: 'Allegra', name: 'Allegra Pediátrico Cup 150ml', base: 69.56, curva: 'E', tiers: [ {q:1, p:62.60, d:10} ] },
 
             // NOVALGINA (Campanha - Destaques + Flash)
-            { id: "7891058015756", cat: 'Novalgina', name: 'Novalgina 1g – 10 Cpr Efervescente', base: 28.74, curva: 'B', tiers: [ {q:1, p:25.58, d:11}, {q:6, p:24.43, d:15} ], isCampaign: true },
-            { id: "7891058001155", cat: 'Novalgina', name: 'Novalgina 1g – 10 Cpr Oco', base: 19.68, curva: 'A', tiers: [ {q:1, p:18.11, d:8}, {q:6, p:17.71, d:10}, {q:12, p:17.32, d:12} ], isCampaign: true },
-            { id: "7891058002565", cat: 'Novalgina', name: 'Novalgina 1g – 20 Cpr', base: 35.93, curva: 'B', tiers: [ {q:1, p:33.41, d:7}, {q:4, p:32.70, d:9}, {q:6, p:31.98, d:11} ], isCampaign: true },
-            { id: "7891058011222", cat: 'Novalgina', name: 'Novalgina 1g – 100 Cpr', base: 249.03, curva: 'D', tiers: [ {q:1, p:221.64, d:11} ], fraction: { unit: 'Cartela (4un)', divisor: 25 } },
+            { id: "7891058015756", cat: 'Novalgina', name: 'Novalgina 1g – 10 Cpr Efervescente', base: 28.74, curva: 'B', tiers: [ {q:1, p:25.58, d:11}, {q:6, p:24.43, d:15}, {q:12, p:23.28, d:19} ], isCampaign: true },
+            { id: "7891058001155", cat: 'Novalgina', name: 'Novalgina 1g – 10 Cpr Oco', base: 19.68, curva: 'A', tiers: [ {q:1, p:18.11, d:8}, {q:6, p:17.71, d:10}, {q:12, p:17.32, d:12}, {q:24, p:15.94, d:19}, {q:40, p:15.15, d:23} ], isCampaign: true },
+            { id: "7891058002565", cat: 'Novalgina', name: 'Novalgina 1g – 20 Cpr', base: 35.93, curva: 'B', tiers: [ {q:1, p:33.41, d:7}, {q:4, p:32.70, d:9}, {q:6, p:31.98, d:11}, {q:12, p:29.46, d:18}, {q:20, p:28.03, d:22} ], isCampaign: true },
+            { id: "7891058011222", cat: 'Novalgina', name: 'Novalgina 1g – 100 Cpr', base: 249.03, curva: 'D', tiers: [ {q:1, p:221.64, d:11}, {q:3, p:201.71, d:19} ], isCampaign: true, fraction: { unit: 'Cartela (4un)', divisor: 25 } },
             { id: "7891058015770", cat: 'Novalgina', name: 'Novalgina 1g – 100 Cpr Eferv.', base: 299.94, curva: 'E', tiers: [ {q:1, p:266.95, d:11} ], fraction: { unit: 'Env (2un)', divisor: 50 } },
             { id: "7891058467098", cat: 'Novalgina', name: 'Novalgina 300mg Supos – Bl5', base: 18.63, curva: 'E', tiers: [ {q:1, p:16.95, d:9} ] },
             { id: "7891058008635", cat: 'Novalgina', name: 'Novalgina 500mg – 30 Cpr Oco', base: 35.86, curva: 'C', tiers: [ {q:1, p:32.63, d:9} ] },
             { id: "7891058008642", cat: 'Novalgina', name: 'Novalgina 500mg – 240 Cpr', base: 323.54, curva: 'E', tiers: [ {q:1, p:294.42, d:9} ], fraction: { unit: 'Cartela (10un)', divisor: 24 } },
-            { id: "7891058464073", cat: 'Novalgina', name: 'Novalgina Sol Oral 100ml + Seringa', base: 37.46, curva: 'A', tiers: [ {q:1, p:34.46, d:8}, {q:3, p:33.71, d:10}, {q:5, p:32.96, d:12} ], isCampaign: true },
-            { id: "7891058005566", cat: 'Novalgina', name: 'Novalgina Cup Xarope 100ml', base: 37.46, curva: 'B', tiers: [ {q:1, p:34.84, d:7}, {q:3, p:33.71, d:10}, {q:4, p:33.34, d:11} ], isCampaign: true },
-            { id: "7891058000172", cat: 'Novalgina', name: 'Novalgina Gotas 10ml', base: 13.48, curva: 'B', tiers: [ {q:1, p:12.54, d:7}, {q:3, p:12.27, d:9}, {q:4, p:12.00, d:11} ], isCampaign: true },
-            { id: "7891058000165", cat: 'Novalgina', name: 'Novalgina Gotas 20ml', base: 24.79, curva: 'B', tiers: [ {q:1, p:23.05, d:7}, {q:3, p:22.56, d:9}, {q:6, p:22.06, d:11} ], isCampaign: true },
+            { id: "7891058464073", cat: 'Novalgina', name: 'Novalgina Sol Oral 100ml + Seringa', base: 37.46, curva: 'A', tiers: [ {q:1, p:34.46, d:8}, {q:3, p:33.71, d:10}, {q:5, p:32.96, d:12}, {q:8, p:29.59, d:21}, {q:12, p:26.97, d:28} ], isCampaign: true },
+            { id: "7891058005566", cat: 'Novalgina', name: 'Novalgina Cup Xarope 100ml', base: 37.46, curva: 'B', tiers: [ {q:1, p:34.84, d:7}, {q:3, p:33.71, d:10}, {q:4, p:33.34, d:11}, {q:6, p:30.34, d:19} ], isCampaign: true },
+            { id: "7891058000172", cat: 'Novalgina', name: 'Novalgina Gotas 10ml', base: 13.48, curva: 'B', tiers: [ {q:1, p:12.54, d:7}, {q:3, p:12.27, d:9}, {q:4, p:12.00, d:11}, {q:6, p:10.38, d:23} ], isCampaign: true },
+            { id: "7891058000165", cat: 'Novalgina', name: 'Novalgina Gotas 20ml', base: 24.79, curva: 'B', tiers: [ {q:1, p:23.05, d:7}, {q:3, p:22.56, d:9}, {q:6, p:22.06, d:11}, {q:8, p:19.09, d:23} ], isCampaign: true },
 
             // Novalgina Flash (Destaque da campanha)
-            { id: "7891058005993", cat: 'Novalgina', name: 'Novalgina Flash 8 Cpr', base: 19.71, curva: 'E', tiers: [ {q:1, p:18.13, d:8}, {q:4, p:17.94, d:9}, {q:8, p:17.54, d:11} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
-            { id: "7891058006044", cat: 'Novalgina', name: 'Novalgina Flash 16 Cpr', base: 35.93, curva: 'E', tiers: [ {q:1, p:33.06, d:8}, {q:3, p:32.70, d:9}, {q:6, p:31.98, d:11} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
+            { id: "7891058005993", cat: 'Novalgina', name: 'Novalgina Flash 8 Cpr', base: 19.71, curva: 'E', tiers: [ {q:1, p:18.13, d:8}, {q:4, p:17.94, d:9}, {q:8, p:17.54, d:11}, {q:15, p:15.97, d:19}, {q:30, p:15.18, d:23}, {q:120, p:11.83, d:40} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
+            { id: "7891058006044", cat: 'Novalgina', name: 'Novalgina Flash 16 Cpr', base: 35.93, curva: 'E', tiers: [ {q:1, p:33.06, d:8}, {q:3, p:32.70, d:9}, {q:6, p:31.98, d:11}, {q:12, p:29.10, d:19}, {q:84, p:21.56, d:40} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
 
             // ANADOR
             { id: "7891058003890", cat: 'Anador', name: 'Anador 1g – 10 Cpr', base: 13.00, curva: 'A', tiers: [ {q:1, p:10.79, d:17}, {q:60, p:8.45, d:35}, {q:120, p:7.15, d:45} ], isCampaign: true },
@@ -156,45 +162,44 @@
             { id: "7891058021580", cat: 'Anador', name: 'Anador Gotas – 20ml', base: 21.68, curva: 'E', tiers: [ {q:1, p:19.08, d:12} ] },
 
             // TARGIFOR / CEWIN / PHARMATON (PREÇOS ATUALIZADOS)
-            { id: "7891058005467", cat: 'Targifor', name: 'Targifor Te Energiza 1g Eferv – 16 Cpr', base: 32.83, curva: 'A', tiers: [ {q:1, p:29.55, d:10}, {q:4, p:27.91, d:15}, {q:8, p:26.26, d:20}, {q:12, p:22.32, d:32}, {q:20, p:19.70, d:40} ], isCampaign: true },
+            { id: "7891058005467", cat: 'Targifor', name: 'Targifor Te Energiza 1g Eferv – 16 Cpr', base: 32.83, curva: 'A', tiers: [ {q:1, p:29.55, d:10}, {q:4, p:27.91, d:15}, {q:8, p:26.26, d:20} ] },
             { id: "7891058004668", cat: 'Targifor', name: 'Targifor C 30 Cpr Rev.', base: 54.91, curva: 'E', tiers: [ {q:1, p:49.97, d:9} ] },
-            { id: "7891058004675", cat: 'Targifor', name: 'Targifor C 60 Cpr Rev.', base: 92.71, curva: 'E', tiers: [ {q:1, p:84.37, d:9} ] },
-            { id: "7891058000295", cat: 'Targifor', name: 'Cewin 500mg 3×10 Cpr Food', base: 32.75, curva: 'B', tiers: [ {q:1, p:30.46, d:7}, {q:3, p:29.80, d:9}, {q:4, p:29.15, d:11}, {q:6, p:22.60, d:31} ], isCampaign: true },
-            { id: "7891058001520", cat: 'Targifor', name: 'Targifor Te Protege 1g 10 Cpr', base: 15.82, curva: 'E', tiers: [ {q:1, p:14.71, d:7}, {q:3, p:14.40, d:9}, {q:4, p:14.08, d:11}, {q:6, p:10.92, d:31} ], isCampaign: true },
-            { id: "7891058001643", cat: 'Targifor', name: 'Cewin Gotas 20ml Food', base: 17.51, curva: 'B', tiers: [ {q:1, p:16.28, d:7}, {q:3, p:15.93, d:9}, {q:4, p:15.58, d:11}, {q:6, p:12.08, d:31} ], isCampaign: true },
-            { id: "7891058021726", cat: 'Targifor', name: 'Pharmaton Imunidade A–Z – 30 Cpr', base: 61.55, curva: 'D', tiers: [ {q:1, p:47.39, d:23}, {q:3, p:35.08, d:43} ], isCampaign: true },
-            { id: "7891058021702", cat: 'Targifor', name: 'Pharmaton Imunidade A–Z – 60 Cpr', base: 111.01, curva: 'E', tiers: [ {q:1, p:85.48, d:23}, {q:3, p:63.28, d:43} ], isCampaign: true },
+            { id: "7891058000295", cat: 'Targifor', name: 'Targifor Cewin 500mg 3×10 Cpr', base: 32.75, curva: 'B', tiers: [ {q:1, p:30.46, d:7}, {q:3, p:29.80, d:9}, {q:4, p:29.15, d:11} ] },
+            { id: "7891058001520", cat: 'Targifor', name: 'Targifor Te Protege 1g 10 Cpr', base: 15.82, curva: 'E', tiers: [ {q:1, p:14.71, d:7}, {q:3, p:14.40, d:9}, {q:4, p:14.08, d:11} ] },
+            { id: "7891058001643", cat: 'Targifor', name: 'Targifor Te Protege 20ml Gotas', base: 17.51, curva: 'B', tiers: [ {q:1, p:16.28, d:7}, {q:3, p:15.93, d:9}, {q:4, p:15.58, d:11} ] },
+            { id: "7891058021726", cat: 'Targifor', name: 'Pharmaton Imunidade A–Z – 30 Cpr', base: 61.55, curva: 'D', tiers: [ {q:1, p:47.39, d:23} ] },
+            { id: "7891058021702", cat: 'Targifor', name: 'Pharmaton Imunidade A–Z – 60 Cpr', base: 111.01, curva: 'E', tiers: [ {q:1, p:85.48, d:23} ] },
             { id: "7891058022693", cat: 'Targifor', name: 'Pharmaton Mulher A-Z 30 Cpr', base: 70.04, curva: 'E', tiers: [ {q:1, p:56.38, d:19.5} ] },
             { id: "7891058022686", cat: 'Targifor', name: 'Pharmaton Mulher A-Z 60 Cpr', base: 125.83, curva: 'E', tiers: [ {q:1, p:101.29, d:19.5} ] },
-            { id: "7891058006525", cat: 'Targifor', name: 'Targifor Stress – 30 Cpr', base: 41.30, curva: 'E', tiers: [ {q:1, p:38.41, d:7}, {q:3, p:37.58, d:9}, {q:6, p:36.34, d:12}, {q:8, p:34.28, d:17} ], isCampaign: true },
-            { id: "7891058006518", cat: 'Targifor', name: 'Targifor TPM – 15 Cpr', base: 28.76, curva: 'E', tiers: [ {q:1, p:26.75, d:7}, {q:3, p:26.17, d:9}, {q:6, p:25.31, d:12}, {q:8, p:23.58, d:18} ], isCampaign: true },
+            { id: "7891058006525", cat: 'Targifor', name: 'Targifor Stress – 30 Cpr', base: 41.30, curva: 'E', tiers: [ {q:1, p:38.41, d:7}, {q:3, p:37.58, d:9}, {q:6, p:36.34, d:12} ] },
+            { id: "7891058006518", cat: 'Targifor', name: 'Targifor TPM – 15 Cpr', base: 28.76, curva: 'E', tiers: [ {q:1, p:26.75, d:7}, {q:3, p:26.17, d:9}, {q:6, p:25.31, d:12} ] },
             { id: "7891058005870", cat: 'Targifor', name: 'Targifor Te Energiza – 30 Cpr', base: 56.09, curva: 'D', tiers: [ {q:1, p:51.04, d:9} ] },
             { id: "7891058005887", cat: 'Targifor', name: 'Targifor Te Energiza – 60 Cpr', base: 91.92, curva: 'D', tiers: [ {q:1, p:83.65, d:9} ] },
 
             // MOURA BRASIL (Campanha - Destaque)
-            { id: "7891058020316", cat: 'Moura', name: 'Colírio Moura – 20ml', base: 22.21, curva: 'A', tiers: [ {q:1, p:20.66, d:7}, {q:5, p:20.21, d:9}, {q:10, p:19.77, d:11} ], isCampaign: true },
+            { id: "7891058020316", cat: 'Moura', name: 'Colírio Moura – 20ml', base: 22.21, curva: 'A', tiers: [ {q:1, p:20.66, d:7}, {q:5, p:20.21, d:9}, {q:10, p:19.77, d:11} ] },
 
             // OSCAL (PREÇOS ATUALIZADOS)
             { id: "7891058002343", cat: 'Oscal', name: 'Oscal 500mg – 60 Cpr', base: 107.54, curva: 'A', tiers: [ {q:1, p:97.86, d:9} ] },
-            { id: "7891058002336", cat: 'Oscal', name: 'Oscal D 500mg + 400UI – 60 Cpr', base: 116.46, curva: 'B', tiers: [ {q:1, p:105.98, d:9} ] },
+            { id: "7891058002336", cat: 'Oscal', name: 'Oscal D 500mg + 400UI – 60 Cpr', base: 116.46, curva: 'B', tiers: [ {q:1, p:105.98, d:9}, {q:2, p:103.65, d:11}, {q:4, p:101.32, d:13} ], isCampaign: true, campaignLabel: 'Até 13%' },
             { id: "7891058022730", cat: 'Oscal', name: 'Oscal D 500mg + 1000UI – 60 Cpr', base: 126.73, curva: 'D', tiers: [ {q:1, p:115.32, d:9} ] },
 
 
             // DULCOLAX / GUTTALAX
-            { id: "7891058021528", cat: 'Dulco', name: 'Dulcolax 5mg – 20 Drágeas', base: 15.64, curva: 'A', tiers: [ {q:1, p:14.23, d:9} ] },
+            { id: "7891058021528", cat: 'Dulco', name: 'Dulcolax 5mg – 20 Drágeas', base: 15.64, curva: 'A', tiers: [ {q:1, p:14.23, d:9}, {q:3, p:12.98, d:17} ], isCampaign: true },
             { id: "7891058001032", cat: 'Dulco', name: 'Dulcolax Gotas – 30ml', base: 30.19, curva: 'C', tiers: [ {q:1, p:27.47, d:9} ] },
             { id: "7891058021689", cat: 'Dulco', name: 'Guttalax Gotas – 30ml', base: 36.08, curva: 'B', tiers: [ {q:1, p:32.83, d:9} ] },
 
             // BISOLVON / MUCOSOLVAN
-            { id: "7891058021627", cat: 'Bisolvon', name: 'Bisolvon Xarope Ped 4mg/5ml 120ml', base: 24.86, curva: 'C', tiers: [ {q:1, p:21.13, d:15} ] },
-            { id: "7891058021610", cat: 'Bisolvon', name: 'Bisolvon XPE 8mg/5ml Adulto 120ml', base: 30.38, curva: 'C', tiers: [ {q:1, p:25.82, d:15} ] },
+            { id: "7891058021627", cat: 'Bisolvon', name: 'Bisolvon Xarope Ped 4mg/5ml 120ml', base: 24.86, curva: 'C', tiers: [ {q:1, p:21.13, d:15}, {q:3, p:11.19, d:55} ], isCampaign: true },
+            { id: "7891058021610", cat: 'Bisolvon', name: 'Bisolvon XPE 8mg/5ml Adulto 120ml', base: 30.38, curva: 'C', tiers: [ {q:1, p:25.82, d:15}, {q:3, p:13.67, d:55} ], isCampaign: true },
             { id: "7891058001810", cat: 'Bisolvon', name: 'Bisolvon 2mg/ml Sol Expec 40ml', base: 29.85, curva: 'E', tiers: [ {q:1, p:24.48, d:18} ] },
             { id: "7891058021566", cat: 'Bisolvon', name: 'Mucosolvan Xarope Ad 30mg/5ml 120ml', base: 49.91, curva: 'E', tiers: [ {q:1, p:42.42, d:15} ] },
             { id: "7891058021573", cat: 'Bisolvon', name: 'Mucosolvan Xarope Ped 15mg/5ml 120ml', base: 35.94, curva: 'E', tiers: [ {q:1, p:30.55, d:15} ] },
 
             // FENERGAN
             { id: "7896070600249", cat: 'Fenergan', name: 'Cremefenergan – 30g', base: 22.31, curva: 'E', tiers: [ {q:1, p:20.75, d:7}, {q:3, p:20.30, d:9}, {q:4, p:19.86, d:11} ] },
-            { id: "7896070600447", cat: 'Fenergan', name: 'Fenergan 25mg – 20 Cpr', base: 15.26, curva: 'B', tiers: [ {q:1, p:14.19, d:7}, {q:3, p:13.89, d:9}, {q:6, p:13.58, d:11} ], isCampaign: true },
+            { id: "7896070600447", cat: 'Fenergan', name: 'Fenergan 25mg – 20 Cpr', base: 15.85, curva: 'B', tiers: [ {q:1, p:14.74, d:7}, {q:3, p:14.42, d:9}, {q:6, p:14.11, d:11} ] },
             { id: "7896070600485", cat: 'Fenergan', name: 'Fenergan 50mg – 25 Amp', base: 93.30, curva: 'E', tiers: [ {q:1, p:84.90, d:9} ] }
         ]
 };
