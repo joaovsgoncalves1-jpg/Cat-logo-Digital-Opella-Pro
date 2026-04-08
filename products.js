@@ -3,7 +3,6 @@ window.PRODUCT_DATA = {
             'Dorflex 24 Cpr': "https://www.drogarianovaesperanca.com.br/imagens/600x600/dorflex-com-24-comprimidos-132d4455b6.jpg",
             'Dorflex 300 Cpr': "https://nexodata.vtexassets.com/arquivos/ids/207705/7891058017392_IR.jpg",
             'Dorflex 36 Cpr': "https://drogaleste.vtexassets.com/arquivos/ids/292558/dorflex-36-comprimidos-7891058017507.png",
-            'Dorflex 50 Cpr': "https://drogal.vtexassets.com/arquivos/ids/258828/141148.jpg?v=638884444466730000",
             'Dorflex Dip 1g – 10 Cpr': "https://cdn.awsli.com.br/223/223578/produto/235126215/dorflex-dip-qmfr1t4yol.jpg",
             'Dorflex Gotas 20ml': "https://drogariacristal.com/media/catalog/product/cache/eebd5eeb520c2fdd7e0cb6309d6623ed/d/o/dorflex_dipirona_s_dica_solu_o_gotas_20ml.jpg",
             'Dorflex Max 16 Cpr': "https://www.drogarianovaesperanca.com.br/imagens/600x600/dorflex-max-com-16-comprimidos-a46bdf272b.jpg",
@@ -66,13 +65,13 @@ window.PRODUCT_DATA = {
             'Pharmaton Mulher A-Z 30 Cpr': "https://drogariavenancio.vtexassets.com/arquivos/ids/1208090-800-450?v=638693563472030000&width=800&height=450&aspect=true",
             'Pharmaton Mulher A-Z 60 Cpr': "https://drogariaspacheco.vteximg.com.br/arquivos/ids/1380436-1000-1000/692948-Multivitaminico-Pharmaton-Mulher-Sanofi-60-Capsulas-1.jpg.jpg?v=638743568640900000",
             'Targifor Stress – 30 Cpr': "https://paguemenos.vtexassets.com/arquivos/ids/1052112-800-auto?v=638900161927900000&width=800&height=auto&aspect=true",
-            'Targifor TPM – 15 Cpr': "https://www.targifor.com.br/Content/dist/img/new-pdp/MOCKUP-TARGIFOR-TPM-15-3-4-POTE-AF-V3.png",
+            'Targifor TPM – 15 Cpr': "https://drogariavenancio.vtexassets.com/arquivos/ids/1274808-800-450?v=638841379126500000&width=800&height=450&aspect=true",
             'Targifor Te Energiza – 30 Cpr': "https://drogal.vtexassets.com/arquivos/ids/266738/180403.jpg?v=638932952134000000",
             'Targifor Te Energiza – 60 Cpr': "https://drogal.vtexassets.com/arquivos/ids/266733/180398.jpg?v=638932950949330000",
             'Colírio Moura – 20ml': "https://product-data.raiadrogasil.io/images/3445787.webp",
             'Oscal 500mg – 60 Cpr': "https://product-data.raiadrogasil.io/images/12849235.webp",
             'Oscal D 500mg + 400UI – 60 Cpr': "https://drogal.vtexassets.com/arquivos/ids/248342/129474.jpg?v=638754182628730000",
-            'Oscal D 500mg + 1000UI – 60 Cpr': "https://drogariasp.vteximg.com.br/arquivos/ids/1197239-1000-1000/692328-calcio-com-vitamina-d-os-cal-d-500mg--1000ui-60-comprimidos-3.jpg.jpg?v=638743567647870000",
+            'Oscal D 500mg + 1000UI – 60 Cpr': "https://dmvfarma.vtexassets.com/arquivos/ids/304696-800-auto?v=638980377218930000&width=800&height=auto&aspect=true",
             'Oscal Vitamina D 500ui/Gota 10ml': "https://http2.mlstatic.com/D_NQ_NP_960757-MLB90230180362_082025-O.webp",
             'Dulcolax 5mg – 20 Drágeas': "https://product-data.raiadrogasil.io/images/17667435.webp",
             'Dulcolax Gotas – 30ml': "https://drogal.vtexassets.com/arquivos/ids/248309/129441.jpg?v=638754143783800000",
@@ -83,7 +82,6 @@ window.PRODUCT_DATA = {
             'Mucosolvan Xarope Ad 30mg/5ml 120ml': "https://drogal.vtexassets.com/arquivos/ids/258302/140544.jpg?v=638882600659300000",
             'Mucosolvan Xarope Ad 120ml': "https://drogariasp.vteximg.com.br/arquivos/ids/651896-1000-1000/17728---xarope-mucosolvan-15mg5ml-pediatrico-120ml.jpg?v=637892556615870000",
             'Mucosolvan Xarope Ped 15mg/5ml 120ml': "https://drogariasp.vteximg.com.br/arquivos/ids/651896-1000-1000/17728---xarope-mucosolvan-15mg5ml-pediatrico-120ml.jpg?v=637892556615870000",
-            'Cremefenergan – 30g': "https://paguemenos.vtexassets.com/arquivos/ids/982310/fenergan-creme-30g-principal.jpg?v=638745480067870000",
             'Fenergan 25mg – 20 Cpr': "https://d1jgmae0hcnr1i.cloudfront.net/Custom/Content/Products/91/86/91867_fenergan-25mg-c-20cpr-p63251_m1_638287309011566752.webp",
             'Fenergan 50mg – 25 Amp': "https://phygital-files.mercafacil.com/essencyalfarma/uploads/produto/fenergan_25mg_inj_cx_25_amp_x_2ml_86a5bb5e-957d-49ea-920a-b0a29f01bf36.png"
         },
@@ -93,7 +91,7 @@ window.PRODUCT_DATA = {
             "7891058000295": "https://drogariaspacheco.vteximg.com.br/arquivos/ids/1380468-1000-1000/725668-Vitamina-C-Cewin-500mg-com-30-Comprimidos.jpg.jpg?v=638743682908770000",
             "7891058001643": "https://product-data.raiadrogasil.io/images/12853897.webp",
             "7891058021566": "https://drogariasp.vteximg.com.br/arquivos/ids/651896-1000-1000/17728---xarope-mucosolvan-15mg5ml-pediatrico-120ml.jpg?v=637892556615870000",
-            "7891058022730": "https://drogariasp.vteximg.com.br/arquivos/ids/1197239-1000-1000/692328-calcio-com-vitamina-d-os-cal-d-500mg--1000ui-60-comprimidos-3.jpg.jpg?v=638743567647870000",
+            "7891058022730": "https://dmvfarma.vtexassets.com/arquivos/ids/304696-800-auto?v=638980377218930000&width=800&height=auto&aspect=true",
             "7891058005993": "https://paguemenos.vtexassets.com/arquivos/ids/1143158/7891058005993_1.png?v=639087647183830000",
             "7891058006044": "https://paguemenos.vtexassets.com/arquivos/ids/1143162/7891058006044_1.png?v=639087647608530000"
         },
@@ -102,7 +100,6 @@ window.PRODUCT_DATA = {
             { id: "7891058022136", cat: 'Dorflex', name: 'Dorflex 24 Cpr', base: 14.91, curva: 'A', tiers: [ {q:1, p:13.87, d:7}, {q:4, p:13.57, d:9}, {q:8, p:13.27, d:11} ] },
             { id: "7891058017392", cat: 'Dorflex', name: 'Dorflex 300 Cpr', base: 194.96, curva: 'A', tiers: [ {q:1, p:177.41, d:9}, {q:2, p:173.51, d:11}, {q:4, p:169.62, d:13} ], fraction: { unit: 'Cartela (10un)', divisor: 30 } },
             { id: "7891058017507", cat: 'Dorflex', name: 'Dorflex 36 Cpr', base: 19.06, curva: 'A', tiers: [ {q:1, p:17.54, d:8}, {q:30, p:17.15, d:10}, {q:60, p:16.77, d:12} ] },
-            { id: "7891058020941", cat: 'Dorflex', name: 'Dorflex 50 Cpr', base: 22.76, curva: 'A', tiers: [ {q:1, p:22.76, d:0} ] },
             { id: "7891058005474", cat: 'Dorflex', name: 'Dorflex Dip 1g – 10 Cpr', base: 13.31, curva: 'A', tiers: [ {q:1, p:11.71, d:12}, {q:10, p:9.32, d:30}, {q:20, p:7.32, d:45} ], isCampaign: true },
             { id: "7891058009458", cat: 'Dorflex', name: 'Dorflex Gotas 20ml', base: 21.05, curva: 'B', tiers: [ {q:1, p:18.95, d:10} ] },
             { id: "7891058003975", cat: 'Dorflex', name: 'Dorflex Max 16 Cpr', base: 24.36, curva: 'B', tiers: [ {q:1, p:22.41, d:8}, {q:3, p:21.19, d:13}, {q:4, p:20.46, d:16} ] },
@@ -198,7 +195,6 @@ window.PRODUCT_DATA = {
             { id: "7891058021573", cat: 'Bisolvon', name: 'Mucosolvan Xarope Ped 15mg/5ml 120ml', base: 35.94, curva: 'E', tiers: [ {q:1, p:30.55, d:15} ] },
 
             // FENERGAN
-            { id: "7896070600249", cat: 'Fenergan', name: 'Cremefenergan – 30g', base: 22.31, curva: 'E', tiers: [ {q:1, p:20.75, d:7}, {q:3, p:20.30, d:9}, {q:4, p:19.86, d:11} ] },
             { id: "7896070600447", cat: 'Fenergan', name: 'Fenergan 25mg – 20 Cpr', base: 15.85, curva: 'B', tiers: [ {q:1, p:14.74, d:7}, {q:3, p:14.42, d:9}, {q:6, p:14.11, d:11} ] },
             { id: "7896070600485", cat: 'Fenergan', name: 'Fenergan 50mg – 25 Amp', base: 93.30, curva: 'E', tiers: [ {q:1, p:84.90, d:9} ] }
         ]
