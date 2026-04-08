@@ -4,7 +4,8 @@
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
         const INSTALLMENT_TARGET = 800.00;
-        const INSTALLMENT_3X_TARGET = 1500.00;
+        const DIRECT_TERM_LABEL = "Prazo direto (conforme condição do cliente com a Nazária)";
+        const DIRECT_TERM_SHORT_LABEL = "Prazo direto (Nazária)";
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
         const FEATURED_PREORDER_ID = "7891058005993";
         const FEATURED_PREORDER_CATEGORY = "Novalgina";
@@ -30,6 +31,15 @@
             if (parts.length === 0) return 'R';
             if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
             return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+        }
+
+        function getCurrentCampaignLabel(date = new Date()) {
+            const month = new Intl.DateTimeFormat('pt-BR', { month: 'short' })
+                .format(date)
+                .replace('.', '')
+                .trim()
+                .toUpperCase();
+            return `${month} ${date.getFullYear()}`;
         }
 
         function hydrateRepresentativeProfile() {
@@ -686,9 +696,16 @@
         function getPrazoForTotal(total) {
             const prazoElem = document.querySelector('input[name="prazo"]:checked');
             if (prazoElem) return prazoElem.value;
-            if (total >= INSTALLMENT_3X_TARGET) return "3x (30/60/90 dias)";
             if (total >= INSTALLMENT_TARGET) return "2x (40/60 dias)";
-            return "50 dias direto";
+            return DIRECT_TERM_LABEL;
+        }
+
+        function sanitizePrazoValue(prazo, total = 0) {
+            const value = String(prazo || '').trim();
+            if (!value) return getPrazoForTotal(total);
+            if (/^3x\b/i.test(value)) return "2x (40/60 dias)";
+            if (/50 dias direto/i.test(value)) return DIRECT_TERM_LABEL;
+            return value;
         }
 
         function buildOrderItemsText(cartSnapshot) {
@@ -719,6 +736,11 @@
 
             return text;
         }
+
+        networkOrders = networkOrders.map((order) => ({
+            ...order,
+            prazo: sanitizePrazoValue(order?.prazo, order?.total || 0)
+        }));
 
         // --- CLEAR CART SYSTEM ---
         function toggleScrollLock(lock) {
@@ -768,7 +790,6 @@
         }
 
         function getGoalLevel(total) {
-            if (total >= INSTALLMENT_3X_TARGET) return 3;
             if (total >= INSTALLMENT_TARGET) return 2;
             if (total >= MIN_ORDER) return 1;
             return 0;
@@ -818,12 +839,8 @@
                 currentTarget = INSTALLMENT_TARGET;
                 missing = INSTALLMENT_TARGET - total;
                 goalText = 'parcelar em 2x (40/60)';
-            } else if (total >= INSTALLMENT_TARGET && total < INSTALLMENT_3X_TARGET) {
-                currentTarget = INSTALLMENT_3X_TARGET;
-                missing = INSTALLMENT_3X_TARGET - total;
-                goalText = 'parcelar em 3x (30/60/90)';
-            } else if (total >= INSTALLMENT_3X_TARGET) {
-                currentTarget = INSTALLMENT_3X_TARGET;
+            } else if (total >= INSTALLMENT_TARGET) {
+                currentTarget = INSTALLMENT_TARGET;
                 missing = 0;
                 goalText = '';
             }
@@ -832,9 +849,7 @@
             if(progressFill) {
                 progressFill.style.width = progressPercent + '%';
                 let colorClass = 'bg-gray-400'; // minimum order
-                if (total >= INSTALLMENT_3X_TARGET) colorClass = 'bg-yellow-400';
-                else if (currentTarget === INSTALLMENT_3X_TARGET) colorClass = 'bg-green-500';
-                else if (currentTarget === INSTALLMENT_TARGET) colorClass = 'bg-blue-400';
+                if (currentTarget === INSTALLMENT_TARGET) colorClass = 'bg-blue-400';
                 
                 progressFill.className = `h-full ${colorClass} ${progressPercent >= 100 ? 'progress-bar-complete' : ''} transition-all duration-500`;
             }
@@ -859,15 +874,8 @@
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = true;
-            } else if (total >= INSTALLMENT_3X_TARGET) {
-                if(label) label.innerHTML = `<span class="bg-yellow-100 text-yellow-800 border-yellow-300 border px-2 py-0.5 rounded text-[12px] font-black uppercase tracking-tight text-left"><i class="fas fa-star text-yellow-500 mr-1"></i> Prazo Especial: 3x (30/60/90)</span>`;
-                if(installment) {
-                    installment.innerText = "3x de R$ " + (total/3).toFixed(2).replace('.',',');
-                    installment.className = "text-2xl font-black text-yellow-600 leading-none text-left";
-                }
-                if(btnReview) btnReview.disabled = false;
             } else if (total >= INSTALLMENT_TARGET) {
-                if(label) label.innerHTML = `<span class="text-blue-700 font-bold text-[12px] uppercase tracking-tighter text-left">2x disponível | Faltam R$ ${missing.toFixed(2).replace('.',',')} para 3x (30/60/90)</span>`;
+                if(label) label.innerHTML = `<span class="text-blue-700 font-bold text-[12px] uppercase tracking-tighter text-left">2x disponível</span>`;
                 if(installment) {
                     installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-blue-600 leading-none text-left";
@@ -1188,7 +1196,7 @@
                 cartSnapshot: JSON.parse(JSON.stringify(o.cartSnapshot || {})),
                 total: o.total || 0,
                 totalBase: o.totalBase || 0,
-                prazo: o.prazo || "50 dias direto"
+                prazo: sanitizePrazoValue(o.prazo, o.total || 0)
             }));
 
             const currentSummary = getCartSummary(cart);
@@ -1283,7 +1291,7 @@
                 doc.text(`Subtotal: R$ ${(order.total || 0).toFixed(2).replace('.',',')}`, 14, finalY);
                 doc.text(`Economia: R$ ${orderSavings.toFixed(2).replace('.',',')}`, 14, finalY + 5);
                 doc.setFont("helvetica", "normal");
-                doc.text(`Prazo: ${order.prazo || "50 dias direto"}`, 14, finalY + 10);
+                doc.text(`Prazo: ${order.prazo || DIRECT_TERM_LABEL}`, 14, finalY + 10);
 
                 grandTotal += order.total || 0;
                 grandSavings += orderSavings;
@@ -1404,27 +1412,10 @@
                         <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                        <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
-                        <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
+                        <input type="radio" name="prazo" value="${DIRECT_TERM_LABEL}" class="w-4 h-4 text-blue-600">
+                        <span class="text-[10px] font-bold text-gray-800 text-left">${DIRECT_TERM_SHORT_LABEL}</span>
                     </label>
                 `;
-
-                if (total >= INSTALLMENT_3X_TARGET) {
-                    optionsHtml = `
-                        <label class="flex items-center gap-2 cursor-pointer bg-green-50 p-2 rounded-lg border border-green-300 hover:border-green-500 transition-all text-left shadow-sm">
-                            <input type="radio" name="prazo" value="3x (30/60/90 dias)" class="w-4 h-4 text-green-600" checked>
-                            <span class="text-[10px] font-black text-green-800">3x (30/60/90)</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600">
-                            <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                            <input type="radio" name="prazo" value="50 dias direto" class="w-4 h-4 text-blue-600">
-                            <span class="text-[10px] font-bold text-gray-800 text-left">50 dias direto</span>
-                        </label>
-                    `;
-                }
                 grid.innerHTML = optionsHtml;
             } else {
                 document.getElementById('payment-options').classList.add('hidden');
@@ -1580,7 +1571,7 @@
                 total: o.total || 0,
                 totalBase: o.totalBase || 0,
                 itemsCount: o.itemsCount || 0,
-                prazo: o.prazo || "50 dias direto"
+                prazo: sanitizePrazoValue(o.prazo, o.total || 0)
             }));
 
             const currentSummary = getCartSummary(cart);
@@ -1603,7 +1594,7 @@
                 return;
             }
 
-            let text = `*PEDIDO OPELLA | MAR 2026*\n`;
+            let text = `*PEDIDO OPELLA | ${getCurrentCampaignLabel()}*\n`;
             text += `--------------------------------\n`;
 
             const isSingleCnpj = ordersToSend.length === 1;
@@ -1617,7 +1608,7 @@
                 text += `\n--------------------------------`;
                 text += `\n*TOTAL:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
                 text += `\n*ECONOMIA:* R$ ${savings.toFixed(2).replace('.',',')}`;
-                text += `\n*PRAZO:* ${order.prazo || "50 dias direto"}`;
+                text += `\n*PRAZO:* ${order.prazo || DIRECT_TERM_LABEL}`;
                 text += `\n--------------------------------`;
             } else {
                 text += `DATA: ${new Date().toLocaleDateString('pt-BR')}\n`;
@@ -1632,7 +1623,7 @@
                     const savings = Math.max(0, (order.totalBase || 0) - (order.total || 0));
                     text += `\n*Subtotal:* R$ ${(order.total || 0).toFixed(2).replace('.',',')}`;
                     text += `\n*Economia:* R$ ${savings.toFixed(2).replace('.',',')}`;
-                    text += `\n*Prazo:* ${order.prazo || "50 dias direto"}`;
+                    text += `\n*Prazo:* ${order.prazo || DIRECT_TERM_LABEL}`;
                     text += `\n--------------------------------`;
                     grandTotal += order.total || 0;
                     grandSavings += savings;
