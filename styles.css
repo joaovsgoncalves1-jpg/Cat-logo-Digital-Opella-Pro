@@ -447,3 +447,133 @@
             100% { filter: brightness(1); }
         }
 
+
+        /* =========================================
+           NOVALGINA FLASH — BANNER DE DESTAQUE
+         ========================================= */
+        .novalgina-flash-hero {
+            position: relative;
+            width: 100%;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #004d20 0%, #006b2c 40%, #009640 75%, #00b84a 100%);
+            color: #ffffff;
+            padding: 16px;
+            box-shadow: 0 8px 28px rgba(0, 150, 64, 0.40), 0 2px 6px rgba(0,0,0,0.15);
+            display: block;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            overflow: hidden;
+        }
+        .novalgina-flash-hero:active { transform: scale(0.985); }
+        .novalgina-flash-hero::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            pointer-events: none;
+        }
+        .novalgina-flash-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%);
+            background-size: 200% 100%;
+            animation: nf-shimmer 3s infinite linear;
+            pointer-events: none;
+            border-radius: 18px;
+        }
+        @keyframes nf-shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .nf-launch-badge {
+            position: absolute;
+            top: 12px; right: 14px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            font-size: 9px; font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            animation: nf-badge-pulse 2.5s infinite;
+        }
+        @keyframes nf-badge-pulse {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.7; }
+        }
+        .nf-eyebrow {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            color: #bbf7d0; margin: 0;
+        }
+        .nf-discount-pill {
+            background: #facc15; color: #14532d;
+            font-size: 10px; font-weight: 900;
+            letter-spacing: 0.05em;
+            padding: 3px 10px; border-radius: 9999px;
+            box-shadow: 0 2px 8px rgba(250,204,21,0.50);
+            animation: nf-pill-pop 1.8s infinite;
+        }
+        @keyframes nf-pill-pop {
+            0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); }
+        }
+        .nf-title {
+            font-size: 24px; font-weight: 900; line-height: 1.1;
+            margin: 2px 0 2px; color: #ffffff;
+        }
+        .nf-title-flash { color: #facc15; }
+        .nf-subtitle {
+            font-size: 11px; color: #d1fae5;
+            font-weight: 500; margin: 0 0 12px;
+        }
+        .nf-products-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px; align-items: center;
+        }
+        .nf-product-card {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 5px;
+        }
+        .nf-product-img {
+            width: 80px; height: 80px;
+            object-fit: contain;
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px; padding: 5px;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+            transition: transform 0.2s;
+        }
+        .novalgina-flash-hero:hover .nf-product-img { transform: translateY(-3px); }
+        .nf-product-label {
+            font-size: 10px; font-weight: 800;
+            color: #bbf7d0; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .nf-cta-block {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+        }
+        .nf-cta-support {
+            font-size: 9px; font-weight: 700;
+            color: #d1fae5; text-align: center;
+            margin: 0; line-height: 1.3;
+        }
+        .nf-cta-btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: #ffffff; font-size: 10px; font-weight: 900;
+            letter-spacing: 0.04em; text-transform: uppercase;
+            padding: 7px 10px; border-radius: 9999px;
+            white-space: nowrap; transition: background 0.2s;
+        }
+        .novalgina-flash-hero:hover .nf-cta-btn { background: rgba(255,255,255,0.28); }
+        @media (max-width: 380px) {
+            .nf-products-row { grid-template-columns: 1fr 1fr; }
+            .nf-cta-block { grid-column: 1 / -1; flex-direction: row; justify-content: center; }
+        }
