@@ -39,8 +39,8 @@ window.PRODUCT_DATA = {
             'Novalgina 500mg – 240 Cpr': "https://farmaindex.com/_next/image?url=https%3A%2F%2Fik.imagekit.io%2FFarmaindex%2Ftr%3Aw-350%2Ch-350%2Fmedicine%2F47653.jpg&w=3840&q=75",
             'Novalgina Sol Oral 100ml + Seringa': "https://drogariavenancio.vtexassets.com/arquivos/ids/1149800/12232_z.jpg?v=638526046386870000",
             'Novalgina Cup Xarope 100ml': "https://product-data.raiadrogasil.io/images/6760217.webp",
-            'Novalgina Flash 8 Cpr': "https://paguemenos.vtexassets.com/arquivos/ids/1143158/7891058005993_1.png?v=639087647183830000",
-            'Novalgina Flash 16 Cpr': "https://paguemenos.vtexassets.com/arquivos/ids/1143162/7891058006044_1.png?v=639087647608530000",
+            'Novalgina Flash 8 Cpr': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA765lVdUQtVB77Eqh1wd4Wm8BSzpA35loJQ&s",
+            'Novalgina Flash 16 Cpr': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm5XiWeZH-NhrU8Qk1SRKAJLQLCVUkKp2-YQ&s",
             'Novalgina Gotas 10ml': "https://drogariavenancio.vtexassets.com/arquivos/ids/1149813/77472_z.jpg",
             'Novalgina Gotas 20ml': "https://uploads.consultaremedios.com.br/product_variation_images/full/a1ac4d2e70eeb0dfee016f9603722ab0806aaa7c.jpg",
             'Anador 1g – 10 Cpr': "https://product-data.raiadrogasil.io/images/12780090.webp",
@@ -92,8 +92,8 @@ window.PRODUCT_DATA = {
             "7891058001643": "https://product-data.raiadrogasil.io/images/12853897.webp",
             "7891058021566": "https://drogariasp.vteximg.com.br/arquivos/ids/651896-1000-1000/17728---xarope-mucosolvan-15mg5ml-pediatrico-120ml.jpg?v=637892556615870000",
             "7891058022730": "https://dmvfarma.vtexassets.com/arquivos/ids/304696-800-auto?v=638980377218930000&width=800&height=auto&aspect=true",
-            "7891058005993": "https://paguemenos.vtexassets.com/arquivos/ids/1143158/7891058005993_1.png?v=639087647183830000",
-            "7891058006044": "https://paguemenos.vtexassets.com/arquivos/ids/1143162/7891058006044_1.png?v=639087647608530000"
+            "7891058005993": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA765lVdUQtVB77Eqh1wd4Wm8BSzpA35loJQ&s",
+            "7891058006044": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm5XiWeZH-NhrU8Qk1SRKAJLQLCVUkKp2-YQ&s"
         },
   rawProducts: [
             // DORFLEX
