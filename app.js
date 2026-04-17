@@ -3,7 +3,7 @@
         // ------------------------------------------------------------
         const WHATSAPP_NUMBER = "5584996887483";
         const MIN_ORDER = 150.00;
-        const INSTALLMENT_TARGET = 800.00;
+        const INSTALLMENT_TARGET = 1000.00;
         const DIRECT_TERM_LABEL = "Prazo direto (conforme condição do cliente com a Nazária)";
         const DIRECT_TERM_SHORT_LABEL = "Prazo direto (Nazária)";
         const IMG_DEFAULT = "https://cdn-icons-png.flaticon.com/512/883/883407.png";
@@ -700,14 +700,14 @@
         function getPrazoForTotal(total) {
             const prazoElem = document.querySelector('input[name="prazo"]:checked');
             if (prazoElem) return prazoElem.value;
-            if (total >= INSTALLMENT_TARGET) return "2x (40/60 dias)";
+            if (total >= INSTALLMENT_TARGET) return "3x (30/60/90 dias)";
             return DIRECT_TERM_LABEL;
         }
 
         function sanitizePrazoValue(prazo, total = 0) {
             const value = String(prazo || '').trim();
             if (!value) return getPrazoForTotal(total);
-            if (/^3x\b/i.test(value)) return "2x (40/60 dias)";
+            if (/^2x\b/i.test(value)) return "3x (30/60/90 dias)";
             if (/50 dias direto/i.test(value)) return DIRECT_TERM_LABEL;
             return value;
         }
@@ -842,7 +842,7 @@
             if (total >= MIN_ORDER && total < INSTALLMENT_TARGET) {
                 currentTarget = INSTALLMENT_TARGET;
                 missing = INSTALLMENT_TARGET - total;
-                goalText = 'parcelar em 2x (40/60)';
+                goalText = 'parcelar em 3x (30/60/90)';
             } else if (total >= INSTALLMENT_TARGET) {
                 currentTarget = INSTALLMENT_TARGET;
                 missing = 0;
@@ -879,14 +879,14 @@
                 }
                 if(btnReview) btnReview.disabled = true;
             } else if (total >= INSTALLMENT_TARGET) {
-                if(label) label.innerHTML = `<span class="text-blue-700 font-bold text-[12px] uppercase tracking-tighter text-left">2x disponível</span>`;
+                if(label) label.innerHTML = `<span class="text-blue-700 font-bold text-[12px] uppercase tracking-tighter text-left">3x (30/60/90) disponível</span>`;
                 if(installment) {
-                    installment.innerText = "2x de R$ " + (total/2).toFixed(2).replace('.',',');
+                    installment.innerText = "3x de R$ " + (total/3).toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-blue-600 leading-none text-left";
                 }
                 if(btnReview) btnReview.disabled = false;
             } else {
-                if(label) label.innerHTML = `<span class="text-amber-700 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing.toFixed(2).replace('.',',')} para parcelar em 2x</span>`;
+                if(label) label.innerHTML = `<span class="text-amber-700 font-bold text-[12px] uppercase tracking-tighter text-left">Faltam R$ ${missing.toFixed(2).replace('.',',')} para parcelar em 3x</span>`;
                 if(installment) {
                     installment.innerText = "R$ " + total.toFixed(2).replace('.',',');
                     installment.className = "text-2xl font-black text-gray-900 leading-none text-left";
@@ -1412,11 +1412,11 @@
                 const grid = document.getElementById('payment-options-grid');
                 let optionsHtml = `
                     <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                        <input type="radio" name="prazo" value="2x (40/60 dias)" class="w-4 h-4 text-blue-600" checked>
-                        <span class="text-[10px] font-bold text-gray-800">2x (40/60)</span>
+                        <input type="radio" name="prazo" value="3x (30/60/90 dias)" class="w-4 h-4 text-blue-600" checked>
+                        <span class="text-[10px] font-bold text-gray-800">3x (30/60/90) <span class="text-blue-600 font-black">ESPECIAL</span></span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-blue-200 hover:border-blue-400 transition-all text-left">
-                        <input type="radio" name="prazo" value="${DIRECT_TERM_LABEL}" class="w-4 h-4 text-blue-600">
+                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-gray-200 hover:border-gray-400 transition-all text-left">
+                        <input type="radio" name="prazo" value="${DIRECT_TERM_LABEL}" class="w-4 h-4 text-gray-600">
                         <span class="text-[10px] font-bold text-gray-800 text-left">${DIRECT_TERM_SHORT_LABEL}</span>
                     </label>
                 `;
