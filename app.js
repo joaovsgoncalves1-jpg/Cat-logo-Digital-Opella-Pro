@@ -293,6 +293,15 @@
             render();
             updateHistoryList();
             updateQuickReorderBar(); // Inicializa Quick Reorder
+            
+            // Garantir que a página sempre inicie no topo, evitando scroll para tags antigas ou hashes
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 10);
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 100);
+
             syncFixedTopStack();
             requestAnimationFrame(syncFixedTopStack);
             setTimeout(syncFixedTopStack, 120);
@@ -431,25 +440,28 @@
             if (effectiveCategory === 'campaign') {
                  filtered.sort((a, b) => (b.isCampaign === true ? 1 : 0) - (a.isCampaign === true ? 1 : 0));
             }
-            // Ordenação por curva quando dentro de uma marca específica ou indispensáveis
-            if (effectiveCategory !== 'all' && effectiveCategory !== 'campaign') {
-                filtered.sort((a, b) => {
-                    // Produtos pinned sempre primeiro
-                    if (a.pinned !== b.pinned) return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+            
+            // Reordenar SEMPRE para que produtos pinned apareçam no topo
+            filtered.sort((a, b) => {
+                // Produtos pinned sempre primeiro, independente do filtro
+                if (a.pinned !== b.pinned) return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
 
-                    // Manter agrupamento por marca primeiro (para indispensáveis) na ordem desejada
-                    if (effectiveCategory === 'indispensaveis') {
-                        const aBrandOrder = indispensaveisBrandOrder[a.cat] ?? 999;
-                        const bBrandOrder = indispensaveisBrandOrder[b.cat] ?? 999;
-                        if (aBrandOrder !== bBrandOrder) return aBrandOrder - bBrandOrder;
+                // Se não tiver ordenação explícita para o resto, mantemos
+                if (effectiveCategory === 'all' || effectiveCategory === 'campaign') return 0;
 
-                        const catCmp = (a.cat || '').localeCompare(b.cat || '');
-                        if (catCmp !== 0) return catCmp;
-                    }
-                    // Dentro da mesma marca, ordenar por curva
-                    return (curvaOrder[a.curva] ?? 4) - (curvaOrder[b.curva] ?? 4);
-                });
-            }
+                // Manter agrupamento por marca primeiro (para indispensáveis) na ordem desejada
+                if (effectiveCategory === 'indispensaveis') {
+                    const aBrandOrder = indispensaveisBrandOrder[a.cat] ?? 999;
+                    const bBrandOrder = indispensaveisBrandOrder[b.cat] ?? 999;
+                    if (aBrandOrder !== bBrandOrder) return aBrandOrder - bBrandOrder;
+
+                    const catCmp = (a.cat || '').localeCompare(b.cat || '');
+                    if (catCmp !== 0) return catCmp;
+                }
+                
+                // Dentro da mesma marca, ordenar por curva
+                return (curvaOrder[a.curva] ?? 4) - (curvaOrder[b.curva] ?? 4);
+            });
 
             if(filtered.length === 0) {
                 let msg = "Nada encontrado.";
