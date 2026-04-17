@@ -131,6 +131,11 @@ window.PRODUCT_DATA = {
             { id: "7891058002572", cat: 'Allegra', name: 'Allegra Pediátrico Cup 150ml', base: 69.56, curva: 'E', tiers: [ {q:1, p:62.60, d:10} ] },
 
             // NOVALGINA (Campanha - Destaques + Flash)
+
+            // Novalgina Flash (Destaque da campanha — LANÇAMENTO)
+            { id: "7891058005993", cat: 'Novalgina', name: 'Novalgina Flash 8 Cpr', base: 19.71, curva: 'E', tiers: [ {q:1, p:18.13, d:8}, {q:4, p:17.94, d:9}, {q:8, p:17.54, d:11}, {q:15, p:15.97, d:19}, {q:30, p:15.18, d:23}, {q:120, p:11.83, d:40} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
+            { id: "7891058006044", cat: 'Novalgina', name: 'Novalgina Flash 16 Cpr', base: 35.93, curva: 'E', tiers: [ {q:1, p:33.06, d:8}, {q:3, p:32.70, d:9}, {q:6, p:31.98, d:11}, {q:12, p:29.10, d:19}, {q:84, p:21.56, d:40} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
+
             { id: "7891058015756", cat: 'Novalgina', name: 'Novalgina 1g – 10 Cpr Efervescente', base: 28.74, curva: 'B', tiers: [ {q:1, p:25.58, d:11}, {q:6, p:24.43, d:15}, {q:12, p:23.28, d:19} ], isCampaign: true },
             { id: "7891058001155", cat: 'Novalgina', name: 'Novalgina 1g – 10 Cpr Oco', base: 19.68, curva: 'A', tiers: [ {q:1, p:18.11, d:8}, {q:6, p:17.71, d:10}, {q:12, p:17.32, d:12}, {q:24, p:15.94, d:19}, {q:40, p:15.15, d:23} ], isCampaign: true },
             { id: "7891058002565", cat: 'Novalgina', name: 'Novalgina 1g – 20 Cpr', base: 35.93, curva: 'B', tiers: [ {q:1, p:33.41, d:7}, {q:4, p:32.70, d:9}, {q:6, p:31.98, d:11}, {q:12, p:29.46, d:18}, {q:20, p:28.03, d:22} ], isCampaign: true },
@@ -144,9 +149,6 @@ window.PRODUCT_DATA = {
             { id: "7891058000172", cat: 'Novalgina', name: 'Novalgina Gotas 10ml', base: 13.48, curva: 'B', tiers: [ {q:1, p:12.54, d:7}, {q:3, p:12.27, d:9}, {q:4, p:12.00, d:11}, {q:6, p:10.38, d:23} ], isCampaign: true },
             { id: "7891058000165", cat: 'Novalgina', name: 'Novalgina Gotas 20ml', base: 24.79, curva: 'B', tiers: [ {q:1, p:23.05, d:7}, {q:3, p:22.56, d:9}, {q:6, p:22.06, d:11}, {q:8, p:19.09, d:23} ], isCampaign: true },
 
-            // Novalgina Flash (Destaque da campanha)
-            { id: "7891058005993", cat: 'Novalgina', name: 'Novalgina Flash 8 Cpr', base: 19.71, curva: 'E', tiers: [ {q:1, p:18.13, d:8}, {q:4, p:17.94, d:9}, {q:8, p:17.54, d:11}, {q:15, p:15.97, d:19}, {q:30, p:15.18, d:23}, {q:120, p:11.83, d:40} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
-            { id: "7891058006044", cat: 'Novalgina', name: 'Novalgina Flash 16 Cpr', base: 35.93, curva: 'E', tiers: [ {q:1, p:33.06, d:8}, {q:3, p:32.70, d:9}, {q:6, p:31.98, d:11}, {q:12, p:29.10, d:19}, {q:84, p:21.56, d:40} ], isCampaign: true, image: "https://drogariasp.vteximg.com.br/arquivos/ids/1614175-176-176/909530---Analgesico-Novalgina-Flash-1g-130mg-8-Comprimidos-1.jpg?v=639052175863030000" },
 
             // ANADOR
             { id: "7891058003890", cat: 'Anador', name: 'Anador 1g – 10 Cpr', base: 13.00, curva: 'A', tiers: [ {q:1, p:10.79, d:17}, {q:60, p:8.45, d:35}, {q:120, p:7.15, d:45} ], isCampaign: true },
