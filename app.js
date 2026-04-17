@@ -165,7 +165,8 @@
                 tiers: p.tiers,
                 fraction: p.fraction,
                 isCampaign: p.isCampaign || false,
-                curva: p.curva || 'E'
+                curva: p.curva || 'E',
+                pinned: p.pinned || false
             };
         });
 
@@ -433,6 +434,9 @@
             // Ordenação por curva quando dentro de uma marca específica ou indispensáveis
             if (effectiveCategory !== 'all' && effectiveCategory !== 'campaign') {
                 filtered.sort((a, b) => {
+                    // Produtos pinned sempre primeiro
+                    if (a.pinned !== b.pinned) return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+
                     // Manter agrupamento por marca primeiro (para indispensáveis) na ordem desejada
                     if (effectiveCategory === 'indispensaveis') {
                         const aBrandOrder = indispensaveisBrandOrder[a.cat] ?? 999;
