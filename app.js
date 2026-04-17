@@ -463,6 +463,16 @@
                 return (curvaOrder[a.curva] ?? 4) - (curvaOrder[b.curva] ?? 4);
             });
 
+            // Gerenciar visualização do bannerzão da Novalgina Flash
+            const nfBanner = document.getElementById('nf-banner');
+            if (nfBanner) {
+                if (effectiveCategory === 'all' || effectiveCategory === 'campaign' || effectiveCategory === 'Novalgina') {
+                    nfBanner.style.display = 'block';
+                } else {
+                    nfBanner.style.display = 'none';
+                }
+            }
+
             if(filtered.length === 0) {
                 let msg = "Nada encontrado.";
                 if (currentCategory === 'campaign' && search.length === 0) {
